@@ -13,7 +13,7 @@ I already downloaded 100k records from last week and stored them in a format tha
 ordered by timestamp. For fun, I stashed it in a DETS file.
 
 ```elixir
-{:ok, dets_table} = :dets.open_file('/home/cees/Downloads/one_week_telemetry.dets')
+{:ok, dets_table} = :dets.open_file('/home/eng/Downloads/one_week_telemetry.dets')
 :dets.info(dets_table)
 ```
 

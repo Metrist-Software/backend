@@ -26,7 +26,7 @@ The first step is to read back the data we have generated. We have three main fi
 We're not really likely to use 2. and 3. but they're small so it does not hurt to have them aroud and keep all the initialization code in a single block.
 
 ```elixir
-base = "/home/cees/dev/backend/livebooks/data/bulk"
+base = "/home/eng/dev/backend/livebooks/data/bulk"
 rows = File.read!(Path.join(base, "rows.bin")) |> :erlang.binary_to_term()
 cols = File.read!(Path.join(base, "columns.bin")) |> :erlang.binary_to_term()
 col_count = Enum.count(cols)

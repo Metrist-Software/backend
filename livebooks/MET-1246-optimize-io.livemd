@@ -5,7 +5,7 @@
 Reading and converting the CSV is a tad slow, so here we read it once and then write back a hopefully quicker to process binary format.
 
 ```elixir
-input = "/home/cees/dev/backend/livebooks/data/bulk/telemetry_added.csv"
+input = "/home/eng/dev/backend/livebooks/data/bulk/telemetry_added.csv"
 sorted = String.replace(input, ".csv", ".srt")
 binary_sorted = String.replace(sorted, ".srt", ".srt.bin")
 

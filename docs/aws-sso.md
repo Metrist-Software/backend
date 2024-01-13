@@ -21,7 +21,7 @@ it will use a profile named `default` in that case
 [default]
 sso_start_url = https://metrist-software.awsapps.com/start
 sso_region = us-west-2
-sso_account_id = 147803588724
+sso_account_id = 123456789
 sso_role_name = AdministratorAccess
 region = us-east-1
 
@@ -30,7 +30,7 @@ region = us-east-1
 [profile default]
 sso_start_url = https://metrist-software.awsapps.com/start
 sso_region = us-west-2
-sso_account_id = 147803588724
+sso_account_id = 123456789
 sso_role_name = AdministratorAccess
 region = us-east-1
 

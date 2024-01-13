@@ -176,7 +176,7 @@ For the rows, we have 21 months worth of data so an upper limit of around 1 mill
 ## Building the tensor
 
 ```elixir
-input = "/home/cees/dev/backend/livebooks/data/bulk/telemetry_added.csv"
+input = "/home/eng/dev/backend/livebooks/data/bulk/telemetry_added.csv"
 sorted = String.replace(input, ".csv", ".srt")
 
 do_stream_csv = fn filename ->
@@ -269,7 +269,7 @@ With this, we can now build up the matrix - we have the row/column layout and th
 It's hard to find methods for building up these data structures in memory, but as this is an intermediate result that's expensive to create it won't hurt to build it up on disk. We create row by row and then dump the binary to disk; this way we can recreate the whole matrix by simply reading the whole file in one go and reshaping the resulting tensor to the correct size.
 
 ```elixir
-base = "/home/cees/dev/backend/livebooks/data/bulk"
+base = "/home/eng/dev/backend/livebooks/data/bulk"
 rows = File.read!(Path.join(base, "rows.bin")) |> :erlang.binary_to_term()
 cols = File.read!(Path.join(base, "columns.bin")) |> :erlang.binary_to_term()
 col_count = Enum.count(cols)

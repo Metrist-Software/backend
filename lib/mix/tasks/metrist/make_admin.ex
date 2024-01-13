@@ -15,7 +15,7 @@ defmodule Mix.Tasks.Metrist.MakeAdmin do
   functions (including Metrist internal ones). You can pass an email address or an
   id.
 
-    MIX_ENV=prod mix metrist.make_admin --env dev1  --email-or-id daven@metrist.io
+    MIX_ENV=prod mix metrist.make_admin --env dev1  --email-or-id dave@metrist.io
 
   #{Helpers.gen_command_line_docs(@opts)}
 

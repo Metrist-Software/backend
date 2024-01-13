@@ -1,11 +1,11 @@
 defmodule SecretsManagerRepoTestHelper do
   @gke_key %{
     "ARN" =>
-      "arn:aws:secretsmanager:us-east-1:147803588724:secret:/dev1/encryption-keys/120A5zkXEFkdKsjIOOU6q0b-eoW7pz",
+      "arn:aws:secretsmanager:us-east-1:123:secret:/dev1/encryption-keys/Secret",
     "CreatedDate" => 1_680_803_248.322,
     "LastAccessedDate" => 1_681_257_600.0,
     "LastChangedDate" => 1_680_803_248.36,
-    "Name" => "/dev1/encryption-keys/120A5zkXEFkdKsjIOOU6q0b",
+    "Name" => "/dev1/encryption-keys/Secret",
     "SecretVersionsToStages" => %{
       "ef8d8708-0edf-45ab-a8df-ec577f760e29" => ["AWSCURRENT"]
     },

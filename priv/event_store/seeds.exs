@@ -44,49 +44,9 @@ users = [
   # with OAuth/Slack on a fresh db. Exercise for the reader: fetch this list
   # from OAuth when this runs (all @canarymonitor.com users, basically).
   %{
-    mail: "cees@metrist.io",
-    oauth: "oauth2|slack|T015X4DFJ6M-U01FWQDPME0"
+    mail: "eng@metrist.io",
+    oauth: "oauth2|slack|TOKEN"
   },
-  %{
-    mail: "dave@metrist.io",
-    oauth: "oauth2|slack|T015X4DFJ6M-U01BK2GSTTN"
-  },
-  %{
-    mail: "nikko@metrist.io",
-    oauth: "oauth2|slack|T015X4DFJ6M-U01BF55PMUP"
-  },
-  %{
-    mail: "ryan@metrist.io",
-    oauth: "oauth2|slack|T015X4DFJ6M-U015H4ASE3F"
-  },
-  %{
-    mail: "daven@metrist.io",
-    oauth: "oauth2|slack|T015X4DFJ6M-U02EXJKEWKX"
-  },
-  %{
-    mail: "michelle@metrist.io",
-    oauth: "oauth2|slack|T015X4DFJ6M-U03DKQWDTKP"
-  },
-  %{
-    mail: "tina@metrist.io",
-    oauth: "oauth2|slack|T015X4DFJ6M-U03DG352FL6"
-  },
-  %{
-    mail: "bruce@metrist.io",
-    oauth: "google-oauth2|117285050364886360603"
-  },
-  %{
-    mail: "aydan.jiwani@metrist.io",
-    oauth: "oidc|dev1-slack-openidconnect|U04154R4TM3"
-  },
-	%{
-		mail: "david.sabine@metrist.io",
-		oauth: "google-oauth2|102279558746170132647"
-	},
-  %{
-    mail: "david.xiao@metrist.io",
-    oauth: "google-oauth2|102673358331988838894"
-  }
 ]
 
 # We make this a function so we get slightly different values for shared and private
