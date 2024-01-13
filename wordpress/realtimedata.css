@@ -1,0 +1,92 @@
+/* Changes to this file must be manually deployed. See `wordpress/README.md` for details */
+selector {
+  font-size: 0.9rem;
+  text-align: left;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+}
+
+selector table {
+  position: relative;
+}
+
+selector th {
+  position: sticky;
+  top: 0;
+  box-shadow: 1px 2px 1px 0 rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+selector th,
+selector td {
+  padding: 8px;
+  border: none;
+}
+
+selector tbody td {
+  color: #1f1f1f;
+  font-weight: 400;
+}
+
+#metrist-realtime-data {
+  height: 500px;
+  overflow-y: auto;
+}
+
+.metrist-telemetry-monitor-img {
+  width: 1.5em;
+  height: 1.5em;
+  display: block;
+  margin-right: 0.2em;
+}
+
+.metrist-telemetry-monitor-wrapper {
+  display: flex;
+}
+
+.metrist-telemetry-monitor {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+selector th:last-child {
+  border-top-right-radius: 6px;
+}
+
+selector th:first-child {
+  border-top-left-radius: 6px;
+}
+
+.metrist-telemetry-check-header {
+  width: 300px;
+}
+
+.metrist-telemetry-time {
+  font-size: 0.8rem;
+}
+
+#metrist-telemetry-table-placeholder {
+  text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+
+  .metrist-telemetry-time,
+  .metrist-telemetry-time-header {
+    display: none;
+  }
+
+  selector th:nth-child(2) {
+    border-top-left-radius: 6px;
+  }
+
+  .metrist-telemetry-check-header {
+    width: auto;
+  }
+
+  selector {
+    font-size: 0.8rem;
+  }
+}

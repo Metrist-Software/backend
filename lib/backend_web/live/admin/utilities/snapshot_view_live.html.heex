@@ -1,0 +1,37 @@
+<div>
+  <header class="flex flex-wrap mb-8">
+    <h2 class="mb-1 text-3xl">
+      Snapshot Viewer
+    </h2>
+  </header>
+
+  <form>
+
+        Account
+          <select id="account" name="account" phx-change="select-account" required>
+            <%= options_for_select([{"Please select an account", nil} | Enum.map(@accounts, fn acc -> {BackendWeb.Helpers.get_account_name_with_id(acc), acc.id} end)], @selected_account) %>
+          </select>
+
+          <%= if @selected_account do %>
+            Monitor
+            <select id="monitor" name="monitor" phx-change="select-monitor" required>
+              <%= options_for_select([{"Please select a monitor", nil} | BackendWeb.Helpers.monitor_dropdown_values(@monitors, include_all_option: false)],  @selected_monitor) %>
+            </select>
+          <% end %>
+  </form>
+
+  <div class="grid lg:grid-cols-2 gap-3">
+    <pre>
+      <%= @state %>
+    </pre>
+  </div>
+  <%= if @analyzer_config != "" do %>
+    <div>
+    <hr />
+    <pre>
+      <%= @analyzer_config %>
+    </pre>
+    </div>
+  <% end %>
+
+</div>

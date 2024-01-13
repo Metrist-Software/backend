@@ -1,0 +1,74 @@
+<div id="login_container" class="min-h-screen bg-gray-100 font-roboto flex flex-col md:flex-row">
+  <div class="bg-black p-2 visible md:hidden">
+    <%= svg_image("logo-combined-white", "brand") %>
+  </div>
+
+  <div class="xl:w-1/4 md:w-1/3 w-1/2 max-w-md hidden md:flex flex-col bg-black p-10 text-white">
+    <%= svg_image("logo-combined-white", "brand", class: "flex-none") %>
+
+    <h1 class="text-2xl font-medium my-10">Respond to incidents quickly and help prevent them in the future.</h1>
+
+    <ul class="list-disc text-sm space-y-5 ml-3">
+      <li>Know how your cloud dependencies are doing in real time with alerting.</li>
+      <li>Detailed data to resolve incidents fast.</li>
+      <li>Data history to help prevent incidents in the future.</li>
+    </ul>
+
+    <div class="mt-auto pt-5">
+      <blockquote class="italic">
+        With Metrist in our monitoring stack, we are alerted to vendor issues
+        up to 60 minutes before they are officially communicated. Without those
+        alerts, we'd be on our heels, not taking meaningful action until much later.
+      </blockquote>
+
+      <div class="my-3 p-0.5 w-1/3 bg-green-bright rounded"/>
+
+      <figcaption>
+        <div>
+          Mike Canzoneri
+        </div>
+        <cite class="text-xs text-muted">Head of Tech Ops, Torch</cite>
+      </figcaption>
+    </div>
+  </div>
+
+  <div class="flex flex-grow flex-col items-center pt-10 md:pt-0 md:justify-center bg-[url('/svg/login/background-logo.svg')] bg-cover bg-top">
+    <.alert
+      color="info"
+      class="mb-5 mx-auto max-w-md rounded-none"
+      label={live_flash(@flash, :info)}
+      phx-click="lv:clear-flash"
+      phx-value-key="info"
+    />
+
+    <.alert
+      color="danger"
+      class="mb-5 mx-auto max-w-md rounded-none"
+      label={live_flash(@flash, :error)}
+      phx-click="lv:clear-flash"
+      phx-value-key="info"
+    />
+
+    <.card class="max-w-md rounded-none">
+      <.card_content>
+        <h2 class="text-xl font-medium text-center mx-14 mt-3 mb-5 text-gray-800">Log in or Sign up with your identity provider</h2>
+
+        <div class="space-y-3 w-full xl:px-8 min-w-min text-gray-800 font-normal">
+          <%= for { image, text, provider } <- @login_providers do %>
+            <button class="border rounded-full w-full p-3 text-left whitespace-nowrap" phx-click="do-login" phx-value-provider={provider}>
+              <%= BackendWeb.Helpers.Svg.svg_image(image, "login", class: "inline mx-2 w-6 h-6") %>
+              <%= text %>
+            </button>
+          <% end %>
+        </div>
+      </.card_content>
+
+      <.card_footer>
+        <p class="text-xs text-muted text-center mx-20 font-normal">
+          By choosing to log in, you agree with our
+          <a href="https://metrist.io/privacy-policy/" class="text-green-shade underline whitespace-nowrap" target="_blank">Terms of Service</a> and <a href="https://metrist.io/terms-of-service/" class="text-green-shade underline whitespace-nowrap" target="_blank">Privacy Policy</a>
+        </p>
+      </.card_footer>
+    </.card>
+  </div>
+</div>

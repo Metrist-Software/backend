@@ -1,0 +1,61 @@
+# MET-1246 doing some math
+
+```elixir
+Mix.install([
+  {:nx, "~> 0.5"},
+  {:exla, "~> 0.5.1"},
+  {:explorer, "~> 0.5"},
+  {:scholar, git: "https://github.com/elixir-nx/scholar"},
+  {:kino, "~> 0.8.1"},
+  {:kino_vega_lite, "~> 0.1.7"}
+])
+
+Nx.global_default_backend(EXLA.Backend)
+:erlang.system_info(:schedulers_online)
+```
+
+## Read the file and reshape it
+
+```elixir
+base = "/data/livebooks/data/bulk"
+rows = File.read!(Path.join(base, "rows.bin")) |> :erlang.binary_to_term()
+cols = File.read!(Path.join(base, "columns.bin")) |> :erlang.binary_to_term()
+col_count = Enum.count(cols)
+col_max = col_count - 1
+
+row_map = Map.new(rows)
+col_map = Map.new(cols)
+```
+
+```elixir
+tensor_file = Path.join(base, "matrix.bin")
+
+tensor =
+  tensor_file
+  |> File.read!()
+  |> Nx.from_binary(:f32)
+
+{n} = Nx.shape(tensor)
+rows = div(n, col_count)
+tensor = Nx.reshape(tensor, {rows, col_count})
+```
+
+```elixir
+{Nx.reduce_min(tensor), Nx.reduce_max(tensor)}
+```
+
+```elixir
+cm =
+  tensor
+  |> Scholar.Covariance.correlation_matrix()
+```
+
+```elixir
+cm =
+  cm
+  |> Nx.multiply(256.0)
+  |> Nx.as_type(:u8)
+  |> Nx.reshape({col_count, col_count, 1})
+
+Kino.Image.new(cm)
+```

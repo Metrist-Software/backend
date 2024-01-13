@@ -1,0 +1,213 @@
+<div class="font-lato">
+  <section class="mb-8">
+    <header class="flex flex-col md:flex-row gap-x-3">
+      <h2 class="mb-5 md:mb-0 text-3xl md:mr-auto">
+        Dependencies
+      </h2>
+
+      <div class="contents space-y-2 md:space-y-0 [&_button]:md:w-max [&_button]:w-full">
+        <%= if !@is_configuring do %>
+          <.dropdown id="display-filter-dropdown" menu_items_wrapper_class="w-full">
+            <:trigger_element>
+              <div class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:text-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:bg-gray-800 hover:bg-gray-50 focus:outline-none">
+                <%= render_select_by_status_label(@search["status"]) %>
+                <Heroicons.chevron_down solid class="w-5 h-5 ml-2 -mr-1 dark:text-gray-100 inline" />
+              </div>
+            </:trigger_element>
+            <%= for {label, id} <- [{"All", "all"},  {"Issues", "issues"}] do %>
+              <.dropdown_menu_item
+                link_type="live_redirect"
+                label={label}
+                to={Routes.monitors_path(@socket, @live_action, Map.put(@search, "status", id))}
+              />
+            <% end %>
+          </.dropdown>
+        <% end %>
+        <.live_component
+          module={BackendWeb.Components.ListGroupSelect}
+          id="monitor-select"
+          list_group_data={@filter_list_group_data}
+          include_search
+          initial={@initial_list_group_filter}
+          button_class="btn btn-outline w-full"
+        />
+
+        <.dropdown label="More" id="more-options-dropdown" menu_items_wrapper_class="w-full md:w-max">
+          <.dropdown_menu_item
+            link_type="live_redirect"
+            label="View realtime monitor data"
+            to={Routes.live_path(@socket, BackendWeb.MonitorsData)}
+          />
+
+          <.dropdown_menu_item
+            link_type="live_redirect"
+            label="Manage alerting"
+            to={Routes.live_path(@socket, BackendWeb.MonitorAlertingLive)}
+          />
+
+          <.dropdown_menu_item
+            link_type="live_redirect"
+            label="Subscription delivery history"
+            to={Routes.live_path(@socket, BackendWeb.MonitorsSubscriptionHistoryLive)}
+          />
+
+          <.dropdown_menu_item
+            link_type="live_redirect"
+            label="View errors"
+            to={Routes.live_path(@socket, BackendWeb.MonitorsErrors)}
+          />
+
+          <.dropdown_menu_item
+            link_type="live_redirect"
+            label="View issues"
+            to={Routes.monitor_issues_path(@socket, :list_issues)}
+          />
+        </.dropdown>
+
+        <%= if not @current_user.is_read_only do %>
+          <%= if @is_configuring do %>
+            <.button color="primary" phx-click="save" label="Save changes" />
+            <.button color="white" phx-click="cancel" label="Cancel" />
+          <% else %>
+            <.button color="white" link_type="live_patch" to={Routes.monitors_path(@socket, :configure, @actual_query_params)}>
+              <Heroicons.cog solid class="w-5 h-5" />
+              Manage
+            </.button>
+          <% end %>
+        <% end %>
+      </div>
+    </header>
+
+    <div>
+      <%= @account_name %>
+    </div>
+
+    <%= if @is_configuring and not @current_user.is_read_only do %>
+      <div class="flex px-4 py-3 items-center border border-transparent">
+        <form>
+        <input
+          id="select-all-monitors"
+          type="checkbox"
+          class="mr-3"
+          phx-click="toggle-all"
+          checked={Enum.count(@account_monitors) == Enum.count(@all_monitors)}
+        />
+        <label for="select-all-monitors">
+          <%= if Enum.count(@account_monitors) != Enum.count(@all_monitors) do %>
+            <%= str("actions.selectAll") %>
+          <% else %>
+            <%= str("actions.selectNone") %>
+          <% end %>
+        </label>
+        </form>
+      </div>
+    <% end %>
+
+    <%= if Enum.empty?(grouped_monitors_list(@grouped_monitors)) do %>
+      <div class="alert alert-info my-3">
+        <%= no_results_message(@search["status"]) %>
+      </div>
+    <% end %>
+
+    <%= for {group, name, monitors, image} <- grouped_monitors_list(@grouped_monitors) do %>
+      <%= if !Enum.empty?(@grouped_monitors[group]) do %>
+      <div class="my-8">
+        <div class="w-full flex flex-col md:flex-row">
+          <div class="flex flex-grow">
+            <div class={"mr-7"}>
+              <img src={"/images/providers/#{image}"} class="w-14 h-14 max-w-none dark:hidden" alt={"#{name} logo"} />
+              <img src={"/images/providers/dark-#{image}"} class="w-14 h-14 max-w-none hidden dark:block" alt={"#{name} dark logo"} />
+            </div>
+
+            <h3 class="text-2xl mt-3 mb-5 font-bold flex gap-x-2 flex-grow" id={header_id(name)}>
+              <%= name %>
+            </h3>
+          </div>
+          <%= if !@is_configuring do %>
+            <.button
+              color="white"
+              variant="outline"
+              link_type="live_patch"
+              class="mt-3 mb-5"
+              to={"#{Routes.monitors_path(@socket, :configure, @actual_query_params)}##{header_id(name)}"}
+              :if={!@current_user.is_read_only}
+            >
+              <Heroicons.plus solid class="w-5 h-5"/>
+              Add/Remove dependencies
+            </.button>
+          <% end %>
+        </div>
+
+        <div class="col-span-2 md:col-span-1 md:col-start-2">
+          <ul class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <%= for monitor <- Enum.map(monitors, &(@displayed_monitors[&1])) |> Enum.sort_by(&(&1.name)) do %>
+              <li>
+                <%= if @is_configuring do %>
+                  <label class={"flex overflow-hidden border-l-8 border rounded-lg p-2 items-center #{if monitor_is_selected?(monitor, @account_monitors), do: "bg-highlight", else: ""}"}
+                        data-cy="monitor-link">
+                    <%= if monitor_is_selected?(monitor, @account_monitors) do %>
+                      <%= live_component BackendWeb.Components.SafeImage,
+                        id: "#{group}-#{monitor.logical_name}",
+                        src: image_url(monitor),
+                        class: "w-14 h-14",
+                        alt: monitor.name
+                      %>
+                    <% else %>
+                      <%= live_component BackendWeb.Components.SafeImage,
+                        id: "#{group}-#{monitor.logical_name}",
+                        src: image_url(monitor),
+                        class: "w-14 h-14 grayscale opacity-50",
+                        alt: monitor.name
+                      %>
+                    <% end %>
+                    <div class="px-4 py-3 flex-grow h-16">
+                      <h3 class="mb-1 text-normal font-bold">
+                        <%= monitor.name %>
+                      </h3>
+                    </div>
+                    <%= if not @current_user.is_read_only do %>
+                      <div class="p-4">
+                        <input
+                          type="checkbox"
+                          class="p-3 disabled:opacity-50"
+                          phx-click="toggle-monitor"
+                          phx-value-logical_name={monitor.logical_name}
+                          phx-value-name={monitor.name}
+                          checked={monitor_is_selected?(monitor, @account_monitors)}
+                        />
+                      </div>
+                    <% end %>
+                  </label>
+                <% else %>
+                  <BackendWeb.Components.MonitorCard.render
+                    monitor={monitor}
+                    group={group}
+                    status_page_names={@status_page_names}
+                  />
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+
+      <% end %>
+    <% end %>
+  </section>
+
+  <%= if !@is_configuring do %>
+    <div class="p-10 text-center md:bg-[url('/images/services-illustration.svg')] dark:bg-none bg-no-repeat bg-right-top border-2 border-gray-200 dark:border-gray-500 border-dashed">
+      <p class="font-bold">Need to monitor more services?</p>
+
+      <p class="my-5">With Metrist, you can monitor over <span class="font-bold">60 popular cloud services</span> out-of-the-box</p>
+
+      <.button
+        link_type="a"
+        to="https://docs.metrist.io/monitors/"
+      >
+        <Heroicons.plus solid class="w-5 h-5" />
+        Conifigure a monitor
+      </.button>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,157 @@
+<div class="font-lato mt-3" id={@id}>
+  <%= if @snapshot && @monitor do %>
+    <header class="flex flex-col md:flex-row mb-8">
+      <div class="flex items-center mb-3 lg:mb-0">
+        <%= live_component BackendWeb.Components.SafeImage,
+          src: monitor_image_url(@monitor.logical_name),
+          class: "w-20 mr-5 rounded hidden md:block"
+        %>
+
+        <div class="flex-row w-full">
+          <h2 class="mb-2 text-3xl">
+            <%= monitor_name(@monitor) %>
+            <BackendWeb.Components.DocPopup.render
+              module={Backend.Docs.Generated.Monitors}
+              tag={@monitor.logical_name}
+            />
+          </h2>
+
+          <div class="font-medium">
+            <%= render_slot(@monitor_status) %>
+          </div>
+
+          <div class="mt-5 text-sm">
+            <%= if @snapshot.check_details != [] do %>
+              Dependency monitored from
+              <span class="md:space-x-1">
+              <%= for instance <- @active_instances do %>
+                  <span class="pill whitespace-nowrap block md:inline w-full text-center md:w-max mt-2"><%= instance %></span>
+                <% end %>
+              </span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <%= if not is_nil(@current_user) and not @current_user.is_read_only do %>
+        <div class="flex flex-col md:flex-row ml-auto font-roboto text-sm w-full md:w-auto gap-2">
+          <div>
+            <.link navigate={Routes.live_path(@socket, BackendWeb.MonitorAlertingLive, @monitor.logical_name)}>
+              <button type="button" class="btn btn-green btn-outline w-full">
+                Alerting
+              </button>
+            </.link>
+          </div>
+          <div>
+            <button type="button" class="btn btn-green btn-outline w-full" phx-click="start-configuring" phx-target={@myself}>
+              Configure
+            </button>
+          </div>
+        </div>
+      <% end %>
+    </header>
+
+    <.live_component
+      module={BackendWeb.Components.Monitor.MonitorStateTimeline}
+      id={"monitor_timeline"}
+      monitor={@monitor}
+      account_id={@account_id}
+      provider_name={monitor_name(@monitor)}
+      current_user={@current_user}
+      status_page_icon={@provider_icon}
+      snapshot={@snapshot}
+    />
+
+   <.live_component
+      module={BackendWeb.Components.Monitor.TwitterCounts}
+      id="twitter_counts"
+      monitor_logical_name={@monitor.logical_name}
+    />
+
+    <div class="flex flex-row flex-wrap gap-x-5 gap-y-2 md:gap-y-0 mt-8 mb-5 font-roboto font-medium">
+      <div class="border-green-bright border-b-2">Overview</div>
+      <%= if not is_nil(@current_user) do %>
+        <%= if @snapshot.check_details != [] do %>
+          <div class="opacity-40">
+            <.link navigate={Routes.live_path(@socket, BackendWeb.MonitorsData, @monitor.logical_name)}>
+              Realtime data
+            </.link>
+          </div>
+        <% end %>
+        <%= if @pre_mvp_user? do %>
+          <div class="opacity-40">
+            <.link navigate={Routes.live_path(@socket, BackendWeb.MonitorReportLive, @monitor.logical_name)}>
+              Report
+            </.link>
+          </div>
+        <% end %>
+        <div class="opacity-40">
+          <.link navigate={Routes.live_path(@socket, BackendWeb.MonitorsSubscriptionHistoryLive, @monitor.logical_name)}>
+            Subscription History
+          </.link>
+        </div>
+        <%= if @snapshot.check_details != [] do %>
+          <div class="opacity-40">
+            <.link navigate={Routes.live_path(@socket, BackendWeb.MonitorsErrors, @monitor.logical_name)}>
+              Errors
+            </.link>
+          </div>
+        <% end %>
+        <div class="opacity-40">
+          <.link navigate={Routes.monitor_issues_path(@socket, :monitor_issues,@monitor.logical_name)}>
+            Issues
+          </.link>
+        </div>
+      <% else %>
+        <div class="opacity-40">
+          <.link navigate={Routes.monitor_issues_path(@socket, :demo_monitor_issues, @monitor.logical_name)}>
+            Issues
+          </.link>
+        </div>
+      <% end %>
+    </div>
+
+    <.alert :if={Enum.empty?(@active_checks)} color="warning">
+      <a href="https://docs.metrist.io/guides/orchestrator-installation.html" class="link">Download and configure Metrist</a> to see metrics
+    </.alert>
+
+    <ul class="flex flex-col">
+      <%= for {group, n} <- Enum.with_index(@active_checks) |> Enum.reject(fn {group, _n} -> group == [] end)  do %>
+        <div class="flex flex-col mb-2">
+          <div class="pl-1 mb-1 text-sm font-thin text-gray-400">
+            <%= case {n, length(@active_checks) - 1} do
+                {x, x} -> "These checks run independently from other checks for this dependency."
+                _ -> "These checks run in order. If one fails, the following checks won't be run."
+
+                end %>
+          </div>
+          <li class="flex-wrap">
+            <ul class="flex flex-col md:flex-row md:flex-wrap">
+              <%= for {check, i} <- Enum.with_index(group) do %>
+                <li class="flex flex-col md:flex-row md:w-1/3 my-1">
+                  <%= if i > 0 and n < length(@active_checks) - 1 do %>
+                    <div class="text-4xl text-gray-300 dark:text-gray-600 flex items-center justify-center">
+                      <span class="inline-block rotate-90 md:rotate-0">→</span>
+                    </div>
+                  <% end %>
+                  <div class="flex-grow px-1">
+                    <.live_component
+                      module={BackendWeb.Components.Monitor.MonitorCheck}
+                      id={"#{n}-#{i}-#{check.logical_name}"}
+                      account_id={@account_id}
+                      monitor={@monitor}
+                      check={check}
+                      snapshot={@snapshot}
+                      instances={@active_instances}
+                      show_link_to_check_details?={@show_link_to_check_details?}
+                    />
+                  </div>
+                </li>
+              <%  end %>
+            </ul>
+          </li>
+        </div>
+      <% end %>
+    </ul>
+  <% end %>
+</div>

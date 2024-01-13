@@ -1,0 +1,24 @@
+<div>
+  <header class="mb-8">
+    <h2 class="text-3xl">
+      Component Playground
+    </h2>
+  </header>
+
+  <div class="flex space-x-10">
+
+    <.dropdown placement="right">
+      <.dropdown_menu_item>
+          <Heroicons.home outline class="w-5 h-5" />
+          Button item with icon
+      </.dropdown_menu_item>
+      <.dropdown_menu_item label="Item 2" class="!dark:text-gray-50"/>
+    </.dropdown>
+
+    <Heroicons.information_circle solid />
+
+    <div class="flex items-center">
+      <.spinner size="sm" class="mr-1"/>Hello
+    </div>
+  </div>
+</div>

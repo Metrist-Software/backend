@@ -1,0 +1,291 @@
+{
+  "color": {
+    "palette": {
+      "green - bright": {
+        "description": "Primary\nBermuda",
+        "type": "color",
+        "value": "#6cdaa3ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:817d36f541e7ce96fd02b687031745eb78d3525f,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "green - shade": {
+        "description": "Keppel",
+        "type": "color",
+        "value": "#3ba88dff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:fe038655145b8d0335ee2a1ff7d8739a8c2d3ce9,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "blue - bright": {
+        "description": "Dodger Blue",
+        "type": "color",
+        "value": "#33d3ffff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:d72aa437f79d83d40e33f9e4b5ef482464857555,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "blue - shade": {
+        "description": "Cerulean",
+        "type": "color",
+        "value": "#009fd6ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:39624c749ece6ef955b1881838e05b4c95b4964a,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "gray - bright": {
+        "description": "Gull Gray",
+        "type": "color",
+        "value": "#9baebcff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:d26f96a09f716f88d32288a468fa798840787ffb,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "gray - shade": {
+        "description": "Blue Layoux",
+        "type": "color",
+        "value": "#4d6374ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:bb50b4596fc3a26ac1eb6ee594db1f11d6fdae84,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "red - bright": {
+        "description": null,
+        "type": "color",
+        "value": "#fd6344ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:21a37109f2f084cd23813f881d6ecb502174cadb,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "red - shade": {
+        "description": null,
+        "type": "color",
+        "value": "#af3921ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:cbc3a366795526bc017f387dbe11e2f7823d1bf2,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "dark - bright": {
+        "description": "Mine Shaft",
+        "type": "color",
+        "value": "#343434ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:a0db44fc5a8756b0785315e165bebe1ad90d0d4e,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "dark - shade": {
+        "description": "Cod Gray",
+        "type": "color",
+        "value": "#070707ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:d4db5c8bd5627f22136c5d40631ecc748b74506a,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "yellow - bright": {
+        "description": null,
+        "type": "color",
+        "value": "#fce365ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:fca9b7ba50e8a12969f8b10b0cdb42ed7698c64e,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "yellow - shade": {
+        "description": null,
+        "type": "color",
+        "value": "#ebc610ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:0836c389dd06662b4a30869b9cad9e351f4696b1,",
+            "exportKey": "color"
+          }
+        }
+      }
+    },
+    "alert": {
+      "healthy": {
+        "description": "Yellow-Green",
+        "type": "color",
+        "value": "#94ca42ff"
+      },
+      "degraded": {
+        "description": "Festival",
+        "type": "color",
+        "value": "#ebc610ff"
+      },
+      "issues": {
+        "description": "California",
+        "type": "color",
+        "value": "#ff9900ff"
+      },
+      "down": {
+        "description": "Tart Orange",
+        "type": "color",
+        "value": "#fc4848ff"
+      }
+    },
+    "text": {
+      "secondary": {
+        "description": null,
+        "type": "color",
+        "value": "#b3b3b3ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:a4d5d98ccf57e117c3944c438df94a73aeebfd84,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "default": {
+        "description": null,
+        "type": "color",
+        "value": "#343434ff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:13a9d3dacf57f0006db88c466b369c9467c12d0a,",
+            "exportKey": "color"
+          }
+        }
+      }
+    },
+    "structure": {
+      "border": {
+        "description": null,
+        "type": "color",
+        "value": "#ddddddff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:e66fbf7afb4ce70d99a85f69aa85f6a498061083,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "white": {
+        "description": null,
+        "type": "color",
+        "value": "#ffffffff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:7379e8cbfb5e7868fb29b5fabb7976287b57bb04,",
+            "exportKey": "color"
+          }
+        }
+      },
+      "space indicator": {
+        "description": null,
+        "type": "color",
+        "value": "#eeeeeeff",
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:272d1b958881fbab60e521421f624cc23bc1e35b,",
+            "exportKey": "color"
+          }
+        }
+      }
+    }
+  },
+  "gradient": {
+    "gradient": {
+      "gradient - green": {
+        "description": null,
+        "type": "custom-gradient",
+        "value": {
+          "gradientType": "linear",
+          "rotation": 153.2020365463346,
+          "stops": [
+            {
+              "position": 0,
+              "color": "#6cdaa3ff"
+            },
+            {
+              "position": 1,
+              "color": "#3ba88dff"
+            }
+          ]
+        },
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:a275bdc462a969c422e04fc5e62d96fa5a865959,",
+            "exportKey": "gradient"
+          }
+        }
+      },
+      "gradient - dark": {
+        "description": null,
+        "type": "custom-gradient",
+        "value": {
+          "gradientType": "linear",
+          "rotation": 150.24132278708038,
+          "stops": [
+            {
+              "position": 0,
+              "color": "#343434ff"
+            },
+            {
+              "position": 1,
+              "color": "#070707ff"
+            }
+          ]
+        },
+        "extensions": {
+          "org.lukasoppermann.figmaDesignTokens": {
+            "styleId": "S:2a8f5025b4496226b35424ca94899e75c03c9c52,",
+            "exportKey": "gradient"
+          }
+        }
+      }
+    }
+  },
+  "effect": {
+    "color chip": {
+      "description": null,
+      "type": "custom-shadow",
+      "value": {
+        "shadowType": "dropShadow",
+        "radius": 16,
+        "color": "#0000001a",
+        "offsetX": 0,
+        "offsetY": 4,
+        "spread": 0
+      },
+      "extensions": {
+        "org.lukasoppermann.figmaDesignTokens": {
+          "styleId": "S:fc05a8af5ac0fa3a193dfc06c2c67f4c0323870b,",
+          "exportKey": "effect"
+        }
+      }
+    }
+  }
+}

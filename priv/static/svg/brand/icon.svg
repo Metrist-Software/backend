@@ -1,0 +1,17 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <path d="m24 0h-24v24h24zm-16.19 6.602h-2.455v11.71h2.455zm10.74 0h-2.455v11.71h2.455zm-7.825 0h2.455v4.686h-2.455z" clip-rule="evenodd" fill="url(#paint0_linear_1691_1284)" fill-rule="evenodd" stroke-width="1.024"/>
+ <path d="m24 0h-24v24h24zm-16.19 6.602h-2.455v11.71h2.455zm10.74 0h-2.455v11.71h2.455zm-7.825 0h2.455v4.686h-2.455z" clip-rule="evenodd" fill="#6ddba3" fill-rule="evenodd" stroke-width="1.024"/>
+ <defs>
+  <linearGradient id="paint0_linear_1691_1284" x1="3.695" x2="20.24" y1="23.99" y2="-5.548" gradientTransform="scale(1.048 1)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#2C9987" offset="0"/>
+   <stop stop-color="#83F2AD" offset="1"/>
+  </linearGradient>
+ </defs>
+ <path d="m5.377 12.45v-5.847h2.399v11.69h-2.399z" fill="#fff" stroke-width=".04185"/>
+ <path d="m10.73 8.934v-2.33h2.442v4.661h-2.442z" fill="#fff" stroke-width=".04185"/>
+ <g fill="#000">
+  <rect x="5.354" y="6.602" width="2.452" height="11.69" stroke-width="1.006"/>
+  <rect x="10.72" y="6.602" width="2.455" height="4.686"/>
+  <rect x="16.09" y="6.602" width="2.455" height="11.71"/>
+ </g>
+</svg>

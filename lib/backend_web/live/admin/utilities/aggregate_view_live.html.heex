@@ -1,0 +1,62 @@
+<div>
+  <header class="flex flex-wrap mb-8">
+    <h2 class="mb-1 text-3xl">
+      Aggregate Viewer
+    </h2>
+  </header>
+
+  <form phx-submit="submit" phx-change="change">
+    <label for="aggregate-type" class="form-label">
+      Aggregate Type
+    </label>
+    <select id="aggregate-type" name="aggregate-type">
+      <%=
+        options_for_select([{"Monitor", :monitor}, {"Account", :account}, {"User", :user}, {"Status Page", :status_page}], @aggregate_type)
+      %>
+    </select>
+
+    <%= if @aggregate_type == "monitor" do %>
+
+      <label for="account" class="form-label">
+        Account ID
+      </label>
+
+      <input
+        id="account"
+        name="account"
+        type="text"
+        class="text-input"
+      />
+
+    <% end %>
+
+    <label for="aggregate" class="form-label">
+      <%= case @aggregate_type do
+        "monitor" -> "Monitor Logical Name"
+        "account" -> "Account ID"
+        "user" -> "User ID"
+        "status_page" -> "Status Page ID"
+      end %>
+    </label>
+
+    <input
+      id="aggregate"
+      name="aggregate"
+      type="text"
+      class="text-input"
+    />
+
+    <button
+      type="submit"
+      class={button_class()}
+    >
+      Submit
+    </button>
+  </form>
+
+  <div class="grid lg:grid-cols-2 gap-3">
+    <pre>
+      <%= @state %>
+    </pre>
+  </div>
+</div>

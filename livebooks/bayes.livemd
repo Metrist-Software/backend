@@ -1,0 +1,120 @@
+<!-- -*- mode: markdown; -*- -->
+# Monitor errors
+
+## Work in progress!
+
+This Livebook is a work in progress. It has been added to the Backend livebooks directory mostly
+to illustrate the use of S3-hosted data files in concert with the `s3fs` mount that happens before
+`make livebook`.
+
+## Parsing error message export
+
+We have a dump of the PostgreSQL `monitor_errors` table, with tabs as separators so splitting the CSV is simple.
+
+```elixir
+csv = File.read!("livebooks/data/bayes/errors.csv")
+lines = String.split(csv, "\n")
+tabbed = Enum.map(lines, &String.split(&1, "\t"))
+```
+
+For moving this data into the histograms we need for Naive Bayesian classification, we want to make sure we strip down all special characters from the error messages and convert the remaining words into a set. Note that we keep numbers as well - error messages, like `500`, may provide important clues.
+
+We also provide a simple struct to keep the error entries. The `hash` field is there to make sure that we treat exact same messages exactly the same (maybe "YAGNI", but there's a good chance we'll classify them together).
+
+```elixir
+defmodule S do
+  def t(n) do
+    n
+    |> String.downcase()
+    |> String.split(~r/[^[:alnum:]]/)
+    |> Enum.filter(fn s -> String.length(s) > 0 end)
+  end
+end
+
+S.t("This is (an error)<foo>\n<bar>")
+
+defmodule Entry do
+  defstruct [:id, :monitor, :check, :error, :words, :hash]
+end
+```
+
+Finally, we map all the parsed error messages into `Entry` structs. We use `sha1` for 
+the hash because it is available and should be reasonable fast to calculate.
+
+Note that we stuff the code in a module so it gets compiled, that's way faster.
+
+```elixir
+defmodule Mapper do
+  def map(tabbed) do
+    Enum.map(tabbed, fn items ->
+      err = Enum.at(items, 4) || ""
+      hash = :crypto.hash(:sha, err)
+      words = err |> S.t() |> Enum.join(" ")
+
+      %Entry{
+        id: Enum.at(items, 0),
+        monitor: Enum.at(items, 1),
+        check: Enum.at(items, 2),
+        error: err,
+        words: words,
+        hash: hash
+      }
+    end)
+  end
+end
+
+mapped = Mapper.map(tabbed)
+```
+
+## Naive Bayes classification
+
+Now the hard part: classifying. We start with some fake test data and canned answers. The 
+idea is that we will at one point present new messages to a user with a suggested classification
+(based on what we know so far) and then ask for confirmation or a new classification.
+
+Because we're lazy, we install the [Simple Bayes](https://hex.pm/packages/simple_bayes) Hex package which seems 
+to provide what we need. We also install Kino so we can get interactive.
+
+```elixir
+Mix.install([{:simple_bayes, "1.0.0"}, {:kino, "~> 0.5.1"}])
+Application.ensure_started(:simple_bayes)
+```
+
+A quick test drive to see whether everything is legit:
+
+```elixir
+bayes =
+  SimpleBayes.init()
+  |> SimpleBayes.train(:apple, "red sweet")
+  |> SimpleBayes.train(:apple, "green", weight: 0.5)
+  |> SimpleBayes.train(:apple, "round", weight: 2)
+  |> SimpleBayes.train(:banana, "sweet")
+  |> SimpleBayes.train(:banana, "green", weight: 0.5)
+  |> SimpleBayes.train(:banana, "yellow long", weight: 2)
+  |> SimpleBayes.train(:orange, "red")
+  |> SimpleBayes.train(:orange, "yellow sweet", weight: 0.5)
+  |> SimpleBayes.train(:orange, "round", weight: 2)
+
+bayes |> SimpleBayes.classify_one("Maybe green maybe red but definitely round and sweet.")
+
+bayes |> SimpleBayes.classify("Maybe green maybe red but definitely round and sweet.", top: 2)
+```
+
+An important question is what categories we want. For now, I'm going with these four:
+
+* `down` means that the service is actually down.
+* `timeout` means that the service timed out, it may be slow or "almost down".
+* `bug` means that our code has a bug, in other words "it's our fault".
+* `quota` means that we ran out of quota. This can mean that we're not cleaning up correctly or
+  that we're running into vendor quota, rate limits, etc.
+* `false_positive` means that it's not actually an issue.
+
+Just for fun, let's define them.
+
+```elixir
+categories = [:down, :timeout, :bug, :quota, :false_positive]
+```
+
+Using Kino, we ask for each unique error message what the classification is. Answers get
+written to an answers file so that when we need to repeat this (which we likely will) we can
+fast-forward by replaying the answers.

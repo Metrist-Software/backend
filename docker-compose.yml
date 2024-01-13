@@ -1,0 +1,35 @@
+version: '3'
+services:
+  postgres:
+    # https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Updates.20180305.html
+    image: postgres:12.4
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+  pgadmin:
+    image: dpage/pgadmin4:6.21
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@metrist.io
+      PGADMIN_DEFAULT_PASSWORD: 123qwe
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - 3002:80
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    depends_on:
+      - postgres
+  tsdb:
+    image:  timescale/timescaledb:2.2.1-pg13
+    volumes:
+      - tsdb:/var/lib/postgresql/data
+    ports:
+      - 5532:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+volumes:
+  postgres:
+  pgadmin:
+  tsdb:

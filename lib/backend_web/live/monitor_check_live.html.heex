@@ -1,0 +1,117 @@
+<div>
+  <%= if @check != "" do %>
+  <header class="flex flex-col lg:flex-row lg:items-center mb-8">
+    <div class="flex">
+      <div>
+        <h2 class="mb-2 text-3xl">
+          <%= @check_name %> Check
+        </h2>
+      </div>
+
+      <%= if not @current_user.is_read_only and @current_user.is_metrist_admin do %>
+      <div>
+        <%= unless @editing do %>
+          <button class={"ml-3 #{button_class()}"} phx-click="toggle-edit">
+            Configure Baseline
+          </button>
+        <% else %>
+          <form phx-submit="edit-submit">
+            <label for="check-name">
+              <%= str("forms.check.name") %>
+            </label>
+
+            <input
+              id="check-name"
+              name="name"
+              type="text"
+              class="input-value"
+              value={@check_name}
+              readonly={@current_user.is_read_only}
+            />
+
+            <button
+              type="submit"
+              class={"mt-5 text-center #{button_class()}"}
+            >
+              <%= str("actions.confirm") %>
+            </button>
+
+            <button
+              phx-click="toggle-edit"
+              class={button_class("secondary")}
+            >
+              <%= str("actions.cancel") %>
+            </button>
+          </form>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+
+    <div class="lg:ml-auto">
+      <div class="flex space-x-2">
+        <div class="w-1/2">
+          <form phx-change="select-timespan">
+            <label for="current-timespan" class="text-sm text-gray-600">
+              <%= str("forms.reportFilter.timespan") %>
+            </label>
+
+            <select name="new-timespan">
+              <%= tso = t("timespanOptions") |> Enum.map(fn to -> {to["text"], to["value"]} end)
+                options_for_select(tso, @current_timespan)
+              %>
+            </select>
+            </form>
+          </div>
+
+          <div class="w-1/2">
+          <form phx-change="select-aggregate">
+            <label for="current-aggregate" class="text-sm text-gray-600">
+              <%= str("forms.reportFilter.aggregate") %>
+            </label>
+
+            <select name="new-aggregate">
+              <%= ao = t("aggregateOptions") |> Enum.map(fn o -> {o["text"], o["value"]} end)
+                options_for_select(ao, @current_aggregate)
+              %>
+            </select>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <%= for instance <- @instances do %>
+    <div class="px-2 py-3 box my-3">
+      <header class="flex px-3 items-center justify-between">
+        <h3 class="mb-3 text-xl">
+          In: <%= instance %>
+        </h3>
+
+        <ul class="flex space-x-3 text-sm">
+          <% # TODO: Check for private monitoring data flag %>
+          <li>
+            <span class="inline-block rounded-full bg-primary-400 w-3 h-3"></span>
+            <%= Backend.Projections.Account.get_account_name(@account) %>
+          </li>
+
+          <li>
+            <span class="inline-block rounded-full bg-secondary-500 w-3 h-3"></span>
+            <%= str("pages.report.legendBaseline") %>
+          </li>
+        </ul>
+      </header>
+
+      <div
+        id={"chart-#{instance}"}
+        class="chart"
+        style="height: 300px;"
+        phx-hook="Chart"
+        data-chart-account-name={Backend.Projections.Account.get_account_name(@account)}
+        data-chart-data-account-check={Jason.encode!(Map.get(@account_telemetry, instance, []))}
+        data-chart-data-baseline-check={Jason.encode!(Map.get(@baseline_telemetry, instance, []))}
+      />
+    </div>
+  <% end %>
+  <% end %>
+</div>

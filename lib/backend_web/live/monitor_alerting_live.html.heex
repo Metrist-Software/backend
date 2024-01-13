@@ -1,0 +1,345 @@
+<div class="font-lato">
+
+  <%= if not @current_user.is_read_only do %>
+  <p class="alert alert-info border-1 mt-5" role="alert"
+    phx-click="lv:clear-flash"
+    phx-value-key="info">Slack subscriptions can be managed from within Slack using either <code>/metrist subscriptions #channelname</code> for channel subscriptions or <code>/metrist notifications</code> for direct messages.</p>
+  <% end %>
+
+  <%= if @monitor != "" do %>
+  <header class="flex flex-col sm:flex-row sm:items-center mb-8">
+    <div>
+      <h2 class="mb-2 text-3xl">
+        <%= @page_title %>
+      </h2>
+      <%= if !Enum.empty?(@subscriptions) do %>
+        <span class="font-bold"><%= length(@subscriptions) %></span> <span class="text-muted">Subscription(s) in total</span>
+      <% end %>
+    </div>
+
+  <%= if not @current_user.is_read_only do %>
+    <button type="button" class="btn btn-green sm:ml-auto" phx-click="toggle-form">
+      <%= BackendWeb.Helpers.Svg.svg_image("icon-plus", class: "inline-block mr-1 fill-current")%> Add Subscription
+    </button>
+  <% end %>
+  </header>
+
+  <div class="grid lg:grid-cols-1 gap-5">
+  <%= if @show_form?  do %>
+    <form phx-submit="submit" phx-change="change" x-cloak>
+      <h3 class="text-2xl mb-5">New Subscription</h3>
+
+      <label for="type" class="form-label">
+        Subscription Type
+      </label>
+
+      <input type="hidden" id="type" name="type" value={@subscription_type} />
+      <%= custom_select(@subscription_types,
+                        @subscription_type,
+                        phx_click: "change",
+                        phx_ref: "type") %>
+
+      <p class="text-sm">
+        <span class="rounded p-1 px-3 bg-gray-100 dark:bg-gray-900 font-light">
+          Slack and Microsoft Teams subscriptions can be set up in their respective app.
+        </span>
+      </p>
+
+      <%= if @initial_monitor == nil do %>
+      <label for="type" class="form-label mt-6 mb-3">
+        Dependency
+      </label>
+
+      <input type="hidden" id="monitor" name="monitor" value={@monitor} />
+      <%= custom_select(monitors_for_select(@monitors),
+                       @monitor,
+                       phx_click: "change",
+                       phx_ref: "monitor",
+                       placeholder: "Please select a dependency") %>
+
+      <% else %>
+        <input type="hidden" id="monitor" name="monitor" value={@monitor} />
+      <% end %>
+
+
+      <label for="destination" class="form-label mt-6 mb-3">
+        <%= case @subscription_type do
+          "webhook" -> "Url"
+          "email" -> "Email Address"
+          "slack" -> "Channel"
+          "teams" -> "Channel"
+          "pagerduty" -> "Routing Key"
+          "datadog" -> "API Key"
+        end %>
+      </label>
+
+      <input
+        id="destination"
+        name="destination"
+        type={input_type_for_subscription(@subscription_type)}
+        class="text-input"
+        value={@subscription_destination}
+        disabled={@subscription_type == "email"}
+        phx-debounce="blur"
+        placeholder={get_placeholder("#{@subscription_type}-destination")}
+        required
+      />
+
+      <%= if Map.has_key?(@errors, :destination) do %>
+      <div class="mt-3">
+        <.alert color="danger" label={Map.get(@errors, :destination)} />
+      </div>
+      <% end %>
+
+      <%= if @subscription_type == "webhook" do %>
+        <label for="config-auth" class="form-label mt-6 mb-3">
+          Authorization Header <span class="text-muted">(Optional)</span>
+        </label>
+        <input id="config-auth" name="config-auth" type="text" class="text-input" value={Map.get(@config, :auth, "")}/>
+      <% end %>
+
+      <%= if @subscription_type == "slack" do %>
+        <label for="config-workspace" class="form-label mt-6 mb-3">
+          Workspace ID
+        </label>
+        <div>
+          <%= custom_select(slack_workspaces_for_select(@slack_workspaces),
+                          Map.get(@config, :workspace, ""),
+                          phx_click: "change",
+                          phx_ref: "workspace",
+                          placeholder: "Please select a workspace") %>
+        </div>
+      <% end %>
+
+      <%= if @subscription_type == "teams" do %>
+        <label for="config-team" class="form-label mt-6 mb-3">
+          Team ID
+        </label>
+        <div>
+          <%= custom_select(ms_tenants_for_select(@ms_tenants),
+                          Map.get(@config, :team, ""),
+                          phx_click: "change",
+                          phx_ref: "team",
+                          placeholder: "Please select a workspace") %>
+        </div>
+      <% end %>
+
+      <%= if @subscription_type == "pagerduty" do %>
+        <label for="config-degraded-severity" class="form-label mt-6 mb-3">
+          Degraded Severity Level
+        </label>
+
+        <div>
+          <%= custom_select([
+            %{label: "Info", id: "info"},
+            %{label: "Warning", id: "warning"},
+            %{label: "Error", id: "error"},
+            %{label: "Critical", id: "critical"}
+          ],
+            Map.get(@config, :degraded_severity),
+            phx_click: "change",
+            phx_ref: "degraded_severity") %>
+        </div>
+
+        <label for="config-down-severity" class="form-label mt-6 mb-3">
+          Down Severity Level
+        </label>
+
+        <div>
+          <%= custom_select([
+            %{label: "Info", id: "info"},
+            %{label: "Warning", id: "warning"},
+            %{label: "Error", id: "error"},
+            %{label: "Critical", id: "critical"}
+          ],
+            Map.get(@config, :down_severity),
+            phx_click: "change",
+            phx_ref: "down_severity") %>
+        </div>
+
+        <label for="config-auto-resolve" class="form-label mt-6 mb-3">
+          <input
+            id="config-auto-resolve"
+            name="config-auto-resolve"
+            type="checkbox"
+            class="mr-3"
+            checked={Map.get(@config, :auto_resolve, false)}
+          />
+          Auto Resolve Incident on Recovery?
+        </label>
+      <% end %>
+
+      <%= if @subscription_type == "datadog" do %>
+        <label for="config-datadog-site" class="form-label mt-6 mb-3">
+          Datadog Site
+        </label>
+
+        <div>
+          <%= custom_select([
+            %{label: "US",  id: "us"},
+            %{label: "US3", id: "us3"},
+            %{label: "EU",  id: "eu"},
+          ],
+            Map.get(@config, :datadog_site),
+            phx_click: "change",
+            phx_ref: "datadog_site") %>
+        </div>
+
+        <label for="config-degraded-severity" class="form-label mt-6 mb-3">
+          Degraded Severity Level
+        </label>
+
+        <div>
+          <%= custom_select([
+            %{label: "Ok", id: "Ok"},
+            %{label: "Warn", id: "Warn"},
+            %{label: "Critical", id: "Critical"}],
+            Map.get(@config, :degraded_severity),
+            phx_click: "change",
+            phx_ref: "degraded_severity") %>
+        </div>
+
+        <label for="config-down-severity" class="form-label mt-6 mb-3">
+          Down Severity Level
+        </label>
+
+        <div>
+          <%= custom_select([
+            %{label: "Ok", id: "Ok"},
+            %{label: "Warn", id: "Warn"},
+            %{label: "Critical", id: "Critical"}],
+            Map.get(@config, :down_severity),
+            phx_click: "change",
+            phx_ref: "down_severity") %>
+        </div>
+
+        <p class="text-sm ml-3">
+          Datadog subscriptions use Service Checks. See
+          <a
+            href="https://docs.datadoghq.com/monitors/monitor_types/custom_check"
+            target="_blank"
+            class="no-underline text-primary-500 hover:underline focus:underline visited:text-primary-700"
+          >
+            here</a>
+          for details on alerting with the <span class="font-bold">metrist.monitor.status</span> check.
+        </p>
+      <% end %>
+
+      <div class="flex flex-col sm:flex-row-reverse gap-2 mt-5">
+        <button type="submit" class="btn btn-green" disabled={@errors != %{}}>Save Subscription</button>
+        <button type="button" class="btn btn-outline sm:ml-auto" phx-click="toggle-form">Cancel</button>
+      </div>
+    </form>
+    <% end %>
+
+    <% # Mobile  view %>
+    <div class="md:hidden space-y-2">
+    <%= for subscription <- @subscriptions,
+            monitor_display_name = BackendWeb.Helpers.get_monitor_display_name(@monitors, subscription.monitor_id) do %>
+        <div class="flex flex-col md:flex-row p-2 box gap-y-1">
+          <div class="flex flex-row">
+            <div class="flex-grow">
+              <div class="font-bold">Monitor</div>
+              <div class="text-sm flex items-center">
+                <img src={monitor_image_url(subscription.monitor_id)} class="w-8 h-8 inline mr-1"/>
+                <%= BackendWeb.Helpers.get_monitor_display_name(@monitors, subscription.monitor_id) %>
+              </div>
+            </div>
+            <%= if subscription.delivery_method != "slack" and subscription.delivery_method != "teams" and not @current_user.is_read_only do %>
+            <div class="flex">
+                <button class="mr-2 items-center justify-center"
+                        phx-click="delete"
+                        phx-value-subscription={subscription.id}
+                        data-confirm={"Are you sure you want to delete subscription to #{monitor_display_name}?"}>
+                  <%= svg_image("icon-trash", class: "w-5 h-5 fill-current text-gray-800 dark:text-white") %>
+                </button>
+            </div>
+            <% end %>
+          </div>
+          <div>
+            <div class="font-bold justify-start">Type</div>
+            <div class="text-sm flex items-center"><%= integration_type(subscription.delivery_method) %></div>
+          </div>
+          <div>
+            <div class="font-bold">Destination</div>
+            <div class="text-sm"><%= destination_cell(subscription, slack_workspaces: @slack_workspaces, ms_teams: @ms_tenants, mobile: true) %></div>
+          </div>
+          <div>
+            <div class="font-bold">Date Added</div>
+            <div class="text-sm"><%= subscription.inserted_at %></div>
+          </div>
+        </div>
+    <% end %>
+    </div>
+
+    <% # md and higher view %>
+    <div class="overflow-x-auto hidden md:block">
+      <table class="w-full text-left table-auto border-collapse whitespace-nowrap">
+        <thead>
+          <tr>
+            <th class="font-semibold pt-2">
+              <div class="pb-2 px-2">Dependency</div>
+            </th>
+            <th class="font-semibold pt-2">
+              <div class="pb-2 px-2">Type</div>
+            </th>
+            <th class="font-semibold pt-2" colspan="2">
+              <div class="pb-2 pr-2">Destination</div>
+            </th>
+            <th class="font-semibold pt-2">
+              <div class="pb-2 pr-2">Date Added</div>
+            </th>
+            <%= if not @current_user.is_read_only do %>
+            <th class="font-semibold pt-2 text-right">
+              <div class="pb-2 pr-2">Actions</div>
+            </th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody class="align-middle">
+          <%= if Enum.empty?(@subscriptions) do %>
+            <tr>
+              <td colspan="6">
+                <.alert color="danger" label="No subscriptions found" />
+              </td>
+            </tr>
+          <% else %>
+            <%= for subscription <- @subscriptions,
+                    monitor_display_name = BackendWeb.Helpers.get_monitor_display_name(@monitors, subscription.monitor_id) do %>
+              <tr>
+                <td class="px-2 text-sm">
+                  <img src={monitor_image_url(subscription.monitor_id)} class="w-8 h-8 inline mr-1"/>
+                  <%= monitor_display_name %>
+                </td>
+                <td class="px-2 text-sm">
+                  <%= integration_type(subscription.delivery_method) %>
+                </td>
+                <td class="pr-2 text-sm" colspan="2">
+                  <%= destination_cell(subscription, slack_workspaces: @slack_workspaces, ms_teams: @ms_tenants) %>
+                </td>
+                <td class="pr-2 text-sm">
+                  <%= subscription.inserted_at %>
+                </td>
+							  <%= if not @current_user.is_read_only do %>
+                <td class="pr-2 text-sm text-right">
+                  <%= if subscription.delivery_method != "slack" and subscription.delivery_method != "teams" do %>
+                    <button class="my-2"
+                            phx-click="delete"
+                            phx-value-subscription={subscription.id}
+                            data-confirm={"Are you sure you want to delete subscription to #{monitor_display_name}?"}>
+                      <%= svg_image("icon-trash", class: "w-5 h-5 fill-current text-gray-800 dark:text-white") %>
+                    </button>
+                  <% else %>
+                    &nbsp;
+                  <% end %>
+                </td>
+								<% end %>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <% end %>
+</div>

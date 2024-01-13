@@ -1,0 +1,73 @@
+# MET-1246 data validation
+
+```elixir
+Mix.install([
+  {:nx, "~> 0.5"},
+  {:exla, "~> 0.5.1"},
+  {:explorer, "~> 0.5"},
+  {:scholar, git: "https://github.com/elixir-nx/scholar"}
+])
+
+Nx.global_default_backend(EXLA.Backend)
+:erlang.system_info(:schedulers_online)
+```
+
+## Section
+
+```elixir
+base = "/data/livebooks/data/bulk"
+rows = File.read!(Path.join(base, "rows.bin")) |> :erlang.binary_to_term()
+cols = File.read!(Path.join(base, "columns.bin")) |> :erlang.binary_to_term()
+col_count = Enum.count(cols)
+col_max = col_count - 1
+
+row_map = Map.new(rows)
+col_map = Map.new(cols)
+```
+
+```elixir
+tensor_file = Path.join(base, "matrix.bin")
+
+tensor =
+  tensor_file
+  |> File.read!()
+  |> Nx.from_binary(:f32)
+
+{n} = Nx.shape(tensor)
+rows = div(n, col_count)
+tensor = Nx.reshape(tensor, {rows, col_count})
+```
+
+```elixir
+input = "/data/livebooks/data/bulk/telemetry_added.csv"
+sorted = String.replace(input, ".csv", ".srt")
+
+do_stream_csv = fn filename ->
+  filename
+  |> File.stream!()
+  |> Stream.map(fn line ->
+    [dtstring, id, check, instance, valuestring] = String.split(line, ",")
+    {dt, _} = Integer.parse(dtstring)
+    {value, _} = Float.parse(valuestring)
+    {dt, id, check, instance, value}
+  end)
+end
+```
+
+```elixir
+do_stream_csv.(sorted)
+|> Stream.chunk_by(fn {dt, _, _, _, _} -> div(dt, 60) end)
+|> Stream.take(1)
+|> Enum.to_list()
+```
+
+```elixir
+col = Map.get(col_map, "SHARED_gmaps_GetDirections")
+row = Map.get(row_map, div(1_624_662_679, 60))
+val = Nx.slice(tensor, [0, col], [1, 1])
+{col, row, val, (1347.0 + 1218.0 + 1341.0) / 3.0}
+```
+
+```elixir
+Nx.mean(Nx.tensor([0.0, 0.0]))
+```

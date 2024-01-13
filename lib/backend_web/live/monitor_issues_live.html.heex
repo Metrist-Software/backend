@@ -1,0 +1,198 @@
+<div>
+  <header class="mb-5 flex flex-col md:flex-row [&_button]:md:w-max [&_button]:w-full">
+    <h2 class="text-3xl whitespace-nowrap mr-10">
+      <%= @page_title %>
+    </h2>
+
+    <div class="md:ml-auto md:space-x-1 flex flex-col md:flex-row gap-y-2">
+      <.dropdown id="timespan-filter-dropdown" menu_items_wrapper_class="w-full md:w-max">
+        <:trigger_element>
+          <div class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:text-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:bg-gray-800 hover:bg-gray-50 focus:outline-none">
+            <span class="mr-1">Time span: </span>
+            <.timespan_label timespan={@filters.timespan} />
+            <Heroicons.chevron_down solid class="w-5 h-5 ml-2 -mr-1 dark:text-gray-100 inline" />
+          </div>
+        </:trigger_element>
+        <.dropdown_menu_item
+          :for={option <- @timespan_options}
+          link_type="live_patch"
+          to={relative_path(@socket, @live_action, url_params(@filters, :timespan, option.id))}
+          label={option.label}
+        />
+      </.dropdown>
+      <.dropdown
+        id="monitor-filter-dropdown"
+        :if={@live_action in [:list_issues, :demo_list_issues]}
+        menu_items_wrapper_class="w-full md:w-max max-h-[400px] overflow-y-scroll"
+      >
+        <:trigger_element>
+          <div class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:text-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:bg-gray-800 hover:bg-gray-50 focus:outline-none">
+            <span class="mr-1">Monitor:</span>
+            <span :if={@filters.monitor}><%= @monitor_names_by_logical_name[@filters.monitor] %></span>
+            <span :if={!@filters.monitor}>All</span>
+            <Heroicons.chevron_down solid class="w-5 h-5 ml-2 -mr-1 dark:text-gray-100 inline" />
+          </div>
+        </:trigger_element>
+        <.dropdown_menu_item
+          :for={monitor <- Enum.map(@monitors, fn monitor -> %{id: monitor.logical_name, label: monitor.name} end) |> prepend_all_options}
+          link_type="live_patch"
+          to={relative_path(@socket, @live_action, url_params(@filters, :monitor, monitor.id))}
+          label={monitor.label}
+        />
+      </.dropdown>
+      <.dropdown id="severity-filter-dropdown" menu_items_wrapper_class="w-full md:w-max">
+        <:trigger_element>
+          <div class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:text-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:bg-gray-800 hover:bg-gray-50 focus:outline-none">
+            <span class="mr-1">Severity:</span>
+            <.severity_label severity={@filters.severity} />
+            <Heroicons.chevron_down solid class="w-5 h-5 ml-2 -mr-1 dark:text-gray-100 inline" />
+          </div>
+        </:trigger_element>
+        <.dropdown_menu_item
+          :for={severity <- prepend_all_options(@severity_options)}
+          link_type="live_patch"
+          to={relative_path(@socket, @live_action, url_params(@filters, :severity, severity.id))}
+          label={severity.label}
+        />
+      </.dropdown>
+    </div>
+  </header>
+
+  <div :if={!match?([_|_], @rows)} class="text-center">
+    <h2 class="text-2xl pb-4">No issues detected</h2>
+    <p class="pb-2">Try expanding the time span for broader search</p>
+    <div :if={@live_action == :monitor_issues}>
+      <.button icon={:trash} link_type="live_patch" to={relative_path(@socket, @live_action, Map.take(@filters, [:monitor]))} label="Clear filters" />
+    </div>
+    <div :if={@live_action in [:list_issues, :demo_list_issues]}>
+      <.button icon={:trash} link_type="live_patch" to={relative_path(@socket, @live_action, %{})} label="Clear filters" />
+    </div>
+  </div>
+
+  <div id="data-container" phx-hook="AlpineInit" :if={match?([_|_], @rows)}>
+    <BackendWeb.Components.BulletedTable.render rows={@rows}>
+      <:column label="Start Time" :let={row}>
+        <.inner_multi_row_grid show_sub_items={row.id == @expanded_issue_id} sub_item_count={length(@issue_events)}>
+          <:main_item>
+            <div class="pt-1">
+              <%= BackendWeb.Helpers.format_with_tz(row.start_time, @timezone) %>
+            </div>
+          </:main_item>
+          <:sub_items>
+            <div class="text-muted flex items-center" :for={event <- @issue_events}>
+              <%= BackendWeb.Helpers.format_with_tz(event.start_time, @timezone) %>
+            </div>
+          </:sub_items>
+        </.inner_multi_row_grid>
+      </:column>
+
+      <:column label="Duration" :let={row}>
+        <div class="py-1">
+          <.duration start_time={row.start_time} end_time={row.end_time} />
+        </div>
+      </:column>
+
+      <:column label="Service" :let={row}>
+        <img
+          src={monitor_image_url(row.service)}
+          class="w-8 h-8 inline mr-1"
+        />
+        <%= @monitor_names_by_logical_name[row.service] %>
+      </:column>
+
+      <:column label="Severity" :let={row}>
+        <.inner_multi_row_grid show_sub_items={row.id == @expanded_issue_id} sub_item_count={length(@issue_events)}>
+          <:main_item>
+            <div>
+              <BackendWeb.Components.MonitorStateBadge.render state={row.worst_state} class="py-1 px-2" show_icon={false} />
+            </div>
+          </:main_item>
+          <:sub_items>
+            <div :for={event <- @issue_events} class={"#{BackendWeb.Helpers.get_monitor_status_border_class(event.state)} border-l-8 pl-1 rounded-md border-0 flex items-center capitalize"}>
+              <%= event.state %>
+            </div>
+          </:sub_items>
+        </.inner_multi_row_grid>
+      </:column>
+
+      <:column label="Affected Functionality" :let={row}>
+        <.inner_multi_row_grid show_sub_items={row.id == @expanded_issue_id} sub_item_count={length(@issue_events)}>
+          <:main_item>
+            <div class="pt-1">
+              <span class="font-bold"><%= @affected_info[row.id].feature_count %></span> check(s) impacted
+            </div>
+          </:main_item>
+          <:sub_items>
+            <div class="flex items-center" :for={event <- @issue_events}>
+              <.functionality_display_name source={event.source} component_id={event.component_id} check_logical_name={event.check_logical_name} />
+            </div>
+            </:sub_items>
+        </.inner_multi_row_grid>
+      </:column>
+
+      <:column label="Affected Regions" :let={row}>
+        <.inner_multi_row_grid show_sub_items={row.id == @expanded_issue_id} sub_item_count={length(@issue_events)}>
+          <:main_item>
+            <div class="pt-1">
+              <.region_count count={@affected_info[row.id].region_count} />
+            </div>
+          </:main_item>
+          <:sub_items>
+            <div :for={event <- @issue_events}>
+              <.region region={event.region} />
+            </div>
+          </:sub_items>
+        </.inner_multi_row_grid>
+      </:column>
+
+      <:column label="Source" :let={row}>
+        <.inner_multi_row_grid show_sub_items={row.id == @expanded_issue_id} sub_item_count={length(@issue_events)}>
+          <:main_item>
+            <div class="mt-2 flex gap-x-2">
+              <%= for source <- row.sources do %>
+                <div x-data={"{ tooltip: '#{source_tooltip(source) }'}"} x-tooltip="tooltip">
+                  <%= svg_image(source_image(source), "monitors")%>
+                </div>
+              <% end %>
+            </div>
+          </:main_item>
+          <:sub_items>
+            <div :for={event <- @issue_events} class="flex items-center">
+              <div x-data={"{ tooltip: '#{source_tooltip(event.source) }'}"} x-tooltip="tooltip">
+                <%= svg_image(source_image(event.source), "monitors", class: "text-muted")%>
+              </div>
+            </div>
+          </:sub_items>
+        </.inner_multi_row_grid>
+      </:column>
+
+      <:column label="" :let={row}>
+        <%= if @expanded_issue_id == row.id do %>
+          <.icon_button phx-click="collapse_row" phx-value-id={row.id} size="xs">
+            <Heroicons.chevron_down solid />
+          </.icon_button>
+        <% else %>
+          <.icon_button phx-click="expand_row" phx-value-id={row.id} size="xs">
+            <Heroicons.chevron_right solid />
+          </.icon_button>
+        <% end %>
+      </:column>
+    </BackendWeb.Components.BulletedTable.render>
+
+    <div class="mt-3">
+      <.button
+        color="white"
+        label="Newer"
+        phx-click="prev_page"
+        disabled={@query_meta.before == nil}
+      />
+
+      <.button
+        color="white"
+        label="Older"
+        phx-click="next_page"
+        disabled={@query_meta.after == nil}
+      />
+    </div>
+  </div>
+</div>

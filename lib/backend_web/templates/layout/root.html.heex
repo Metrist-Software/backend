@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <%= csrf_meta_tag() %>
+
+    <.live_title suffix=" · Metrist" >
+      <%= assigns[:page_title] || "Main" %>
+    </.live_title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Roboto:wght@100;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KS3HHM8');</script>
+    <!-- End Google Tag Manager -->
+
+    <script src="https://js.stripe.com/v3/" async></script>
+  </head>
+  <body class={"text-gray-800 dark:bg-gray-900 dark:text-gray-200 #{if Map.has_key?(assigns, :darkbg), do: "bg-dark-shade"}"}>
+  <div>
+    <%= if assigns[:spoofing?] do %>
+      <div class="p-1 px-4 flex w-full bg-danger-500 text-white">
+        <div class="flex-grow">
+          Spoofing account '<%= @spoofed_account_name %>' (id: <%= @current_user.account_id %>)
+        </div>
+        <div>
+          <a href={Routes.auth_path(BackendWeb.Endpoint, :unspoof)}>Stop spoofing</a>
+        </div>
+      </div>
+    <% end %>
+    <%= @inner_content %>
+  </div>
+  </body>
+</html>

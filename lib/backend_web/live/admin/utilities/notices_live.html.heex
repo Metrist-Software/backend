@@ -1,0 +1,55 @@
+<div>
+  <h2 class="mb-1 text-3xl">
+    Notices
+  </h2>
+
+  <.live_component
+    module={BackendWeb.Components.Banner}
+    id="preview-notice"
+    notice={@preview_notice}
+    user={@current_user}
+    force_show={true}
+  />
+
+  <h3 class="text-2xl">New Notice</h3>
+  <.live_component
+    module={BackendWeb.Components.NoticeEditor}
+    id="notice-editor"
+    notice={@notice}
+    show_preview_button={true}
+  />
+
+  <p>Banner notices will display markdown from the description field. See <a href="https://www.markdownguide.org/cheat-sheet/" class="link">here</a> for a guide.</p>
+  <p>You can also add certain specific svg images using <span class="font-mono bg-green-bright/30">!icon-&lt;name&gt;</span> e.g. <span class="font-mono bg-green-bright/30">!icon-slack-icon</span> and <span class="font-mono bg-green-bright/30">!icon-ms-teams-icon</span></p>
+
+  <h3 class="text-2xl">Active Notices</h3>
+  <div class="space-y-5 flex flex-col">
+    <%= for notice <- @notices do %>
+      <%= if Enum.member?(@editing, notice.id) do %>
+        <.live_component
+          module={BackendWeb.Components.NoticeEditor}
+          id={notice.id}
+          notice={notice}
+          show_preview_button={true}
+        />
+      <% else %>
+        <div class="flex border-dark-shade border rounded-sm p-2">
+          <div class="flex-grow">
+            <%= notice.summary %>
+          </div>
+          <div>
+            <button type="buton" class="btn btn-green" phx-click="edit" phx-value-notice={notice.id}>
+              Edit
+            </button>
+            <button type="buton" class="btn btn-red" phx-click="delete" phx-value-notice={notice.id}>
+              Delete
+            </button>
+            <button type="buton" class="btn btn-blue btn-outline" phx-click="preview" phx-value-notice={notice.id}>
+              Preview
+            </button>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

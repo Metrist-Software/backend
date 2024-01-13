@@ -1,0 +1,33 @@
+{
+  "repository": {},
+  "description": " ",
+  "license": "MIT",
+  "scripts": {
+    "deploy": "NODE_ENV=production tailwindcss --postcss --minify -i css/app.css -o ../priv/static/assets/app.css",
+    "figma-to-tailwind": "./bin/figma-to-tailwind.js"
+  },
+  "dependencies": {
+    "@datadog/ui-extensions-sdk": "^0.32.1",
+    "@ryangjchandler/alpine-tooltip": "^1.2.0",
+    "@stripe/stripe-js": "^1.42.0",
+    "alpinejs": "^3.10.4",
+    "apexcharts": "^3.36.0",
+    "deepmerge": "^4.2.2",
+    "highlight.js": "^11.6.0",
+    "phoenix": "file:../deps/phoenix",
+    "phoenix_html": "file:../deps/phoenix_html",
+    "phoenix_live_view": "file:../deps/phoenix_live_view",
+    "phoenix_typed_hook": "file:../deps/phoenix_typed_hook",
+    "topbar": "^2.0.1"
+  },
+  "devDependencies": {
+    "@ctrl/tinycolor": "^3.4.1",
+    "@tailwindcss/typography": "^0.5.2",
+    "autoprefixer": "^10.4.7",
+    "eslint": "^8.26.0",
+    "lodash.kebabcase": "^4.1.1",
+    "postcss": "^8.4.14",
+    "style-dictionary": "^3.7.0",
+    "tailwindcss": "^3.2.1"
+  }
+}

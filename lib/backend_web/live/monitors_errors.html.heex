@@ -1,0 +1,119 @@
+<div>
+  <header class="mb-5 flex flex-col md:flex-row">
+    <h2 class="text-3xl whitespace-nowrap mr-10">
+      Errors
+      <%= if @initially_selected_monitor do %>
+      <div class="text-base block mb-5">
+        <%= @initially_selected_monitor %>
+      </div>
+      <% end %>
+    </h2>
+
+    <div class="md:ml-auto md:space-x-1 flex flex-col md:flex-row gap-y-2">
+      <%= if !@initially_selected_monitor do %>
+        <.live_component
+          module={BackendWeb.Components.ListGroupSelect}
+          id="monitor-select"
+          list_group_data={@monitor_filter_data}
+          include_search
+        />
+      <% end %>
+    </div>
+  </header>
+
+  <div id="results_area" class="mt-5 overflow-x-auto">
+    <%= if (@errors == nil or Enum.empty?(@errors)) do %>
+      <div>No errors found...</div>
+    <% else %>
+      <div class="grid min-w-[600px] gap-x-1 md:gap-x-5" style="grid-template-columns: repeat(4, max-content) 1fr">
+        <div class="font-bold">Time</div>
+        <div class="font-bold">Monitor</div>
+        <div class="font-bold">Region</div>
+        <div class="font-bold">Error</div>
+        <div class="font-bold">Check</div>
+
+        <div id="data_container" phx-update={@update_action} class="contents">
+          <%= for error <- @errors,
+              # @errors contains MonitorError and ErrorAdded structs
+              # MonitorError uses id whereas ErrorAdded uses error_id
+              id = Map.get(error, :error_id, error.id) do %>
+            <div id={id} phx-hook="AlpineInit" class="contents" x-data="{showError: false}">
+              <div class="text-muted">
+                <div class="flex flex-row items-center h-full">
+                  <div class="mr-3 relative h-full">
+                    <div class="h-full w-3 flex items-center justify-center">
+                      <div class="h-full w-0.5 bg-gray-bright" />
+                    </div>
+                    <div class="w-3 h-3 absolute top-1/2 -mt-1 rounded-full bg-gray-bright" />
+                  </div>
+
+                  <div class="text-sm">
+                    <%= format_with_tz(error.time, @current_user.timezone) %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="py-1 font-bold flex items-center">
+                <img
+                  src={monitor_image_url(error.monitor_logical_name)}
+                  class="w-8 h-8 inline mr-1"
+                />
+                <%= error.monitor_logical_name %>
+              </div>
+
+              <div class="py-1 flex items-center">
+                <span class="pill whitespace-nowrap">
+                  <%= error.instance_name %>
+                </span>
+              </div>
+
+              <div class="py-1">
+                <div id={"#{id}-msg"} class="cursor-pointer h-full flex items-center" @click="showError = !showError">
+                  <div class="truncate max-w-[30ch]">
+                    <%= error.message |> String.split("\n") |> List.first() |> String.trim() %>
+                  </div>
+                  <div x-bind:class="showError && 'rotate-180'">
+                    <%= svg_image("chevron-down", class: "inline") %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="py-1 text-muted flex items-center">
+                <%= error.check_logical_name %>
+              </div>
+
+              <div class="contents" x-show="showError">
+                <div class="text-muted h-full">
+                  <div class="h-full w-3 flex items-center justify-center">
+                    <div class="h-full w-0.5 bg-gray-bright" />
+                  </div>
+                </div>
+                <pre
+                  class="overflow-auto bg-gray-100 dark:bg-gray-700 p-2 col-start-2 col-span-4 rounded-sm border border-gray-shade"
+                ><%= error.message %></pre>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <.button
+    :if={has_before?(@metadata)}
+    color="white"
+    label="Newer Errors"
+    phx-click="prev_page"
+  />
+
+  <.button
+    :if={has_after?(@metadata)}
+    color="white"
+    label="Older Errors"
+    phx-click="next_page"
+  />
+
+
+
+
+</div>

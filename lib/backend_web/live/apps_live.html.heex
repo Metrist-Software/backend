@@ -1,0 +1,15 @@
+<div>
+    <header class="mb-8">
+      <h2 class="text-3xl">
+        <%= str("pages.applications.title") %>
+      </h2>
+    </header>
+
+    <ul class="grid lg:grid-cols-2 gap-3">
+      <li>
+        <button phx-click="start-slack" class={"block w-full #{button_class("large")}"}>
+          <%= str("actions.installSlack") %>
+        </button>
+      </li>
+    </ul>
+  </div>

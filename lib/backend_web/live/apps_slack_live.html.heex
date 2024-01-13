@@ -1,0 +1,12 @@
+<div>
+  <header class="mb-5">
+    <%= if not @current_user.is_read_only do %>
+      <%= step_progress(str("pages.apps.slack.steps"), step_of(@live_action)) %>
+    <% end %>
+    <h2 class="text-3xl font-bold">
+      <%= @step_title %>
+    </h2>
+  </header>
+
+  <%= @step_contents %>
+</div>

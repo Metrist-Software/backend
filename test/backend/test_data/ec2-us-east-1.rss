@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title><![CDATA[Amazon Elastic Compute Cloud (N. Virginia) Service Status]]></title>
+    <link>http://status.aws.amazon.com/</link>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 01 Mar 2022 00:05:29 PST</lastBuildDate>
+    <generator>AWS Service Health Dashboard RSS Generator</generator>
+    <description><![CDATA[Amazon Elastic Compute Cloud (N. Virginia) Service Status]]></description>
+    <ttl>5</ttl>
+    <!-- You seem to care about knowing about your events, why not check out https://docs.aws.amazon.com/health/latest/ug/getting-started-api.html -->
+	 
+	 <item>
+	  <title><![CDATA[Service is operating normally: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 16:22:00 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640218920</guid>
+	  <description><![CDATA[Starting at 4:11 AM PST some EC2 instances and EBS volumes experienced a loss of power in a single data center within a single Availability Zone (USE1-AZ4) in the US-EAST-1 Region. Instances in other data centers within the affected Availability Zone, and other Availability Zones within the US-EAST-1 Region were not affected by this event. At 4:55 AM PST, power was restored to EC2 instances and EBS volumes in the affected data center, which allowed the majority of EC2 instances and EBS volumes to recover. However, due to the nature of the power event, some of the underlying hardware experienced failures, which needed to be resolved by engineers within the facility. Engineers worked to recover the remaining EC2 instances and EBS volumes affected by the issue. By 2:30 PM PST, we recovered the vast majority of EC2 instances and EBS volumes. However, some of the affected EC2 instances and EBS volumes were running on hardware that has been affected by the loss of power and is not recoverable. For customers still waiting for recovery of a specific EC2 instance or EBS volume, we recommend that you relaunch the instance or recreate the volume from a snapshot for full recovery. If you need further assistance, please contact AWS Support.]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 15:13:55 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640214835</guid>
+	  <description><![CDATA[Since the last update, we have more than halved the number of affected EC2 instances and EBS volumes and continue to work on the remaining EC2 instances and EBS volumes. The remaining EC2 instances and EBS volumes have all experienced underlying hardware failures due to the nature of the initial power event, which we are working to resolve. We expect to make further progress on this list within the next hour, but some of the remaining EC2 instances and EBS volumes may not be recoverable due to hardware failures. If you have the ability to relaunch an affected EC2 instance or recreate an affected EBS volume from snapshot, we continue to strongly recommend that you take that path.]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 13:39:31 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640209171</guid>
+	  <description><![CDATA[We continue to make progress in addressing the hardware failures that are delaying recovery of the remaining EC2 instances and EBS volumes. At this stage, if you are still waiting for an EC2 instance or EBS volume to fully recover, we would strongly recommend that you consider relaunching the EC2 instance or recreating the EBS volume from a snapshot. As is often the case with a loss of power, there may be some hardware that is not recoverable, which will prevent us from fully recovering the affected EC2 instances and EBS volumes. We are not quite at that point yet in terms of recovery, but it is unlikely that we will recover all of the small number of remaining EC2 instances and EBS volumes. If you need help in launching new EC2 instances or recreating EBS volumes, please reach out to AWS Support.]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 12:03:30 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640203410</guid>
+	  <description><![CDATA[Over the last hour, after addressing many of the underlying hardware failures, we have seen an accelerated rate of recovery for the affected EC2 instances and EBS volumes. We continue to work on addressing the underlying hardware failures that are preventing the remaining EC2 instances and EBS volumes. For customers that continue to have EC2 instance or EBS volume impairments, relaunching affected EC2 instances or recreating affecting EBS volumes within the affected Availability Zone, continues to be a faster path to full recovery. ]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 11:08:00 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640200080</guid>
+	  <description><![CDATA[We continue to make progress in restoring power and connectivity to the remaining EC2 instances and EBS volumes, although recovery of the remaining instances and volumes is taking longer than expected. We believe this is related to the way in which the data center lost power, which has led to failures in the underlying hardware that we are working to recover. While EC2 instances and EBS volumes that have recovered continue to operate normally within the affected data center, we are working to replace hardware components for the recovery of the remaining EC2 instances and EBS volumes. We have multiple engineers working on the underlying hardware failures and expect to see recovery over the next few hours. As is often the case with a loss of power, there may be some hardware that is not recoverable, and so we continue to recommend that you relaunch your EC2 instance, or recreate you EBS volume from a snapshot, if you are able to do so.]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 09:28:21 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640194101</guid>
+	  <description><![CDATA[We continue to make progress in restoring connectivity to the remaining EC2 instances and EBS volumes. In the last hour, we have restored underlying connectivity to the majority of the remaining EC2 instance and EBS volumes, but are now working through full recovery at the host level. The majority of affected AWS services remain in recovery and we have seen recovery for the majority of single-AZ RDS databases that were affected by the event. If you are able to relaunch affected EC2 instances within the affected Availability Zone, that may help to speed up recovery. Note that restarting an instance at this stage will not help as a restart does not change the underlying hardware. We continue to work towards full recovery.]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 08:02:00 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640188920</guid>
+	  <description><![CDATA[Power continues to be stable within the affected data center within the affected Availability Zone (USE1-AZ4) in the US-EAST-1 Region. We have been working to resolve the connectivity issues that the remaining EC2 instances and EBS volumes are experiencing in the affected data center, which is part of a single Availability Zone (USE1-AZ4) in the US-EAST-1 Region. We have addressed the connectivity issue for the affected EBS volumes, which are now starting to see further recovery. We continue to work on mitigating the networking impact for EC2 instances within the affected data center, and expect to see further recovery there starting in the next 30 minutes. Since the EC2 APIs have been healthy for some time within the affected Availability Zone, the fastest path to recovery now would be to relaunch affected EC2 instances within the affected Availability Zone or other Availability Zones within the region.]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 06:51:46 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640184706</guid>
+	  <description><![CDATA[We have now restored power to all instances and network devices within the affected data center and are seeing recovery for the majority of EC2 instances and EBS volumes within the affected Availability Zone. For the remaining EC2 instances, we are experiencing some network connectivity issues, which is slowing down full recovery. We believe we understand why this is the case and are working on a resolution. Once resolved, we expect to see faster recovery for the remaining EC2 instances and EBS volumes. If you are able to relaunch affected EC2 instances within the affected Availability Zone, that may help to speed up recovery. Note that restarting an instance at this stage will not help as a restart does not change the underlying hardware. We have a small number of affected EBS volumes that are still experiencing degraded IO performance that we are working to recover. The majority of AWS services have also recovered, but services which host endpoints within the customerâ€™s VPCs - such as single-AZ RDS databases, ElasticCache, Redshift, etc. - continue to see some impact as we work towards full recovery. ]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 06:13:09 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640182389</guid>
+	  <description><![CDATA[We have now restored power to all instances and network devices within the affected data center and are seeing recovery for the majority of EC2 instances and EBS volumes within the affected Availability Zone. We continue to make progress in recovering the remaining EC2 instances and EBS volumes within the affected Availability Zone. If you are able to relaunch affected EC2 instances within the affected Availability Zone, that may help to speed up recovery. We have a small number of affected EBS volumes that are still experiencing degraded IO performance that we are working to recover. The majority of AWS services have also recovered, but services which host endpoints within the customerâ€™s VPCs - such as single-AZ RDS databases, ElasticCache, Redshift, etc. - continue to see some impact as we work towards full recovery. ]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 05:39:03 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640180343</guid>
+	  <description><![CDATA[We have now restored power to all instances and network devices within the affected data center and are seeing recovery for the majority of EC2 instances and EBS volumes within the affected Availability Zone. Network connectivity within the affected Availability Zone has also returned to normal levels. While all services are starting to see meaningful recovery, services which were hosting endpoints within the affected data center - such as single-AZ RDS databases, ElastiCache, etc. - would have seen impact during the event, but are starting to see recovery now. Given the level of recovery, if you have not yet failed away from the affected Availability Zone, you should be starting to see recovery at this stage. ]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 05:18:52 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640179132</guid>
+	  <description><![CDATA[We continue to make progress in restoring power to the affected data center within the affected Availability Zone (USE1-AZ4) in the US-EAST-1 Region. We have now restored power to the majority of instances and networking devices within the affected data center and are starting to see some early signs of recovery. Customers experiencing connectivity or instance availability issues within the affected Availability Zone, should start to see some recovery as power is restored to the affected data center. RunInstances API error rates are returning to normal levels and we are working to recover affected EC2 instances and EBS volumes. While we would expect continued improvement over the coming hour, we would still recommend failing away from the Availability Zone if you are able to do so to mitigate this issue.]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 05:01:46 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640178106</guid>
+	  <description><![CDATA[We can confirm a loss of power within a single data center within a single Availability Zone (USE1-AZ4) in the US-EAST-1 Region. This is affecting availability and connectivity to EC2 instances that are part of the affected data center within the affected Availability Zone. We are also experiencing elevated RunInstance API error rates for launches within the affected Availability Zone. Connectivity and power to other data centers within the affected Availability Zone, or other Availability Zones within the US-EAST-1 Region are not affected by this issue, but we would recommend failing away from the affected Availability Zone (USE1-AZ4) if you are able to do so. We continue to work to address the issue and restore power within the affected data center.]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Informational message: [RESOLVED] API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Wed, 22 Dec 2021 04:35:00 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1640176500</guid>
+	  <description><![CDATA[We are investigating increased EC2 launch failures and networking connectivity issues for some instances in a single Availability Zone (USE1-AZ4) in the US-EAST-1 Region. Other Availability Zones within the US-EAST-1 Region are not affected by this issue.]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Service is operating normally: [RESOLVED] Increased API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Tue, 07 Dec 2021 15:31:00 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1638919860</guid>
+	  <description><![CDATA[Between 7:32 AM and 3:10 PM PST we experienced increased API error rates in the US-EAST-1 Region. The issue has been resolved and the service is operating normally.&lt;br&gt;&lt;br&gt;
+
+We'd like to share more information about the service event on Tuesday December 7th. Additional details are available below. Should you have any questions, please contact AWS Support. &lt;a href="https://aws.amazon.com/message/12721/"&gt;https://aws.amazon.com/message/12721/&lt;/a&gt; ]]></description>
+	 </item>
+         
+	 <item>
+	  <title><![CDATA[Service degradation: [RESOLVED] Increased API Error Rates]]></title>
+	  <link>http://status.aws.amazon.com/</link>
+	  <pubDate>Tue, 07 Dec 2021 08:49:31 PST</pubDate>
+	  <guid isPermaLink="false">http://status.aws.amazon.com/#ec2-us-east-1_1638895771</guid>
+	  <description><![CDATA[We are experiencing elevated error rates for EC2 APIs in the US-EAST-1 region.  We have identified root cause and we are actively working towards recovery.]]></description>
+	 </item>
+        
+  </channel>
+</rss>

@@ -1,0 +1,735 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Azure status</title>
+    <meta name="description" content="Check the current Azure health status and view past incidents." />
+    <meta name="IsUsingStatusV2" content="true" />
+    <meta name="RegionalSiteName" content="AzureStatusProdCAC" />
+        <link href="https://c.s-microsoft.com/favicon.ico?v2" rel="SHORTCUT ICON" type="image/x-icon">
+        <link href="/Content/bootstrap.min.css" rel="stylesheet">
+    <script src="/Scripts/jquery-3.6.0.min.js"></script>
+        <link href="/Content/bootstrap.min.css" rel="stylesheet">
+<link href="/Content/Site.css?v=1.1.11.186" rel="stylesheet" type="text/css"></link>        <script async src="/scripts/bootstrap.bundle.min.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="/scripts/gtag.js"></script>
+    <script async src="/scripts/analytics.js"></script>
+    <script async="" src="/Scripts/tracking.js?v=1.1.11.186"></script>
+</head>
+<body id="top">
+        <div class="header-container">
+
+
+
+<header id="azure-header" class="azure-header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black navbar-alignment py-0">
+        <div class="navbar-brand col-3 py-0">
+            <a href="https://azure.microsoft.com/" title="Microsoft Azure" aria-label="Microsoft Azure" width="30" height="30" alt="" data-event="global-navigation-header-clicked-msazurelogo">
+                <svg style="display:none; visibility:hidden;">
+                                <defs><symbol id="svg-msazure-logo" viewBox="0 0 506 72">
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M20.244 8.014L13.857 26.209H26.811L20.455 8.014H20.244ZM24.702 0L40.97 43.201H32.716L28.89 32.476H11.869L8.194 43.201H0L16.267 0H24.702Z" transform="translate(350.999 14.3985)" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M1.145 0H25.878V2.923L9.64 25.186H25.968V30.97H0V27.505L15.997 5.784H1.145V0Z" transform="translate(394.539 26.6293)" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M27.806 0V30.97H20.455V26.902H20.335C19.371 28.309 18.08 29.408 16.464 30.201C14.847 30.994 13.035 31.392 11.027 31.392C7.431 31.392 4.695 30.372 2.817 28.333C0.939 26.295 0 23.127 0 18.829V0H7.381V17.955C7.381 20.566 7.898 22.529 8.933 23.845C9.967 25.16 11.528 25.818 13.618 25.818C15.686 25.818 17.342 25.09 18.588 23.634C19.833 22.178 20.455 20.274 20.455 17.925V0H27.806Z" transform="translate(424.786 26.6293)" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.274 0C15.856 0 16.378 0.04 16.84 0.12C17.302 0.201 17.694 0.301 18.015 0.422V7.803C17.633 7.521 17.076 7.256 16.343 7.004C15.61 6.753 14.721 6.628 13.677 6.628C11.889 6.628 10.378 7.381 9.143 8.887C7.908 10.394 7.291 12.713 7.291 15.846V31.481H0V0.512H7.291V5.393H7.411C8.074 3.705 9.078 2.385 10.423 1.431C11.769 0.478 13.385 0 15.274 0Z" transform="translate(458.27 26.1176)" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M21.238 12.983C21.238 10.573 20.68 8.736 19.566 7.47C18.451 6.205 16.88 5.573 14.851 5.573C13.104 5.573 11.538 6.201 10.152 7.456C8.76601 8.711 7.84201 10.553 7.38101 12.983H21.238ZM25.908 23.798V29.794C24.703 30.557 23.126 31.174 21.177 31.646C19.229 32.118 17.151 32.354 14.942 32.354C10.221 32.354 6.551 30.959 3.93 28.167C1.31 25.376 0 21.489 0 16.508C0 11.709 1.4 7.756 4.202 4.654C7.004 1.55 10.553 0 14.851 0C19.13 0 22.458 1.309 24.838 3.93C27.217 6.551 28.408 10.171 28.408 14.791V18.316H7.2C7.52 21.429 8.52 23.602 10.197 24.837C11.874 26.073 14.038 26.69 16.689 26.69C18.436 26.69 20.103 26.424 21.69 25.892C23.276 25.36 24.682 24.662 25.908 23.798Z" transform="translate(476.741 25.9979)" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M229.35 21.39H218.492V46.394H211.112V21.39H205.93V15.425H211.112V11.117C211.112 7.863 212.17 5.197 214.29 3.119C216.408 1.039 219.124 0 222.438 0C223.322 0 224.105 0.045 224.788 0.136C225.471 0.227 226.074 0.362 226.596 0.542V6.839C226.354 6.699 225.933 6.528 225.33 6.327C224.728 6.126 224.035 6.026 223.252 6.026C221.725 6.026 220.551 6.502 219.727 7.456C218.903 8.411 218.492 9.822 218.492 11.689V15.425H229.35V8.465L236.67 6.237V15.425H244.052V21.39H236.67V35.879C236.67 37.788 237.017 39.134 237.71 39.916C238.403 40.7 239.492 41.091 240.978 41.091C241.4 41.091 241.907 40.992 242.5 40.79C243.092 40.59 243.609 40.349 244.052 40.068V46.092C243.589 46.354 242.821 46.594 241.746 46.816C240.672 47.036 239.613 47.147 238.568 47.147C235.495 47.147 233.191 46.329 231.655 44.692C230.118 43.055 229.35 40.59 229.35 37.295V21.39ZM180.943 31.12C180.943 34.354 181.676 36.824 183.142 38.532C184.607 40.239 186.706 41.091 189.438 41.091C192.089 41.091 194.108 40.239 195.493 38.532C196.879 36.824 197.572 34.293 197.572 30.939C197.572 27.606 196.854 25.09 195.418 23.393C193.982 21.696 191.968 20.848 189.378 20.848C186.706 20.848 184.633 21.736 183.157 23.514C181.68 25.29 180.943 27.827 180.943 31.12ZM173.351 31.361C173.351 26.24 174.797 22.183 177.689 19.19C180.581 16.198 184.598 14.702 189.739 14.702C194.579 14.702 198.36 16.143 201.082 19.025C203.803 21.908 205.163 25.798 205.163 30.699C205.163 35.72 203.717 39.716 200.826 42.688C197.933 45.661 193.997 47.147 189.016 47.147C184.216 47.147 180.405 45.737 177.584 42.914C174.762 40.093 173.351 36.242 173.351 31.361ZM156.933 23.559C156.933 24.603 157.265 25.421 157.928 26.014C158.59 26.606 160.056 27.354 162.326 28.258C165.238 29.423 167.282 30.734 168.456 32.19C169.631 33.646 170.219 35.408 170.219 37.477C170.219 40.389 169.099 42.729 166.86 44.495C164.62 46.264 161.593 47.147 157.777 47.147C156.492 47.147 155.07 46.992 153.514 46.68C151.957 46.369 150.637 45.972 149.552 45.49V38.321C150.878 39.244 152.304 39.977 153.83 40.519C155.357 41.062 156.742 41.333 157.988 41.333C159.634 41.333 160.85 41.102 161.633 40.64C162.416 40.178 162.808 39.405 162.808 38.321C162.808 37.316 162.401 36.467 161.588 35.775C160.775 35.081 159.233 34.283 156.963 33.379C154.272 32.255 152.365 30.99 151.24 29.584C150.115 28.178 149.552 26.391 149.552 24.221C149.552 21.43 150.662 19.135 152.881 17.337C155.1 15.54 157.978 14.642 161.513 14.642C162.597 14.642 163.812 14.762 165.158 15.002C166.503 15.244 167.628 15.556 168.532 15.937V22.866C167.568 22.223 166.443 21.671 165.158 21.208C163.872 20.746 162.597 20.516 161.332 20.516C159.946 20.516 158.866 20.787 158.093 21.329C157.32 21.871 156.933 22.615 156.933 23.559ZM121.868 31.12C121.868 34.354 122.6 36.824 124.067 38.532C125.533 40.239 127.632 41.091 130.363 41.091C133.015 41.091 135.033 40.239 136.418 38.532C137.804 36.824 138.497 34.293 138.497 30.939C138.497 27.606 137.779 25.09 136.343 23.393C134.907 21.696 132.893 20.848 130.303 20.848C127.632 20.848 125.558 21.736 124.082 23.514C122.605 25.29 121.868 27.827 121.868 31.12ZM114.276 31.361C114.276 26.24 115.722 22.183 118.614 19.19C121.506 16.198 125.523 14.702 130.664 14.702C135.505 14.702 139.285 16.143 142.007 19.025C144.728 21.908 146.089 25.798 146.089 30.699C146.089 35.72 144.642 39.716 141.751 42.688C138.859 45.661 134.922 47.147 129.941 47.147C125.141 47.147 121.33 45.737 118.509 42.914C115.687 40.093 114.276 36.242 114.276 31.361ZM111.14 14.912C111.722 14.912 112.245 14.953 112.706 15.034C113.168 15.114 113.56 15.213 113.882 15.334V22.715C113.5 22.434 112.942 22.168 112.21 21.917C111.476 21.665 110.587 21.54 109.544 21.54C107.756 21.54 106.245 22.293 105.01 23.799C103.775 25.306 103.157 27.625 103.157 30.758V46.394H95.866V15.425H103.157V20.305H103.277C103.94 18.618 104.944 17.298 106.29 16.343C107.635 15.39 109.252 14.912 111.14 14.912ZM83.184 41.091C84.268 41.091 85.463 40.841 86.768 40.339C88.074 39.836 89.279 39.174 90.384 38.35V45.128C89.219 45.791 87.898 46.293 86.422 46.634C84.947 46.976 83.324 47.147 81.557 47.147C76.997 47.147 73.292 45.706 70.441 42.824C67.588 39.942 66.163 36.262 66.163 31.784C66.163 26.802 67.619 22.701 70.531 19.476C73.443 16.253 77.57 14.642 82.913 14.642C84.279 14.642 85.659 14.818 87.055 15.169C88.451 15.52 89.56 15.926 90.384 16.388V23.378C89.259 22.554 88.109 21.917 86.934 21.464C85.76 21.013 84.559 20.787 83.334 20.787C80.462 20.787 78.143 21.721 76.375 23.589C74.608 25.456 73.724 27.977 73.724 31.15C73.724 34.283 74.572 36.724 76.27 38.471C77.967 40.218 80.272 41.091 83.184 41.091ZM53.781 46.394H61.071V15.425H53.781V46.394ZM53.028 6.478C53.028 5.273 53.465 4.263 54.339 3.45C55.212 2.636 56.251 2.23 57.456 2.23C58.741 2.23 59.807 2.647 60.65 3.48C61.494 4.313 61.915 5.313 61.915 6.478C61.915 7.662 61.483 8.657 60.62 9.459C59.756 10.263 58.702 10.664 57.456 10.664C56.211 10.664 55.162 10.258 54.309 9.445C53.454 8.631 53.028 7.642 53.028 6.478ZM46.755 3.194V46.394H39.254V12.533H39.133L25.727 46.394H20.757L7.019 12.533H6.929V46.394H0V3.194H10.755L23.167 35.217H23.347L36.452 3.194H46.755Z" transform="translate(93.5977 11.2052)" fill="white"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 34.219H34.219V0H0V34.219Z" transform="translate(0.00499725 0.00601196)" fill="#F25022"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 34.219H34.219V0H0V34.219Z" transform="translate(37.779)" fill="#7FBA00"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 34.219H34.219V0H0V34.219Z" transform="translate(0 37.779)" fill="#00A4EF"/>
+  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 34.219H34.219V0H0V34.219Z" transform="translate(37.779 37.779)" fill="#FFB900"/>
+</symbol>
+</defs>
+                            </svg><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-msazure-logo"></use>
+                            </svg>
+            </a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse py-0" id="navbarSupportedContent">
+            <div class="navbar-brand col-md-5 py-0"></div>
+            <div class="navbar-brand col-md-4 float-md-right py-0">
+                <div class="navbar-brand col-md-3 float-md-right py-0">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="btn-navbar" href="https://azure.microsoft.com/account" title="My account" data-event="global-navigation-header-clicked-myaccountlink" style="min-width:100px;">My account <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn-navbar" href="https://portal.azure.com/">Portal</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn-navbar" href="https://status.azure.com">Return to classic</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>        </div>
+
+    <main class="main-body-adjustment" data-tag-area="content" id="main" data-tag-group="body" tabindex="-1">
+        
+
+
+
+
+
+<div class="new-domain-banner">
+    <span>Welcome to the new Azure status page. Don&#39;t forget to update this page in your bookmarks. <a href="https://docs.microsoft.com/en-us/azure/service-health/whats-new" target="_blank">Learn More</a></span>
+</div>
+
+<div class="container-fluid main-page-banner-section">
+    <div class="row banner-buffer page-section-alignment">
+        <div class="col-md-6 float-left">
+            <h1 class="resource-header">Azure status</h1>
+            <p class="updated-time">Updated 47 seconds ago</p>
+        </div>
+        <div class="col-md-6 float-right">
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-md-6 rss-alignment">
+                    <a class="btn-sm button-tertiary svg-button rss-button-attributes" data-event="area-status-index-clicked-rssfeedlink" target="_blank" href="https://rssfeed.azure.status.microsoft/en-us/status/feed/"><svg style="display:none; visibility:hidden;">
+                                <defs><symbol id="svg-rss" viewBox="0 0 50 50">
+    <rect x="0" fill="#ea8335" width="50" height="50"/>
+    <path fill="#FFFFFF" d="M31.5,41.3h-5.6c0-9.5-7.7-17.2-17.2-17.2v-5.6C21.3,18.5,31.5,28.7,31.5,41.3z"/>
+    <path fill="#FFFFFF" d="M41.3,41.3h-5.6c0-14.9-12.2-27-27-27V8.7C26.7,8.7,41.3,23.3,41.3,41.3z"/>
+    <circle fill="#FFFFFF" cx="14.2" cy="35.8" r="5.5"/>
+</symbol>
+</defs>
+                            </svg><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-rss"></use>
+                            </svg> RSS</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid legend-section">
+    <div class="row legend-buffer page-section-alignment">
+        <div class="col-sm-5">
+            <div class="impacting-services-heading">
+                <div>
+                    <p class="impacting-services-heading">View other issues that might be impacting your services:</p>
+                </div>
+                <div>
+                    <a class="btn btn-primary" href="https://portal.azure.com/#blade/Microsoft_Azure_Health/AzureHealthBrowseBlade" role="button">
+                        Go to Azure Service Health
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4"></div>
+        <div class="col-sm-3 helpful-link-alignment">
+            <span class="helpful-link-heading">HELPFUL LINKS</span><br/>
+            <span><a class="helpful-link-contents" data-event="area-status-index-clicked-historycta" href="/en-us/status/history/">Azure status history</a></span><br />
+            <span><a class="helpful-link-contents" href="https://docs.microsoft.com/azure/azure-monitor/platform/alerts-activity-log-service-notifications">Get notified of outages that impact you</a></span><br />
+            <span><a class="helpful-link-contents" href="https://aka.ms/acom-reliability">Building reliable applications on Azure</a></span>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid status-info-section">
+    <div class="row refresh-spacing table-alignment">
+        <div class="col-lg-3 refresh-margin">
+            <label for="refresh" class="refresh-label">Refresh every</label>
+            <select id="refresh" data-dropdown-event="area-status-index-changed-refreshfrequencydropdown" data-dropdown-property="CommonRefreshFrequencyDropdownValue" aria-label="Refresh every">
+                <option value="120000">2 minutes</option>
+                <option value="300000">5 minutes</option>
+                <option value="600000">10 minutes</option>
+                <option value="1800000">30 minutes</option>
+            </select>
+        </div>
+        <div class="col-sm-3"></div>
+        <div class="col-lg-6">
+            <div class="row">
+                <div class="col-lg-12 status-symbols-legend">
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <span class="icon status-icon icon-palette05"><svg style="display:none; visibility:hidden;">
+                                <defs><symbol id="svg-check" viewBox="0 0 17 15">
+  <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     viewBox="0 0 18 18" style="enable-background:new 0 0 18 18;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#107C10;}
+</style>
+<desc>Created with Sketch.</desc>
+<g id="_xD83D__xDD0D_-Product-Icons">
+	<g id="ic_fluent_checkmark_circle_16_filled">
+		<path id="_xD83C__xDFA8_-Color" class="st0" d="M9,0c5,0,9,4,9,9s-4,9-9,9s-9-4-9-9S4,0,9,0z M12.2,6.2l-4.3,4.3L5.8,8.5
+			C5.5,8.2,5,8.2,4.7,8.5c-0.3,0.3-0.3,0.8,0,1.1l2.6,2.6c0.3,0.3,0.8,0.3,1.1,0l4.8-4.8c0.3-0.3,0.3-0.8,0-1.1
+			C12.9,6,12.5,6,12.2,6.2z"/>
+	</g>
+</g>
+</svg>
+</symbol>
+</defs>
+                            </svg><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-check"></use>
+                            </svg></span>
+                            Good
+                        </li>
+                        <li class="list-inline-item">
+                            <span class="icon status-icon icon-palette05"><svg style="display:none; visibility:hidden;">
+                                <defs><symbol id="svg-health-information" viewBox="0 0 18 18">
+  <path d="M9,.818a8.177,8.177,0,1,0,8.177,8.177A8.187,8.187,0,0,0,9,.818" fill="#0372b0"/>
+  <path d="M9,17.581a8.586,8.586,0,1,1,8.586-8.586A8.586,8.586,0,0,1,9,17.581m0-.818A7.768,7.768,0,1,0,1.227,8.995,7.778,7.778,0,0,0,9,16.763" fill="#fff"/>
+  <path d="M10.329,5.422A1.334,1.334,0,1,0,9,6.756a1.333,1.333,0,0,0,1.334-1.334" fill="#fff"/>
+  <polygon points="9.196 13.902 8.796 13.902 7.8 13.902 7.8 8.064 8.796 8.064 9.196 8.064 10.179 8.064 10.191 13.902 9.196 13.902" fill="#fff"/>
+</symbol></defs>
+                            </svg><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-information"></use>
+                            </svg></span>
+                            Information
+                        </li>
+                        <li class="list-inline-item">
+                            <span class="icon status-icon icon-palette05"><svg style="display:none; visibility:hidden;">
+                                <defs><symbol id="svg-health-warning" viewBox="0 0 24.152 21">
+  <path d="M2.188,20.74a1.44,1.44,0,0,1-1.183-.785,1.545,1.545,0,0,1,.041-1.5L6.029,9.733l4.92-8.179A1.343,1.343,0,0,1,12.057.821a1.26,1.26,0,0,1,1.063.693L23.043,18.4a1.661,1.661,0,0,1,.064,1.563,1.434,1.434,0,0,1-1.193.773Z" fill="#D83B01"/>
+  <path d="M12.058,1.374a.718.718,0,0,1,.58.423l5,8.5,4.931,8.4a.607.607,0,0,1,.055.713c-.132.232-.375.209-.706.209H2.188c-.422,0-.616-.084-.693-.222a.745.745,0,0,1,.044-.812L6.5,9.963l4.927-8.155a.769.769,0,0,1,.626-.434Zm0-1.122a1.88,1.88,0,0,0-1.588,1L5.543,9.421.567,17.953A1.8,1.8,0,0,0,2.191,20.74H21.914a1.764,1.764,0,0,0,1.613-2.771L18.6,9.657l-5-8.466a1.767,1.767,0,0,0-1.547-.94Z" fill="#fff"/>
+  <circle cx="12.052" cy="16.427" r="1.609" fill="#fff"/>
+  <polygon points="12.375 6.609 11.893 6.609 10.691 6.609 11.121 14.071 11.893 14.071 12.375 14.071 13.147 14.071 13.577 6.609 12.375 6.609" fill="#fff"/>
+</symbol>
+</defs>
+                            </svg><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-warning"></use>
+                            </svg></span>
+                            Warning
+                        </li>
+                        <li class="list-inline-item">
+                            <span class="icon status-icon icon-palette05"><svg style="display:none; visibility:hidden;">
+                                <defs><symbol id="svg-health-error" viewBox="0 0 110 110">
+    <path d="M109.6652,60.345 C106.6952,90.554 79.7972,112.636 49.5882,109.665 C19.3792,106.695 -2.7028,79.797 0.2682,49.588 C3.2382,19.379 30.1352,-2.703 60.3452,0.268 C90.5542,3.239 112.6352,30.136 109.6652,60.345" fill="#FFFFFF"></path>
+    <path d="M104.4552,59.8324 C101.7672,87.1644 77.4322,107.1434 50.1002,104.4554 C22.7682,101.7684 2.7902,77.4324 5.4782,50.1004 C8.1652,22.7694 32.5012,2.7904 59.8322,5.4784 C87.1642,8.1654 107.1432,32.5014 104.4552,59.8324" fill="#A80000"></path>
+    <polygon fill="#FFFFFF" points="75.6249 77.6214 61.6969 55.7344 75.3749 34.0384 63.2079 34.0384 55.1959 50.2154 47.7079 33.7884 35.5419 33.7884 48.4569 56.2074 34.0419 77.8714 46.2079 77.8714 54.9019 61.9594 63.4579 77.6214"></polygon>
+</symbol></defs>
+                            </svg><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-error"></use>
+                            </svg></span>
+                            Critical
+                        </li>
+                        <li class="list-inline-item">
+                            <span class="icon status-icon icon-palette05"><svg style="display:none; visibility:hidden;">
+                                <defs><symbol id="svg-health-unknown" viewBox="0 0 11 3" id=".24416705576858933" xmlns="http://www.w3.org/2000/svg">
+  <path class="ast0" d="M1 2.1v-.7h2.6v.7H1zm3.5 0v-.7h2.6v.7H4.5z" fill="#2e2e33"/>
+</symbol></defs>
+                            </svg><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+                            N/A
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row incidents-alignment">
+        <div class="col-12">
+        </div>
+    </div>
+    <div class="row table-alignment">
+        <div class="col-12">
+            <div class="table-responsive">
+                <div class="zones-tabs">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="zone" data-zone-name="current-impact">
+                            <a role="tab" class="contrast-compliant-blue" data-event="area-status-index-clicked-zonetab" data-event-property="CurrentImpact" aria-selected="true" href="#">Current Impact</a>
+                        </li>
+                            <li role="presentation" class="zone" data-zone-name="americas">
+                                <a role="tab" class="contrast-compliant-blue" data-event="area-status-index-clicked-zonetab" data-event-property="Americas" aria-selected="true" href="#">Americas</a>
+                            </li>
+                            <li role="presentation" class="zone" data-zone-name="europe">
+                                <a role="tab" class="contrast-compliant-blue" data-event="area-status-index-clicked-zonetab" data-event-property="Europe" aria-selected="true" href="#">Europe</a>
+                            </li>
+                            <li role="presentation" class="zone" data-zone-name="asia">
+                                <a role="tab" class="contrast-compliant-blue" data-event="area-status-index-clicked-zonetab" data-event-property="Asia Pacific" aria-selected="true" href="#">Asia Pacific</a>
+                            </li>
+                            <li role="presentation" class="zone" data-zone-name="middle-east-africa">
+                                <a role="tab" class="contrast-compliant-blue" data-event="area-status-index-clicked-zonetab" data-event-property="Middle East and Africa" aria-selected="true" href="#">Middle East and Africa</a>
+                            </li>
+                            <li role="presentation" class="zone" data-zone-name="azure-government">
+                                <a role="tab" class="contrast-compliant-blue" data-event="area-status-index-clicked-zonetab" data-event-property="Azure Government" aria-selected="true" href="#">Azure Government</a>
+                            </li>
+                            <li role="presentation" class="zone" data-zone-name="azure-china">
+                                <a role="tab" class="contrast-compliant-blue" data-event="area-status-index-clicked-zonetab" data-event-property="Azure China" aria-selected="true" href="#">Azure China</a>
+                            </li>
+                            <li role="presentation" class="zone" data-zone-name="jio">
+                                <a role="tab" class="contrast-compliant-blue" data-event="area-status-index-clicked-zonetab" data-event-property="Jio" aria-selected="true" href="#">Jio<span class="superscript">§</span></a>
+                            </li>
+                    </ul>
+                </div>
+                <table data-zone-name="current-impact" class="table status-table table-bordered table-striped region-status-table">
+                    <thead>
+                    </thead>
+                    <tbody>
+                            <tr class="current-incident">
+                                <td>
+                                    <span>There are currently no active events. Use <a href="https://portal.azure.com/#blade/Microsoft_Azure_Health/AzureHealthBrowseBlade" rel="no-follow">Azure Service Health</a> to view other issues that may be impacting your services.</span>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+
+                
+
+                    <table data-zone-name="americas" class="table status-table table-bordered table-striped fixed-status-header">
+                        <tr class="status-table-head">
+                            <th><span>Products and services</span></th>
+                            <th>
+                                <span>
+                                    *Non-Regional
+
+                                    <span class="icon status-icon icon-palette05" data-toggle="tooltip" data-placement="top" title="*Non-Regional services are ones where there is no dependency on a specific Azure region."><svg style="display:none; visibility:hidden;">
+                                <defs><symbol id="svg-information-icon" viewBox="0 0 30 30">
+  <path d="M12 1.999c5.524 0 10.002 4.478 10.002 10.002 0 5.523-4.478 10.001-10.002 10.001-5.524 0-10.002-4.478-10.002-10.001C1.998 6.477 6.476 1.999 12 1.999zm-.004 8.25a1 1 0 0 0-.992.885l-.007.116.003 5.502.007.117a1 1 0 0 0 1.987-.002L13 16.75l-.003-5.501-.007-.117a1 1 0 0 0-.994-.882zM12 6.5a1.251 1.251 0 1 0 0 2.503A1.251 1.251 0 0 0 12 6.5z" fill="#747479"/>
+</symbol></defs>
+                            </svg><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-information-icon"></use>
+                            </svg></span>
+                                </span>
+                            </th>
+                                    <th>
+                                        <span>East US</span>
+                                    </th>
+                                    <th>
+                                        <span>East US 2</span>
+                                    </th>
+                                    <th>
+                                        <span>Central US</span>
+                                    </th>
+                                    <th>
+                                        <span>North Central US</span>
+                                    </th>
+                                    <th>
+                                        <span>South Central US</span>
+                                    </th>
+                                    <th>
+                                        <span>West Central US</span>
+                                    </th>
+                                    <th>
+                                        <span>West US</span>
+                                    </th>
+                                    <th>
+                                        <span>West US 2</span>
+                                    </th>
+                                    <th>
+                                        <span><span class="superscript">‡</span>West US 3</span>
+                                    </th>
+                                    <th>
+                                        <span>Canada East</span>
+                                    </th>
+                                    <th>
+                                        <span>Canada Central</span>
+                                    </th>
+                                    <th>
+                                        <span>Brazil South</span>
+                                    </th>
+                                    <th>
+                                        <span>Brazil Southeast</span>
+                                    </th>
+                        </tr>
+                    </table>
+                    <table data-zone-name="europe" class="table status-table table-bordered table-striped fixed-status-header">
+                        <tr class="status-table-head">
+                            <th><span>Products and services</span></th>
+                            <th>
+                                <span>
+                                    *Non-Regional
+
+                                    <span class="icon status-icon icon-palette05" data-toggle="tooltip" data-placement="top" title="*Non-Regional services are ones where there is no dependency on a specific Azure region."><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-information-icon"></use>
+                            </svg></span>
+                                </span>
+                            </th>
+                                    <th>
+                                        <span>North Europe</span>
+                                    </th>
+                                    <th>
+                                        <span>West Europe</span>
+                                    </th>
+                                    <th>
+                                        <span>France Central</span>
+                                    </th>
+                                    <th>
+                                        <span>France South</span>
+                                    </th>
+                                    <th>
+                                        <span>UK West</span>
+                                    </th>
+                                    <th>
+                                        <span>UK South</span>
+                                    </th>
+                                    <th>
+                                        <span>Switzerland North</span>
+                                    </th>
+                                    <th>
+                                        <span>Switzerland West</span>
+                                    </th>
+                                    <th>
+                                        <span>Norway East</span>
+                                    </th>
+                                    <th>
+                                        <span>Norway West</span>
+                                    </th>
+                                    <th>
+                                        <span>Germany North</span>
+                                    </th>
+                                    <th>
+                                        <span>Germany West Central</span>
+                                    </th>
+                                    <th>
+                                        <span><span class="superscript">‡</span>Sweden Central</span>
+                                    </th>
+                                    <th>
+                                        <span><span class="superscript">‡</span>Sweden South</span>
+                                    </th>
+                        </tr>
+                    </table>
+                    <table data-zone-name="asia" class="table status-table table-bordered table-striped fixed-status-header">
+                        <tr class="status-table-head">
+                            <th><span>Products and services</span></th>
+                            <th>
+                                <span>
+                                    *Non-Regional
+
+                                    <span class="icon status-icon icon-palette05" data-toggle="tooltip" data-placement="top" title="*Non-Regional services are ones where there is no dependency on a specific Azure region."><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-information-icon"></use>
+                            </svg></span>
+                                </span>
+                            </th>
+                                    <th>
+                                        <span>Southeast Asia</span>
+                                    </th>
+                                    <th>
+                                        <span>East Asia</span>
+                                    </th>
+                                    <th>
+                                        <span>Australia East</span>
+                                    </th>
+                                    <th>
+                                        <span>Australia Southeast</span>
+                                    </th>
+                                    <th>
+                                        <span>Australia Central</span>
+                                    </th>
+                                    <th>
+                                        <span>Australia Central 2</span>
+                                    </th>
+                                    <th>
+                                        <span>Central India</span>
+                                    </th>
+                                    <th>
+                                        <span>West India</span>
+                                    </th>
+                                    <th>
+                                        <span>South India</span>
+                                    </th>
+                                    <th>
+                                        <span>Japan East</span>
+                                    </th>
+                                    <th>
+                                        <span>Japan West</span>
+                                    </th>
+                                    <th>
+                                        <span>Korea Central</span>
+                                    </th>
+                                    <th>
+                                        <span>Korea South</span>
+                                    </th>
+                        </tr>
+                    </table>
+                    <table data-zone-name="middle-east-africa" class="table status-table table-bordered table-striped fixed-status-header">
+                        <tr class="status-table-head">
+                            <th><span>Products and services</span></th>
+                            <th>
+                                <span>
+                                    *Non-Regional
+
+                                    <span class="icon status-icon icon-palette05" data-toggle="tooltip" data-placement="top" title="*Non-Regional services are ones where there is no dependency on a specific Azure region."><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-information-icon"></use>
+                            </svg></span>
+                                </span>
+                            </th>
+                                    <th>
+                                        <span>South Africa West</span>
+                                    </th>
+                                    <th>
+                                        <span>South Africa North</span>
+                                    </th>
+                                    <th>
+                                        <span>UAE Central</span>
+                                    </th>
+                                    <th>
+                                        <span>UAE North</span>
+                                    </th>
+                                    <th>
+                                        <span><span class="superscript">‡</span>Qatar Central</span>
+                                    </th>
+                        </tr>
+                    </table>
+                    <table data-zone-name="azure-government" class="table status-table table-bordered table-striped fixed-status-header">
+                        <tr class="status-table-head">
+                            <th><span>Products and services</span></th>
+                            <th>
+                                <span>
+                                    *Non-Regional
+
+                                    <span class="icon status-icon icon-palette05" data-toggle="tooltip" data-placement="top" title="*Non-Regional services are ones where there is no dependency on a specific Azure region."><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-information-icon"></use>
+                            </svg></span>
+                                </span>
+                            </th>
+                                    <th>
+                                        <span>
+                                            *US Gov Non-Regional
+
+                                            <span class="icon status-icon icon-palette05" data-toggle="tooltip" data-placement="top" title="*Non-Regional services are ones where there is no dependency on a specific Azure region."><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-information-icon"></use>
+                            </svg></span>
+                                        </span>
+                                    </th>
+                                    <th>
+                                        <span>US Gov Virginia</span>
+                                    </th>
+                                    <th>
+                                        <span>US Gov Arizona</span>
+                                    </th>
+                                    <th>
+                                        <span>US Gov Texas</span>
+                                    </th>
+                                    <th>
+                                        <span>US DoD East</span>
+                                    </th>
+                                    <th>
+                                        <span>US DoD Central</span>
+                                    </th>
+                        </tr>
+                    </table>
+                    <table data-zone-name="azure-china" class="table status-table table-bordered table-striped fixed-status-header">
+                        <tr class="status-table-head">
+                            <th><span>Products and services</span></th>
+                            <th>
+                                <span>
+                                    *Non-Regional
+
+                                    <span class="icon status-icon icon-palette05" data-toggle="tooltip" data-placement="top" title="*Non-Regional services are ones where there is no dependency on a specific Azure region."><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-information-icon"></use>
+                            </svg></span>
+                                </span>
+                            </th>
+                                    <th>
+                                        <span>
+                                            *China Non-Regional
+
+                                            <span class="icon status-icon icon-palette05" data-toggle="tooltip" data-placement="top" title="*Non-Regional services are ones where there is no dependency on a specific Azure region."><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-information-icon"></use>
+                            </svg></span>
+                                        </span>
+                                    </th>
+                                    <th>
+                                        <span>China East</span>
+                                    </th>
+                                    <th>
+                                        <span>China East 2</span>
+                                    </th>
+                                    <th>
+                                        <span>China North</span>
+                                    </th>
+                                    <th>
+                                        <span>China North 2</span>
+                                    </th>
+                                    <th>
+                                        <span>China North 3</span>
+                                    </th>
+                        </tr>
+                    </table>
+                    <table data-zone-name="jio" class="table status-table table-bordered table-striped fixed-status-header">
+                        <tr class="status-table-head">
+                            <th><span>Products and services</span></th>
+                            <th>
+                                <span>
+                                    *Non-Regional
+
+                                    <span class="icon status-icon icon-palette05" data-toggle="tooltip" data-placement="top" title="*Non-Regional services are ones where there is no dependency on a specific Azure region."><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-information-icon"></use>
+                            </svg></span>
+                                </span>
+                            </th>
+                                    <th>
+                                        <span>Jio India West</span>
+                                    </th>
+                                    <th>
+                                        <span>Jio India Central</span>
+                                    </th>
+                        </tr>
+                    </table>
+
+                    <table data-zone-name="americas" class="table status-table table-bordered table-striped region-status-table default">
+                        <thead>
+                            <tr class="status-table-head">
+                                <th><span>Products and services</span></th>
+                                
+
+                                <th>
+                                    <span>
+                                        *Non-Regional
+                                        <span class="icon status-icon icon-palette05" data-toggle="tooltip" data-placement="top" title="*Non-Regional services are ones where there is no dependency on a specific Azure region."><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-information-icon"></use>
+                            </svg></span>
+                                    </span>
+                                </th>
+                                        <th>
+                                            <span>East US</span>
+                                        </th>
+                                        <th>
+                                            <span>East US 2</span>
+                                        </th>
+                                        <th>
+                                            <span>Central US</span>
+                                        </th>
+                                        <th>
+                                            <span>North Central US</span>
+                                        </th>
+                                        <th>
+                                            <span>South Central US</span>
+                                        </th>
+                                        <th>
+                                            <span>West Central US</span>
+                                        </th>
+                                        <th>
+                                            <span>West US</span>
+                                        </th>
+                                        <th>
+                                            <span>West US 2</span>
+                                        </th>
+                                        <th>
+                                            <span><span class="superscript">‡</span>West US 3</span>
+                                        </th>
+                                        <th>
+                                            <span>Canada East</span>
+                                        </th>
+                                        <th>
+                                            <span>Canada Central</span>
+                                        </th>
+                                        <th>
+                                            <span>Brazil South</span>
+                                        </th>
+                                        <th>
+                                            <span>Brazil Southeast</span>
+                                        </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        
+                                    <tr>
+                                        <td>
+                                            Azure Monitor
+                                        </td>
+                                            <td class="status-cell">
+    <span class="icon status-icon icon-palette05" data-label="Good"><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-check"></use>
+                            </svg></span>
+    <span class="hide-text">Good</span>
+                                            </td>
+                                            <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+    <td class="status-cell">
+        <span class="icon status-icon icon-palette05" data-label=Not available><svg aria-hidden="true" role="presentation">
+                                <use xlink:href="#svg-health-unknown"></use>
+                            </svg></span>
+        <span class="hide-text">Not available</span>
+    </td>
+                                    </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

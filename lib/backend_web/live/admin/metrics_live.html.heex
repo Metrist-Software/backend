@@ -1,0 +1,328 @@
+<div>
+  <header class="mb-8">
+    <h2 class="text-3xl">
+      Metrics
+    </h2>
+  </header>
+
+  <div class="grid grid-cols-1 gap-2 m-4 my-32 md:m-52">
+    <h2 class="pb-5 text-5xl">
+      KPI for 2023H1
+    </h2>
+
+    <BackendWeb.Components.BigNumberCard.render
+      variant={variant_for_on_target(@metrics)}
+      title="Total Instances"
+      number={@metrics.orchestrator_count.total}
+      baseline={momentary_target()}
+      data_cy="metric-orchestrator-total"
+      :let={%{formatted_baseline: baseline}}
+      formatter={&formatter/1}
+    >
+      Out of <%= baseline %> by now, <%= target() %> by end of June.
+    </BackendWeb.Components.BigNumberCard.render>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-2">
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Accounts running Orchestrators"
+      number={@metrics.orchestrator_count.accounts}
+      data_cy="metric-orchestrator-accounts"
+      formatter={&formatter/1}
+    />
+  </div>
+
+  <ul class="pb-5 text-muted">
+  <li><span class="font-bold">Total Instances</span>:
+            The number of unique Orchestrator instance names reporting during the last 7 days</li>
+  <li><span class="font-bold">Accounts running Orchestrator</span>:
+            The number of accounts that had Orchestrator instances report during the last 7 days</li>
+  </ul>
+
+  <h3 class="py-5 text-2xl">
+    Design partners
+  </h3>
+
+
+  <div class="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-2">
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Design Partners"
+      number={7}
+      baseline={10}
+      :let={%{formatted_baseline: baseline}}
+      formatter={&formatter/1}
+    >
+      Out of <%= baseline %>
+    </BackendWeb.Components.BigNumberCard.render>
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Paying Design Partners"
+      number={1}
+      baseline={5}
+      :let={%{formatted_baseline: baseline}}
+      formatter={&formatter/1}
+    >
+      Out of <%= baseline %>
+    </BackendWeb.Components.BigNumberCard.render>
+  </div>
+
+  <h3 class="py-5 text-2xl">
+    Applications
+  </h3>
+
+  <ul class="pb-5 text-muted">
+    <li><span class="font-bold">Total Installs</span>: the number of accounts that have connected a chat application.</li>
+    <li><span class="font-bold">Active Users</span>: the number of users that have interacted through Slack and Teams.</li>
+    <li><span class="font-bold">Active Subscriptions</span>: the number of subscriptions for monitor state changes, including webhooks.</li>
+    <li><span class="font-bold">Command Count</span>: the number of commands issued through Slack and Teams.</li>
+  </ul>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-2">
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Total Installs"
+      number={@metrics.install_count}
+      data_cy="metric-total-installs"
+      formatter={&formatter/1}
+    />
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Active Users"
+      number={@metrics.active_user_count}
+      data_cy="metric-active-users"
+      formatter={&formatter/1}
+    />
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Active Subscriptions"
+      number={@metrics.active_subscription_count}
+      data_cy="metric-active-subscriptions"
+      formatter={&formatter/1}
+    />
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Command Count"
+      number={@metrics.command_count}
+      data_cy="metric-command-count"
+      formatter={&formatter/1}
+    />
+  </div>
+
+  <h3 class="py-5 text-2xl">
+    Alerts
+  </h3>
+
+  <ul class="pb-5 text-muted">
+    <li><span class="font-bold">Alerts</span>: the number of monitor state changes across all accounts, for monitors that are enabled.</li>
+    <li><span class="font-bold">Notifications</span>: the number of notifications, (chat app DMs, webhooks, etc.), sent as a result of alerts.</li>
+  </ul>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-2">
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Alerts"
+      number={@metrics.alert_count}
+      data_cy="metric-alerts-count"
+      formatter={&formatter/1}
+    />
+
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Notifications"
+      number={@metrics.subscription_delivery_count}
+      data_cy="metric-alerts-notifications"
+      formatter={&formatter/1}
+    />
+  </div>
+
+  <h3 class="py-5 text-2xl">
+    Events
+  </h3>
+
+  <ul class="pb-5 text-muted">
+    <li><span class="font-bold">Down Events</span>: the number of monitor state changes to the "down" state.</li>
+    <li><span class="font-bold">Total Events</span>: the total number of monitor state changes (between "up", "down", "degraded").</li>
+  </ul>
+
+  <p class="pb-5 text-muted">
+    These counts only include public monitors
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-2">
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Down Events"
+      number={@metrics.down_event_count}
+      data_cy="metric-events-down"
+      formatter={&formatter/1}
+    />
+
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Total Events"
+      number={@metrics.total_event_count}
+      data_cy="metric-events-total"
+      formatter={&formatter/1}
+    />
+  </div>
+
+  <h3 class="py-5 text-2xl">
+    Monitors
+  </h3>
+
+  <p class="pb-5 text-muted">
+    The total number of timeseries entries in our database across all monitors and checks, public and private.
+  </p>
+  <div class="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-2">
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title="Timeseries Entries"
+      number={@metrics.timeseries_entry_count}
+      data_cy="metric-timeseries-entries"
+      formatter={&formatter/1}
+    />
+  </div>
+
+  <%= for aua <- @active_user_areas do %>
+    <h3 class="py-5 text-2xl">
+      Active <%= aua %> Users
+    </h3>
+
+    <div class="pb-5 text-muted">
+        The number of unique users who have <%= get_active_user_action(aua) %> <%= aua %> during the time period,
+        excluding those from accounts flagged as internal.
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-2">
+      <BackendWeb.Components.BigNumberCard.render
+        variant={:info}
+        title={"Daily Active #{aua} Users"}
+        number={Map.get(@metrics, String.to_atom("daily_active_#{String.downcase(aua)}_users"))}
+        data_cy={"metric-daily-active-#{String.downcase(aua)}-users"}
+        formatter={&formatter/1}
+      />
+
+      <BackendWeb.Components.BigNumberCard.render
+        variant={:info}
+        title={"Weekly Active #{aua} Users"}
+        number={Map.get(@metrics, String.to_atom("weekly_active_#{String.downcase(aua)}_users"))}
+        data_cy={"metric-weekly-active-#{String.downcase(aua)}-users"}
+        formatter={&formatter/1}
+      />
+
+      <BackendWeb.Components.BigNumberCard.render
+        variant={:info}
+        title={"Monthly Active #{aua} Users"}
+        number={Map.get(@metrics, String.to_atom("monthly_active_#{String.downcase(aua)}_users"))}
+        data_cy={"metric-monthly-active-#{String.downcase(aua)}-users"}
+        formatter={&formatter/1}
+      />
+    </div>
+  <% end %>
+
+  <h3 class="py-5 text-2xl">
+    API requests
+  </h3>
+
+  <div class="pb-5 text-muted">
+    The number of API requests received over the period, excluding those from
+    accounts flagged as internal.
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-2">
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title={"Daily API Requests"}
+      number={@metrics.daily_api_requests}
+      data_cy={"metric-daily-api-requests"}
+      formatter={&formatter/1}
+    />
+
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title={"Weekly API Requests"}
+      number={@metrics.weekly_api_requests}
+      data_cy={"metric-weekly-api-requests"}
+      formatter={&formatter/1}
+    />
+
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title={"Monthly API Requests"}
+      number={@metrics.monthly_api_requests}
+      data_cy={"metric-monthly-api-requests"}
+      formatter={&formatter/1}
+    />
+  </div>
+
+  <h3 class="py-5 text-2xl">
+    API accounts
+  </h3>
+
+  <div class="pb-5 text-muted">
+    The number of accounts executing API requests over the period, excluding those from
+    accounts flagged as internal.
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-2">
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title={"Daily API Accounts"}
+      number={@metrics.daily_api_accounts}
+      data_cy={"metric-daily-api-accounts"}
+      formatter={&formatter/1}
+    />
+
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title={"Weekly API Accounts"}
+      number={@metrics.weekly_api_accounts}
+      data_cy={"metric-weekly-api-accounts"}
+      formatter={&formatter/1}
+    />
+
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title={"Monthly API Accounts"}
+      number={@metrics.monthly_api_accounts}
+      data_cy={"metric-monthly-api-accounts"}
+      formatter={&formatter/1}
+    />
+  </div>
+
+  <h3 class="py-5 text-2xl">
+    New Signups
+  </h3>
+
+  <div class="pb-5 text-muted">
+    The number of accounts created over the period
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 print:grid-cols-3 gap-2">
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title={"Daily New Signups"}
+      number={@metrics.daily_new_signups}
+      data_cy={"metric-daily-new-signups"}
+      formatter={&formatter/1}
+    />
+
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title={"Weekly New Signups"}
+      number={@metrics.weekly_new_signups}
+      data_cy={"metric-weekly-new-signups"}
+      formatter={&formatter/1}
+    />
+
+    <BackendWeb.Components.BigNumberCard.render
+      variant={:info}
+      title={"Monthly New Signups"}
+      number={@metrics.monthly_new_signups}
+      data_cy={"metric-monthly-new-signups"}
+      formatter={&formatter/1}
+    />
+  </div>
+</div>

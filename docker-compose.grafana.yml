@@ -1,0 +1,15 @@
+# Separate docker-compose so that grafana metrics won't automatically be collected locally
+# Can be started with `docker-compose -f docker-compose.yml -f docker-compose.grafana.yml up`
+version: '3'
+services:
+  grafana-agent:
+    image: grafana/agent
+    command: -config.expand-env -config.file /etc/agent/agent.yaml
+    volumes:
+      - grafana-agent:/var/lib/grafana/data
+      - ./grafana-config.yml:/etc/grafana/agent.yaml
+    environment:
+      - GRAFANA_PROMETHEUS_API_KEY
+    network_mode: host
+volumes:
+  grafana-agent:

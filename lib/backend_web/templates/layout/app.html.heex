@@ -1,0 +1,32 @@
+<% # This is only used for signup, so "fake" the navbar etc. %>
+<header class="flex item-stretch bg-gray-900 text-white print:hidden">
+  <nav class="flex items-stretch flex-grow px-0">
+    <div class="flex">
+      <a href="/" class="p-3">
+        <%= svg_image("icon", "brand") %>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<.container class="my-10 font-lato">
+  <.alert
+    color="info"
+    class="mb-5"
+    label={get_flash(@conn, :info)}
+    phx-click="lv:clear-flash"
+    phx-value-key="info"
+  />
+
+  <.alert
+    color="danger"
+    class="mb-5"
+    label={get_flash(@conn, :error)}
+    phx-click="lv:clear-flash"
+    phx-value-key="error"
+  />
+
+  <%= @inner_content %>
+</.container>
+
+<footer></footer>

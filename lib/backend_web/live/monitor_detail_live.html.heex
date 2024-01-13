@@ -1,0 +1,79 @@
+<div class="font-lato mt-3">
+  <%= for notice <- @notices do %>
+    <%= live_component BackendWeb.Components.Notice,
+      id: "notice-#{notice.id}",
+      notice: notice,
+      show_admin_controls: @current_user.is_metrist_admin
+    %>
+  <% end %>
+
+  <%= if @configuring do %>
+    <.live_component
+      module={BackendWeb.MonitorDetailLiveConfigure}
+      id="configure_component"
+      current_user={@current_user}
+      analyzer_config={@analyzer_config}
+      monitor={@monitor}
+      snapshot={@snapshot}
+      status_page={@status_page}
+      subscription_component_states={@subscription_component_states}
+    >
+      <:monitor_status>
+        <BackendWeb.Components.MonitorStatus.render
+          monitor_logical_name={@monitor_logical_name}
+          duration_message_rand={@duration_message_rand}
+          snapshot={@snapshot}
+          snapshot_state={@snapshot.state}
+          recent_unhealthy_event={@recent_unhealthy_event}
+          timezone={@current_user.timezone}
+          provider_icon={@provider_icon}
+          status_page={@status_page}
+          has_status_page_subscriptions={has_active_status_page_subscriptions?(@subscription_component_states)}
+          status_page_state={@status_page_state}
+          status_page_incident_start_time={@status_page_incident_start_time}
+         />
+      </:monitor_status>
+    </.live_component>
+  <% else %>
+    <.live_component
+      module={BackendWeb.MonitorDetailLiveRead}
+      id="view_component"
+      analyzer_config={@analyzer_config}
+      account_id={@current_user.account_id}
+      current_user={@current_user}
+      monitor={@monitor}
+      snapshot={@snapshot}
+      show_link_to_check_details?={@show_link_to_check_details?}
+      provider_icon={@provider_icon}
+    >
+      <:monitor_status>
+        <BackendWeb.Components.MonitorStatus.render
+          monitor_logical_name={@monitor_logical_name}
+          duration_message_rand={@duration_message_rand}
+          snapshot_state={@snapshot.state}
+          snapshot={@snapshot}
+          recent_unhealthy_event={@recent_unhealthy_event}
+          timezone={@current_user.timezone}
+          provider_icon={@provider_icon}
+          status_page={@status_page}
+          has_status_page_subscriptions={has_active_status_page_subscriptions?(@subscription_component_states)}
+          status_page_state={@status_page_state}
+          status_page_incident_start_time={@status_page_incident_start_time}
+         />
+      </:monitor_status>
+    </.live_component>
+    <%= if @status_page do %>
+      <.live_component
+        module={BackendWeb.MonitorDetailLive.StatusPageSubscriptions}
+        id="status_page_subscriptions_component"
+        current_user={@current_user}
+        monitor_display_name={@monitor.name}
+        monitor_logical_name={@monitor_logical_name}
+        subscription_component_states={@subscription_component_states}
+        status_page={@status_page}
+        show_all={false}
+      >
+      </.live_component>
+    <% end %>
+  <% end %>
+</div>

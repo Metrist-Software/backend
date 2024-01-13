@@ -1,0 +1,144 @@
+<li data-cy="check-card">
+ <form phx-submit="next" phx-change="handle-form-change" phx-target={@myself}>
+  <div class="block box overflow-hidden px-3 py-3">
+    <div class="h-full">
+      <header class="flex flex-col">
+        <div data-cy="check-link" class="flex flex-row">
+          <div class="flex-grow">
+          <h4 class="text-normal font-bold">
+            <%= @check_name %>
+          </h4>
+          </div>
+          <%= if not @current_user.is_read_only do %>
+            <div class="mr-3">
+                <.pill_switch
+                name="enabled"
+                enabled={@enabled}
+                />
+            </div>
+          <% end %>
+        </div>
+        <%= if !@enabled do %>
+          <div class="text-xs text-muted">
+            Disabled. Enable to configure this check
+          </div>
+        <% end %>
+      </header>
+    </div>
+    <%= if @enabled do %>
+      <%= if not @current_user.is_read_only do %>
+        <div class="mt-3">
+          <%= if @custom_thresholds_enabled do %>
+            <input
+            type="checkbox"
+            id={"custom_thresholds_enabled_#{@check_logical_name}"}
+            name="custom_thresholds_enabled"
+            checked
+            />
+          <% else %>
+            <input
+            type="checkbox"
+            id={"custom_thresholds_enabled_#{@check_logical_name}"}
+            name="custom_thresholds_enabled"
+            />
+          <% end %>
+          <label for={"custom_thresholds_enabled_#{@check_logical_name}"} class="ml-3">Enable custom thresholds for this check</label>
+        </div>
+      <% end %>
+
+      <%= if @custom_thresholds_enabled do %>
+        <BackendWeb.MonitorDetailLiveConfigure.threshold_input
+          threshold_label="Percent above average latency"
+          threshold_input_id="degraded_threshold"
+          id_suffix={@check_logical_name}
+          value={if @check_config.degraded_threshold != "", do: trunc(@check_config.degraded_threshold * 100), else: nil}
+          errors={@errors}
+          tooltip="The percent above the average that Metrist has to see multiple consecutive times to mark something as degraded."
+          is_read_only={@current_user.is_read_only}
+        />
+        <BackendWeb.MonitorDetailLiveConfigure.threshold_input
+          threshold_label="Consecutive slowdowns before degraded"
+          threshold_input_id="degraded_down_count"
+          id_suffix={@check_logical_name}
+          value={@check_config.degraded_down_count}
+          errors={@errors}
+          tooltip="The number of consecutive timings above the degraded threshold over the 7 day average we must see before we consider a check degraded"
+          is_read_only={@current_user.is_read_only}
+        />
+        <BackendWeb.MonitorDetailLiveConfigure.threshold_input
+          threshold_label="Consecutive successes before degraded recovery"
+          threshold_input_id="degraded_up_count"
+          id_suffix={@check_logical_name}
+          value={@check_config.degraded_up_count}
+          errors={@errors}
+          tooltip="The number of consecutive timings above the degraded threshold over the 7 day average we must see before we consider a check degraded"
+          is_read_only={@current_user.is_read_only}
+        />
+        <BackendWeb.MonitorDetailLiveConfigure.threshold_input
+          threshold_label="Consecutive errors before down"
+          threshold_input_id="error_down_count"
+          id_suffix={@check_logical_name}
+          value={@check_config.error_down_count}
+          errors={@errors}
+          tooltip="The number of consecutive errors we must see before we consider a check down"
+          is_read_only={@current_user.is_read_only}
+        />
+        <BackendWeb.MonitorDetailLiveConfigure.threshold_input
+          threshold_label="Consecutive successes before up"
+          threshold_input_id="error_up_count"
+          id_suffix={@check_logical_name}
+          value={@check_config.error_up_count}
+          errors={@errors}
+          tooltip="The number of consecutive succesful attempts we note that a check is up following a down status"
+          is_read_only={@current_user.is_read_only}
+        />
+        <BackendWeb.MonitorDetailLiveConfigure.threshold_input
+          threshold_label="Degraded Timeout (ms)"
+          threshold_input_id="degraded_timeout"
+          id_suffix={@check_logical_name}
+          value={@check_config.degraded_timeout}
+          errors={@errors}
+          tooltip="The amount of time in ms that must pass without completion before we consider a check degraded. This must be less than or equal to the Down Timeout (ms). The maximum value is 900000 ms or 15 minutes"
+          is_read_only={@current_user.is_read_only}
+        />
+        <BackendWeb.MonitorDetailLiveConfigure.threshold_input
+          threshold_label="Down Timeout (ms)"
+          threshold_input_id="error_timeout"
+          id_suffix={@check_logical_name}
+          value={@check_config.error_timeout}
+          errors={@errors}
+          tooltip="The amount of time in ms that must pass without completion before we consider a check to be in an error state. This must be greater than or equal to the Degraded Timeout (ms). The maximum value is 900000 ms or 15 minutes"
+          is_read_only={@current_user.is_read_only}
+        />
+      <% end %>
+      <div class="mt-3">
+      <%= if @show_values do %>
+        <a href="#" phx-click="hide-values" class="font-small flex items-center" phx-target={@myself}>
+          <%= svg_image("chevron-up", class: "rotate-180 mr-2 inline fill-current") %> Hide Values
+        </a>
+        <div class="flex-1 flex-col font-lato">
+          <%= for instance <- @instances do %>
+            <BackendWeb.Components.Monitor.MonitorInstance.render
+              check_logical_name={@check_logical_name}
+              monitor={@monitor}
+              current_user={@current_user}
+              snapshot={@snapshot}
+              shared_snapshot={@shared_snapshot}
+              telemetry={@telemetry}
+              instance={instance.instance_name}
+            />
+          <% end %>
+          <%= if Enum.empty?(@instances) do %>
+            <h5>No data available</h5>
+          <% end %>
+        </div>
+      <% else %>
+        <a href="#" phx-click="show-values" class="font-small flex items-center" phx-target={@myself}>
+          <%= svg_image("chevron-up", class: "rotate-90 inline fill-current mr-2") %> View Values
+        </a>
+      <% end %>
+      </div>
+    <% end %>
+  </div>
+  </form>
+</li>

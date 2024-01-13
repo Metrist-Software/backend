@@ -1,0 +1,67 @@
+<div>
+  <header class="mb-5 flex flex-col md:flex-row">
+    <div class="md:w-2/3">
+      <h2 class="text-3xl">
+        <%= @page_title %>
+      </h2>
+      <p>
+        <b><%= @num_deliveries %></b>
+        <span class="text-muted">delivery attempts in the past <%= @hours_lookback %> hours</span>
+      </p>
+    </div>
+
+    <%= if !@initially_selected_monitor do %>
+      <.live_component
+        module={BackendWeb.Components.ListGroupSelect}
+        id="monitor-select"
+        list_group_data={@monitor_filter_data}
+        include_search
+      />
+    <% end %>
+  </header>
+
+
+  <div id="results_area" class="overflow-x-auto">
+    <%= if (@subscription_deliveries == nil or Enum.empty?(@subscription_deliveries)) do %>
+      <h3 class="font-bold mt-10">No subscription deliveries found.</h3>
+    <% else %>
+      <div class="grid min-w-[500px] gap-x-5" style="grid-template-columns: repeat(4, max-content) 1fr">
+        <div class="font-bold">Time</div>
+        <div class="font-bold">Service</div>
+        <div class="font-bold">Type</div>
+        <div class="font-bold">Destination</div>
+        <div class="font-bold whitespace-nowrap">Status Code</div>
+
+        <div id="delivery_table" phx-update={@update_action} class="contents" >
+          <%= for sd <- @subscription_deliveries do %>
+            <div id={sd.id} class="contents">
+              <div class="text-muted flex items-center">
+                <%= format_with_tz(sd.inserted_at, @current_user.timezone) %>
+              </div>
+
+              <div class="py-1 flex items-center font-bold">
+                <img
+                  src={monitor_image_url(sd.monitor_logical_name)}
+                  class="w-5 h-5 inline mr-1"
+                />
+                <%= BackendWeb.Helpers.get_monitor_display_name(@monitors, sd.monitor_logical_name) %>
+              </div>
+
+              <div class="flex items-center">
+                <%= render_method(sd.delivery_method) %>
+              </div>
+
+              <div class="flex items-center">
+                <%= sd.display_name %>
+              </div>
+
+              <div class={"flex items-center #{get_red_if_required(sd.status_code)}"}>
+                <%= sd.status_code %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

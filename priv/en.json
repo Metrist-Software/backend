@@ -1,0 +1,376 @@
+{
+
+  "__comment_1": "THIS FILE IS OBSOLETE. PLEASE ONLY REMOVE FROM IT, DO NOT ADD TO IT.",
+
+
+  "brand": "Metrist",
+  "models": {
+    "monitor": "monitor",
+    "monitors": "monitors",
+    "check": "check",
+    "checks": "checks",
+    "report": "report",
+    "reports": "reports"
+  },
+  "actions": {
+    "signin": "Sign in",
+    "signinLong": "Sign in to Metrist",
+    "signout": "Sign out",
+    "signup": "Sign Up",
+    "signupLong": "Sign up with Metrist",
+    "home": "Home",
+    "edit": "Edit",
+    "configure": "Configure",
+    "back": "Back",
+    "previous": "Previous",
+    "next": "Next",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "complete": "Complete",
+    "save": "Save",
+    "saveChanges": "Save Changes",
+    "viewReport": "View report",
+    "guessTimezone": "Guess Time Zone",
+    "installSlack": "Install Slack App",
+    "invite": "Invite",
+    "sendInvitation": "Send Invitation",
+    "removeSelected": "Remove Selected",
+    "installTeams": "Install Teams App",
+    "resendEmail": "Resend Verification Email",
+    "alreadyVerified": "I am Already Verified",
+    "teamsInstructions": "Show Teams Installation Instructions",
+    "tryAgain": "Try Again",
+    "selectAll": "Select All",
+    "selectNone": "Select None",
+    "applyDefaultRegions": "Apply My Default Regions",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "getStarted": "Get Started"
+  },
+  "messages": {
+    "noResultsModel": "No {model} found, try modifying your search",
+    "noDirectories": "No sub-directories in this directory",
+    "noFiles": "No files in this directory",
+    "invalidSignupKey": "Sign up key is missing or invalid",
+    "redirecting": "Redirecting…",
+    "alreadyInvited": "This email address was already invited",
+    "noRegionsForCheck": "No applicable regions enabled for this check",
+    "requiredRegion": "A monitor requires at least one active region",
+    "requiredCheck": "A monitor requires at least one active check",
+    "xOfY": "{x} of {y}",
+    "accessDenied": "Access Denied",
+    "pleaseWait": "Please wait…",
+    "verificationResent": "An email has been sent to your email on file.",
+    "errorSignin": "The following error occurred while signing in"
+  },
+  "nav": {
+    "monitors": "Dependencies",
+    "metrics": "Metrics",
+    "accounts": "Accounts",
+    "applications": "Applications",
+    "distributions": "Distributions",
+    "docs": "Docs",
+    "invites": "Invites",
+    "profile": "Profile"
+  },
+  "forms": {
+    "monitorSearch": {
+      "term": "Search Term",
+      "termPlaceholder": "Filter monitors by name…",
+      "filteredMonitorCount": "{count} of",
+      "monitorCount": "{count} monitors"
+    },
+    "reportFilter": {
+      "instance": "Region",
+      "timespan": "Time Span",
+      "aggregate": "Aggregate"
+    },
+    "profile": {
+      "email": "Email",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "timezone": "Time Zone"
+    },
+    "check": {
+      "name": "Name"
+    },
+    "account": {
+      "name": "Account Name"
+    },
+    "inviteUser": {
+      "email": "Email Address"
+    }
+  },
+  "pages": {
+    "emailVerify": {
+      "title": "Please verify your email",
+      "checkInbox": "Please check your inbox to see if you have received a verification email."
+    },
+    "signup": {
+      "steps": [
+        "Register",
+        "Verify",
+        "Account",
+        "Services"
+      ],
+      "index": {
+        "title": "Validating sign up key"
+      },
+      "register": {
+        "title": "Sign up with Metrist",
+        "description": "Welcome to Metrist! By registering, you can",
+        "descriptionOptions": [
+          "Query service health in real-time, and receive notifications, through our Slack or Teams app",
+          "View historical trends and reports on the performance and reliability of your third-party services",
+          "Install the Metrist agent for personalized monitoring to compare your experience with that of others"
+        ]
+      },
+      "verify": {
+        "title": "Verify your account",
+        "checkInbox": "Please check your inbox to see if you have received a verification email."
+      },
+      "account": {
+        "title": "Account and Email Preferences"
+      },
+      "monitors": {
+        "title": "",
+        "description": "We'll use this information to tailor the Metrist Monitor experience to the services you care about most"
+      },
+      "regions": {
+        "title": "Choose your default regions",
+        "description": "Each monitor can perform checks from multiple regions.",
+        "descriptionChoose": "Select the regions you are most interested in receiving telemetry from and they will be enabled by default on all future monitors you add. Don't worry, you will be able to override these defaults on each monitor individually.",
+        "descriptionDisclaimer": "The number of regions you choose does not affect performance, only visibility."
+      },
+      "complete": {
+        "title": "Completing signup",
+        "description": "We're setting up your account now. This may take a moment before you'll be redirected to your dashboard once everything is ready."
+      }
+    },
+    "signin": {
+      "title": "Sign in to Metrist"
+    },
+    "signout": {
+      "title": "Sign out from Metrist"
+    },
+    "callback": {
+      "title": "Signing in"
+    },
+    "apps": {
+      "teams": {
+        "steps": [
+          "Connect",
+          "Complete"
+        ],
+        "title": "Connect Metrist for Teams",
+        "description": "Connecting Metrist on Teams is a two step process. You will first need to connect Metrist to Teams by signing in to Azure AD with the same account you use to sign into Teams.",
+        "alreadyInstalled": "Once Metrist is connected, follow these instructions to install the app in Teams.",
+        "connectedTenants": "Metrist is connected to the following tenants",
+        "callback": {
+          "title": "Confirming Connection",
+          "processing": "One moment while we finish connecting to your Teams tenant.",
+          "failure": "We were unable to connect your Teams account to Metrist."
+        },
+        "complete": {
+          "title": "Connection Complete",
+          "description": "Metrist was successfully connected to your Azure AD account.",
+          "getStarted": "You must follow these instructions to install Metrist to the Teams app."
+        },
+        "failed": {
+          "title": "Connection Failed"
+        }
+      },
+      "slack": {
+        "steps": [
+          "Connect",
+          "Confirm",
+          "Complete"
+        ],
+        "title": "Connect Metrist in Slack",
+        "description": "Please click below to connect Metrist to your Slack workspace. You may need a workspace administrator to approve the installation. Once approved and installed we'll see you back here.",
+        "readOnlyForbidden": "You do not have the permissions to connect Slack workspaces to this account.",
+        "connectedWorkspaces": "Metrist is connected to the following workspaces:",
+        "noConnectedWorkspaces": "Metrist is currently connected to no workspaces.",
+        "callback": {
+          "title": "Confirming Connection",
+          "processing": "One moment while we finish connecting to your Slack workspace.",
+          "failure": "We were unable to connect your Slack workspace to Metrist."
+        },
+        "complete": {
+          "title": "Connection Complete",
+          "description": "Metrist was successfully added to your Slack workspace.",
+          "getStarted": "To get started, open Slack and enter",
+          "slashCommand": "/metrist help"
+        },
+        "failed": {
+          "title": "Connection Failed"
+        }
+      }
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "ctas": [
+        {
+          "id": "install_to_chat_app",
+          "title": "Install Slack or MS Teams App",
+          "description": "Query services in real time and get notifications in your favorite chat app when services have issues.",
+          "linkName": "apps",
+          "imageUrl": "/images/icon-apps.svg"
+        },
+        {
+          "id": "install_private_monitoring",
+          "title": "Install Private Monitoring",
+          "description": "Compare Metrist's view of a service's health with your own private or in-process telemetry.",
+          "linkName": "docs",
+          "imageUrl": "/images/icon-services.svg"
+        },
+        {
+          "id": "view_historical_trends",
+          "title": "View Historical Trends of a Service",
+          "description": "Report on and analyze the historical performance of your services.",
+          "linkName": "monitors",
+          "imageUrl": "/images/icon-reports.svg"
+        },
+        {
+          "id": "configure_metrist",
+          "title": "Configure Metrist",
+          "description": "Configure alarm thresholds, sythentic monitoring regions, notifications, and webhooks.",
+          "linkName": "monitors",
+          "imageUrl": "/images/icon-config.svg"
+        }
+      ]
+    },
+    "monitors": {
+      "title": "Dependencies"
+    },
+    "monitor": {
+      "title": "{name} Monitor",
+      "regionsTitle": "Regions",
+      "checksTitle": "Checks",
+      "checked": "Checked",
+      "noMonitorAlert": "Monitor does not exist",
+      "noSnapshotAlert": "No data available for this monitor. If you've recently added it to your account, it may take a few minutes to generate"
+    },
+    "check": {
+      "title": "{name} Check",
+      "legendMeasured": "Measured",
+      "legendBaseline": "Metrist"
+    },
+    "report": {
+      "title": "Report",
+      "averageLatencyTitle": "Average Latency",
+      "successRateTitle": "Success Rate",
+      "timelineTitle": "Event Timeline",
+      "noBaseline": "No baseline yet",
+      "legendMeasured": "Measured",
+      "legendBaseline": "Metrist",
+      "leftLabel": "Metrist Observed",
+      "rightLabel": "{name} Status Page",
+      "noStatusPage": "Status page not yet supported"
+    },
+    "metrics": {
+      "title": "Metrics",
+      "applicationsTitle": "Applications",
+      "alertsTitle": "Alerts",
+      "eventsTitle": "Events",
+      "monitorsTitle": "Dependencies",
+      "databaseTitle": "Database",
+      "totalInstalls": "Total Installs",
+      "activeUsers": "Active Users",
+      "activeSubscriptions": "Active Subscriptions",
+      "commandCount": "Command Count",
+      "alerts": "Alerts",
+      "notifications": "Notifications",
+      "downEvents": "Down Events",
+      "totalEvents": "Total Events",
+      "timeseriesEntries": "Timeseries Entries",
+      "usedStorage": "Physical Storage Used"
+    },
+    "accounts": {
+      "title": "Accounts"
+    },
+    "applications": {
+      "title": "Applications"
+    },
+    "distributions": {
+      "title": "Distributions",
+      "directoriesTitle": "Directories",
+      "filesTitle": "Files"
+    },
+    "invites": {
+      "title": "Invite other people",
+      "description": "You can invite other people to join your account in Metrist. They will have access to the same monitoring and metrics on services that you do.",
+      "emailLabel": "Invite user by email address",
+      "emailAlreadyInvited": "This email address is already active or was already invited",
+      "internal": "Internal",
+      "pendingTitle": "Pending invitations",
+      "pendingDescription": "These are the invitations that have been sent from your account and have not yet been accepted.",
+      "invitedBy": "invited by",
+      "invalid": {
+        "title": "Invalid Invite",
+        "description": "Sorry that invite is no longer valid."
+      }
+    },
+    "invite": {
+      "title": "Accept Invite",
+      "description": "You've been invited to join Metrist! Get started by clicking the button below to sign up"
+    }
+  },
+  "instanceOptions": [
+    {
+      "value": "all",
+      "text": "All Regions"
+    },
+    {
+      "value": "item",
+      "text": "{name} Region"
+    }
+  ],
+  "timespanOptions": [
+    {
+      "value": "hour",
+      "text": "Last Hour"
+    },
+    {
+      "value": "day",
+      "text": "Last Day"
+    },
+    {
+      "value": "week",
+      "text": "Last 7 Days"
+    },
+    {
+      "value": "month",
+      "text": "Last 30 Days"
+    }
+  ],
+  "aggregateOptions": [
+    {
+      "value": "MIN",
+      "text": "Minimum"
+    },
+    {
+      "value": "MAX",
+      "text": "Maximum"
+    },
+    {
+      "value": "MEAN",
+      "text": "Average"
+    }
+  ],
+  "aggregateShortOptions": [
+    {
+      "value": "MIN",
+      "text": "Min"
+    },
+    {
+      "value": "MAX",
+      "text": "Max"
+    },
+    {
+      "value": "MEAN",
+      "text": "Avg"
+    }
+  ]
+}

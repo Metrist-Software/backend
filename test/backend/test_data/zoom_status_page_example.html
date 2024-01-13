@@ -1,0 +1,5336 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- force IE browsers in compatibility mode to use their most aggressive rendering engine -->
+
+    <meta charset="utf-8">
+    <title>Zoom Status</title>
+    <meta name="description" content="Welcome to Zoom&#39;s home for real-time and historical data on system performance.">
+
+    <!-- Mobile viewport optimization h5bp.com/ad -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!-- Time this page was rendered - http://purl.org/dc/terms/issued -->
+    <meta name="issued" content="1661277793">
+
+    <!-- Mobile IE allows us to activate ClearType technology for smoothing fonts for easy reading -->
+    <meta http-equiv="cleartype" content="on">
+
+    <!-- Le fonts -->
+<style>
+  @font-face {
+    font-family: 'proxima-nova';
+    src: url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaLight-f0b2f7c12b6b87c65c02d3c1738047ea67a7607fd767056d8a2964cc6a2393f7.eot?host=status.zoom.us');
+    src: url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaLight-f0b2f7c12b6b87c65c02d3c1738047ea67a7607fd767056d8a2964cc6a2393f7.eot?host=status.zoom.us#iefix') format('embedded-opentype'),
+         url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaLight-e642ffe82005c6208632538a557e7f5dccb835c0303b06f17f55ccf567907241.woff?host=status.zoom.us') format('woff'),
+         url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaLight-0f094da9b301d03292f97db5544142a16f9f2ddf50af91d44753d9310c194c5f.ttf?host=status.zoom.us') format('truetype');
+    font-weight:300;
+    font-style:normal;
+  }
+   
+  @font-face {
+    font-family: 'proxima-nova';
+    src: url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaRegular-366d17769d864aa72f27defaddf591e460a1de4984bb24dacea57a9fc1d14878.eot?host=status.zoom.us');
+    src: url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaRegular-366d17769d864aa72f27defaddf591e460a1de4984bb24dacea57a9fc1d14878.eot?host=status.zoom.us#iefix') format('embedded-opentype'),
+         url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaRegular-2ee4c449a9ed716f1d88207bd1094e21b69e2818b5cd36b28ad809dc1924ec54.woff?host=status.zoom.us') format('woff'),
+         url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaRegular-a40a469edbd27b65b845b8000d47445a17def8ba677f4eb836ad1808f7495173.ttf?host=status.zoom.us') format('truetype');
+    font-weight:400;
+    font-style:normal;
+  }
+   
+  @font-face {
+    font-family: 'proxima-nova';
+    src: url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaRegularIt-0bf83a850b45e4ccda15bd04691e3c47ae84fec3588363b53618bd275a98cbb7.eot?host=status.zoom.us');
+    src: url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaRegularIt-0bf83a850b45e4ccda15bd04691e3c47ae84fec3588363b53618bd275a98cbb7.eot?host=status.zoom.us#iefix') format('embedded-opentype'),
+         url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaRegularIt-0c394ec7a111aa7928ea470ec0a67c44ebdaa0f93d1c3341abb69656cc26cbdd.woff?host=status.zoom.us') format('woff'),
+         url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaRegularIt-9e43859f8015a4d47d9eaf7bafe8d1e26e3298795ce1f4cdb0be0479b8a4605e.ttf?host=status.zoom.us') format('truetype');
+    font-weight:400;
+    font-style:italic;
+  }
+   
+  @font-face {
+    font-family: 'proxima-nova';
+    src: url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaSemibold-09566917307251d22021a3f91fc646f3e45f8d095209bcd2cded8a1979f06e54.eot?host=status.zoom.us');
+    src: url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaSemibold-09566917307251d22021a3f91fc646f3e45f8d095209bcd2cded8a1979f06e54.eot?host=status.zoom.us#iefix') format('embedded-opentype'),
+         url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaSemibold-86724fb2152613d735ba47c3f47a9ad2424b898bea4bece213dacee40344f966.woff?host=status.zoom.us') format('woff'),
+         url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaSemibold-cf3e4eb7fbdf6fb83e526cc2a0141e55b01097e6e1abfd4cbdc3eda75d183f74.ttf?host=status.zoom.us') format('truetype');
+    font-weight:500;
+    font-style:normal;
+  }
+   
+  @font-face {
+    font-family: 'proxima-nova';
+    src: url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaBold-622ea489d20e12e691663f83217105e957e2d3d09703707d40155a29c06cc9d9.eot?host=status.zoom.us');
+    src: url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaBold-622ea489d20e12e691663f83217105e957e2d3d09703707d40155a29c06cc9d9.eot?host=status.zoom.us#iefix') format('embedded-opentype'),
+         url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaBold-c8dc577ff7f76d2fc199843e38c04bb2e9fd15889421358d966a9f846c2ed1cd.woff?host=status.zoom.us') format('woff'),
+         url('https://dka575ofm4ao0.cloudfront.net/assets/ProximaNovaBold-27177fe9242acbe089276ee587feef781446667ffe9b6fdc5b7fe21ad73e12f3.ttf?host=status.zoom.us') format('truetype');
+    font-weight:700;
+    font-style:normal;
+  }
+</style>
+
+
+      <link rel="shortcut icon" type="image/x-icon" href="//dka575ofm4ao0.cloudfront.net/pages-favicon_logos/original/10196/zoom.ico" />
+
+    <link rel="shortcut icon" href='//dka575ofm4ao0.cloudfront.net/pages-favicon_logos/original/10196/zoom.ico'>
+
+    <link rel="alternate" type="application/atom+xml" href="https://status.zoom.us/history.atom" title="Zoom Status History - Atom Feed">
+    <link rel="alternate" type="application/rss+xml" href="https://status.zoom.us/history.rss" title="Zoom Status History - RSS Feed">
+
+      <!-- Canonical Link to ensure that only the custom domain is indexed when present -->
+      <link rel="canonical" href="https://status.zoom.us">
+
+    <meta name="_globalsign-domain-verification" content="y_VzfckMy4iePo5oDJNivyYIjh8LffYa4jzUndm_bZ"/>
+
+      <meta name="robots" content="noindex,nofollow">
+
+    <link rel="alternate" type="application/atom+xml" title="ATOM" href="https://status.zoom.us/history.atom" />
+
+    <!-- Le styles -->
+    <link rel="stylesheet" media="screen" href="https://dka575ofm4ao0.cloudfront.net/packs/0.ca59c8676f2925d98671.css" />
+    <link rel="stylesheet" media="all" href="https://dka575ofm4ao0.cloudfront.net/assets/status/status_manifest-7af0be2d26115a4751c957907c2b47b02e72af635030e71cafa03379c9f93fd0.css" />
+
+    <script src="https://dka575ofm4ao0.cloudfront.net/assets/jquery-3.5.1.min-729e416557a365062a8a20f0562f18aa171da57298005d392312670c706c68de.js"></script>
+
+    <script>
+      window.pageColorData = {"blue":"#3498DB","border":"#E0E0E0","body_background":"#ffffff","font":"#333333","graph":"#3498db","green":"#2fcc66","light_font":"#AAAAAA","link":"#3498db","orange":"#e67e22","red":"#e74c3c","yellow":"#f1c40f","no_data":"#b3bac5"};
+    </script>
+    <style>
+  /* BODY BACKGROUND */ /* BODY BACKGROUND */ /* BODY BACKGROUND */ /* BODY BACKGROUND */ /* BODY BACKGROUND */
+  body,
+  .layout-content.status.status-api .section .example-container .example-opener .color-secondary,
+  .grouped-items-selector,
+  .layout-content.status.status-full-history .history-nav a.current,
+  div[id^="subscribe-modal"] .modal-footer,
+  div[id^="subscribe-modal"],
+  #uptime-tooltip .tooltip-box {
+    background-color:#ffffff;
+  }
+
+  #uptime-tooltip .pointer-container .pointer-smaller {
+    border-bottom-color:#ffffff;
+  }
+
+
+
+
+  /* PRIMARY FONT COLOR */ /* PRIMARY FONT COLOR */ /* PRIMARY FONT COLOR */ /* PRIMARY FONT COLOR */
+  body.status,
+  .color-primary,
+  .color-primary:hover,
+  .layout-content.status-index .status-day .update-title.impact-none a,
+  .layout-content.status-index .status-day .update-title.impact-none a:hover,
+  .layout-content.status-index .timeframes-container .timeframe.active,
+  .layout-content.status-full-history .month .incident-container .impact-none,
+  .layout-content.status.status-index .incidents-list .incident-title.impact-none a,
+  .incident-history .impact-none,
+  .layout-content.status .grouped-items-selector.inline .grouped-item.active,
+  .layout-content.status.status-full-history .history-nav a.current,
+  .layout-content.status.status-full-history .history-nav a:not(.current):hover,
+  div[id^="subscribe-modal"] .modal-header .close,
+  .grouped-item-label,
+  #uptime-tooltip .tooltip-box .tooltip-content .related-events .related-event a.related-event-link {
+    color:#333333;
+  }
+
+  .layout-content.status.status-index .components-statuses .component-container .name {
+    color:#333333;
+    color:rgba(51,51,51,.8);
+  }
+
+
+
+
+  /* SECONDARY FONT COLOR */ /* SECONDARY FONT COLOR */ /* SECONDARY FONT COLOR */ /* SECONDARY FONT COLOR */
+  small,
+  .layout-content.status .table-row .date,
+  .color-secondary,
+  .layout-content.status .grouped-items-selector.inline .grouped-item,
+  .layout-content.status.status-full-history .history-footer .pagination a.disabled,
+  .layout-content.status.status-full-history .history-nav a,
+  #uptime-tooltip .tooltip-box .tooltip-content .related-events #related-event-header {
+    color:#AAAAAA;
+  }
+
+
+
+
+  /* BORDER COLOR */  /* BORDER COLOR */  /* BORDER COLOR */  /* BORDER COLOR */  /* BORDER COLOR */  /* BORDER COLOR */
+  body.status .layout-content.status .border-color,
+  hr,
+  .tooltip-base,
+  .markdown-display table,
+  div[id^="subscribe-modal"],
+  #uptime-tooltip .tooltip-box {
+    border-color:#E0E0E0;
+  }
+
+  div[id^="subscribe-modal"] .modal-footer,
+  .markdown-display table td {
+    border-top-color:#E0E0E0;
+  }
+
+  .markdown-display table td + td, .markdown-display table th + th {
+    border-left-color:#E0E0E0;
+  }
+
+  div[id^="subscribe-modal"] .modal-header,
+  #uptime-tooltip .pointer-container .pointer-larger {
+    border-bottom-color:#E0E0E0;
+  }
+
+  #uptime-tooltip .tooltip-box .outage-field {
+    /*
+      Generate the background-color for the outage-field from the css_body_background_color and css_border_color.
+
+      For the default background (#ffffff) and default css_border_color (#e0e0e0), use the luminosity of the default background with a magic number to arrive at
+      the original outage-field background color (#f4f5f7). I used the formula Target Color = Color * alpha + Background * (1 - alpha) to find the magic number of ~0.08.
+
+      For darker css_body_background_color, luminosity values are lower so alpha trends toward becoming transparent (thus outage-field background becomes same as css_body_background_color).
+    */
+    background-color: rgba(224,224,224,0.31);
+
+    /*
+      outage-field border-color alpha is inverse to the luminosity of css_body_background_color.
+      That is to say, with a default white background this border is transparent, but on a black background, it's opaque css_border_color.
+    */
+    border-color: rgba(224,224,224,0.0);
+  }
+
+
+
+
+  /* CSS REDS */ /* CSS REDS */ /* CSS REDS */ /* CSS REDS */ /* CSS REDS */ /* CSS REDS */ /* CSS REDS */
+  .layout-content.status.status-index .status-day .update-title.impact-critical a,
+  .layout-content.status.status-index .status-day .update-title.impact-critical a:hover,
+  .layout-content.status.status-index .page-status.status-critical,
+  .layout-content.status.status-index .unresolved-incident.impact-critical .incident-title,
+  .flat-button.background-red {
+    background-color:#e74c3c;
+  }
+
+  .layout-content.status-index .components-statuses .component-container.status-red:after,
+  .layout-content.status-full-history .month .incident-container .impact-critical,
+  .layout-content.status-incident .incident-name.impact-critical,
+  .layout-content.status.status-index .incidents-list .incident-title.impact-critical a,
+  .status-red .icon-indicator,
+  .incident-history .impact-critical,
+  .components-container .component-inner-container.status-red .component-status,
+  .components-container .component-inner-container.status-red .icon-indicator {
+    color:#e74c3c;
+  }
+
+  .layout-content.status.status-index .unresolved-incident.impact-critical .updates {
+    border-color:#e74c3c;
+  }
+
+
+
+
+  /* CSS ORANGES */ /* CSS ORANGES */ /* CSS ORANGES */ /* CSS ORANGES */ /* CSS ORANGES */ /* CSS ORANGES */
+  .layout-content.status.status-index .status-day .update-title.impact-major a,
+  .layout-content.status.status-index .status-day .update-title.impact-major a:hover,
+  .layout-content.status.status-index .page-status.status-major,
+  .layout-content.status.status-index .unresolved-incident.impact-major .incident-title {
+    background-color:#e67e22;
+  }
+
+  .layout-content.status-index .components-statuses .component-container.status-orange:after,
+  .layout-content.status-full-history .month .incident-container .impact-major,
+  .layout-content.status-incident .incident-name.impact-major,
+  .layout-content.status.status-index .incidents-list .incident-title.impact-major a,
+  .status-orange .icon-indicator,
+  .incident-history .impact-major,
+  .components-container .component-inner-container.status-orange .component-status,
+  .components-container .component-inner-container.status-orange .icon-indicator {
+    color:#e67e22;
+  }
+
+  .layout-content.status.status-index .unresolved-incident.impact-major .updates {
+    border-color:#e67e22;
+  }
+
+
+
+
+  /* CSS YELLOWS */ /* CSS YELLOWS */ /* CSS YELLOWS */ /* CSS YELLOWS */ /* CSS YELLOWS */ /* CSS YELLOWS */
+  .layout-content.status.status-index .status-day .update-title.impact-minor a,
+  .layout-content.status.status-index .status-day .update-title.impact-minor a:hover,
+  .layout-content.status.status-index .page-status.status-minor,
+  .layout-content.status.status-index .unresolved-incident.impact-minor .incident-title,
+  .layout-content.status.status-index .scheduled-incidents-container .tab {
+    background-color:#f1c40f;
+  }
+
+  .layout-content.status-index .components-statuses .component-container.status-yellow:after,
+  .layout-content.status-full-history .month .incident-container .impact-minor,
+  .layout-content.status-incident .incident-name.impact-minor,
+  .layout-content.status.status-index .incidents-list .incident-title.impact-minor a,
+  .status-yellow .icon-indicator,
+  .incident-history .impact-minor,
+  .components-container .component-inner-container.status-yellow .component-status,
+  .components-container .component-inner-container.status-yellow .icon-indicator,
+  .layout-content.status.manage-subscriptions .confirmation-infobox .fa {
+    color:#f1c40f;
+  }
+
+  .layout-content.status.status-index .unresolved-incident.impact-minor .updates,
+  .layout-content.status.status-index .scheduled-incidents-container {
+    border-color:#f1c40f;
+  }
+
+
+
+
+  /* CSS BLUES */ /* CSS BLUES */ /* CSS BLUES */ /* CSS BLUES */ /* CSS BLUES */ /* CSS BLUES */
+  .layout-content.status.status-index .status-day .update-title.impact-maintenance a,
+  .layout-content.status.status-index .status-day .update-title.impact-maintenance a:hover,
+  .layout-content.status.status-index .page-status.status-maintenance,
+  .layout-content.status.status-index .unresolved-incident.impact-maintenance .incident-title,
+  .layout-content.status.status-index .scheduled-incidents-container .tab {
+    background-color:#3498DB;
+  }
+
+  .layout-content.status-index .components-statuses .component-container.status-blue:after,
+  .layout-content.status-full-history .month .incident-container .impact-maintenance,
+  .layout-content.status-incident .incident-name.impact-maintenance,
+  .layout-content.status.status-index .incidents-list .incident-title.impact-maintenance a,
+  .status-blue .icon-indicator,
+  .incident-history .impact-maintenance,
+  .components-container .component-inner-container.status-blue .component-status,
+  .components-container .component-inner-container.status-blue .icon-indicator {
+    color:#3498DB;
+  }
+
+  .layout-content.status.status-index .unresolved-incident.impact-maintenance .updates,
+  .layout-content.status.status-index .scheduled-incidents-container {
+    border-color:#3498DB;
+  }
+
+
+
+
+  /* CSS GREENS */ /* CSS GREENS */ /* CSS GREENS */ /* CSS GREENS */ /* CSS GREENS */ /* CSS GREENS */ /* CSS GREENS */
+  .layout-content.status.status-index .page-status.status-none {
+    background-color:#2fcc66;
+  }
+  .layout-content.status-index .components-statuses .component-container.status-green:after,
+  .status-green .icon-indicator,
+  .components-container .component-inner-container.status-green .component-status,
+  .components-container .component-inner-container.status-green .icon-indicator {
+    color:#2fcc66;
+  }
+
+
+
+
+  /* CSS LINK COLOR */  /* CSS LINK COLOR */  /* CSS LINK COLOR */  /* CSS LINK COLOR */  /* CSS LINK COLOR */  /* CSS LINK COLOR */
+  a,
+  a:hover,
+  .layout-content.status-index .page-footer span a:hover,
+  .layout-content.status-index .timeframes-container .timeframe:not(.active):hover,
+  .layout-content.status-incident .subheader a:hover {
+    color:#3498db;
+  }
+
+  .flat-button,
+  .masthead .updates-dropdown-container .show-updates-dropdown,
+  .layout-content.status-full-history .show-filter.open  {
+    background-color:#3498db;
+  }
+
+
+
+
+  /* CUSTOM COLOR OVERRIDES FOR UPTIME SHOWCASE */
+  .components-section .components-uptime-link {
+    color: #aaaaaa;
+  }
+
+  .layout-content.status .shared-partial.uptime-90-days-wrapper .legend .legend-item {
+    color: #aaaaaa;
+    opacity: 0.8;
+  }
+  .layout-content.status .shared-partial.uptime-90-days-wrapper .legend .legend-item.light {
+    color: #aaaaaa;
+    opacity: 0.5;
+  }
+  .layout-content.status .shared-partial.uptime-90-days-wrapper .legend .spacer {
+    background: #aaaaaa;
+    opacity: 0.3;
+  }
+</style>
+
+
+    <!-- custom css -->
+        <link rel="stylesheet" type="text/css" href="//dka575ofm4ao0.cloudfront.net/page_display_customizations-custom_css_externals/10146/external20201006-67-10xuovl.css">
+
+      <!-- polyfills -->
+      <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+    <!-- Le HTML5 shim -->
+    <!--[if lt IE 9]>
+      <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- injection for static -->
+
+
+    
+  </head>
+
+
+  <body class="status index status-none">
+
+    
+
+
+  <div class="layout-content status status-index premium">
+      <div class="custom-header-container">
+    <div class="masthead-container premium">
+    <div class="masthead">
+      <div class="images-container" id="cover-image-container" data-js-hook="images-container" style="height: 315px;"></div>
+      <style>
+          #cover-image-container {
+            background-image:url("//dka575ofm4ao0.cloudfront.net/pages-hero_covers/normal/10196/jY5YabAATJ6Ey05O5LGy");
+          }
+
+          @media only screen and (-webkit-min-device-pixel-ratio: 2),
+                 only screen and (min-resolution: 192dpi) {
+            #cover-image-container {
+              background-image:url("//dka575ofm4ao0.cloudfront.net/pages-hero_covers/retina/10196/jY5YabAATJ6Ey05O5LGy") !important;
+            }
+          }
+      </style>
+
+      <div class="text-container">
+        <span class="page-name font-largest">
+            <a target="_blank" href="http://zoom.us">Zoom Service Status</a>
+        </span>
+        <span>
+        <div id="replace-with-subscribe"></div>
+        </span>
+        </div>
+        </div>
+</div>
+<!--<div class="alert"><strong>Important</strong>: Starting September 27, Zoom will require that all meetings have a Passcode or a Waiting Room enabled for accounts with a single licensed user, Pro accounts with 2 or more licenses, and Business accounts with 10-100 licenses. For further information, please reference our <a href="https://support.zoom.us/hc/en-us/articles/360045009111">Frequently Asked Questions</a>.</div>-->
+      
+
+
+  <div class="updates-dropdown-container" data-js-hook="updates-dropdown-container">
+    <a href="#" data-js-hook="show-updates-dropdown" id="show-updates-dropdown" class="show-updates-dropdown" aria-label="Subscribe to updates" aria-expanded="false" aria-haspopup="dialog" role="button">
+
+    </a>
+
+<!--    Accessibility guidelines for tabs: https://www.w3.org/TR/wai-aria-practices-1.1/examples/tabs/tabs-1/tabs.html -->
+    <div class="updates-dropdown" data-js-hook="updates-dropdown" style="display:none">
+      <div class="updates-dropdown-nav nav-items-7" role="tablist" aria-label="Subscribe to updates">
+          <a href="#updates-dropdown-email" aria-controls="updates-dropdown-email" aria-label="Subscribe via email" role="tab" aria-selected="true" id="updates-dropdown-email-btn">
+            <span class="icon-container email">
+          </a>
+          <a href="#updates-dropdown-sms" aria-controls="updates-dropdown-sms" aria-label="Subscribe via SMS" role="tab" id="updates-dropdown-sms-btn">
+            <span class="icon-container sms">
+          </a>
+          <a href="#updates-dropdown-slack" aria-controls="updates-dropdown-slack" aria-label="Subscribe via slack" role="tab" id="updates-dropdown-slack-btn">
+            <span class="icon-container slack">
+          </a>
+          <a href="#updates-dropdown-webhook" aria-controls="updates-dropdown-webhook" aria-label="Subscribe via webhook" role="tab" id="updates-dropdown-webhook-btn">
+            <span class="icon-container webhook">
+          </a>
+          <a href="#updates-dropdown-support" aria-controls="updates-dropdown-support" aria-label="Contact support" role="tab" id="updates-dropdown-support-btn">
+            <span class="icon-container support">
+          </a>
+          <a href="#updates-dropdown-atom" aria-controls="updates-dropdown-atom" aria-label="Subscribe via RSS" role="tab" id="updates-dropdown-atom-btn">
+            <span class="icon-container rss">
+          </a>
+        <button data-js-hook="updates-dropdown-close" aria-controls="updates-dropdown-close" aria-label="Close subscribe form" id="updates-dropdown-close-btn">
+          x
+        </button>
+      </div>
+      <div class="updates-dropdown-sections-container">
+          <div class="updates-dropdown-section email" id="updates-dropdown-email" style="display:none" role="tabpanel" aria-labelledby="updates-dropdown-email-btn">
+            <div class="directions">
+              Get email notifications whenever Zoom <strong>creates</strong>,  <strong>updates</strong> or <strong>resolves</strong> an incident.
+            </div>
+            <form id="subscribe-form-email" action="/subscriptions/new-email" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+                <!-- make sure not to put cookie values in here since this gets cached -->
+                <label for="email">Email address:</label>
+                <input name="email" id="email" type="text" class="full-width" data-js-hook="email-notification-field" autocomplete="email">
+                  <input type="hidden" name="captcha_error" id="captcha_error" value="false" />
+                  <input type="submit" value="Subscribe via Email" class="flat-button full-width g-recaptcha" id="subscribe-btn-email" data-disabled-text="Subscribing..." data-sitekey=6LdTS8AUAAAAAOIbCKoCAP4LQku1olYGrywPTaZz data-callback="submitNewEmailSubscriber" data-error-callback="emailSubscriberCaptchaError" >
+                  <div class="terms_and_privacy_information bottom small"><div class="privacy_policy_information small">By subscribing you agree to our <a target="_blank" rel="noopener" href="https://www.zoom.us/privacy">Privacy Policy</a>.</div> This site is protected by reCAPTCHA and the Google <a target="_blank" rel="noopener" href="https://policies.google.com/privacy">Privacy Policy</a> and <a target="_blank" rel="noopener" data-js-hook="captcha-terms-of-service-link" href="https://policies.google.com/terms">Terms of Service</a> apply.</div>
+</form>          </div>
+
+          <div class="updates-dropdown-section phone" id="updates-dropdown-sms" style="display:none" role="tabpanel" aria-labelledby="updates-dropdown-sms-btn">
+            <div class="directions">
+                Get text message notifications whenever Zoom <strong>creates</strong> or <strong>resolves</strong> an incident.
+            </div>
+            <form id="subscribe-form-sms" action="/subscriptions/new-sms" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+              <div class="control-group">
+                <div class="controls externalities-sms-container">
+                  <!-- make sure not to put cookie values in here since this gets cached -->
+                  <label for="phone-country">Country code:</label>
+                  <div id="phone-number-country-code" class="phone-country-wrapper">
+                    <select name="phone_country" id="phone-country" data-js-hook="phone-country" class="phone-country"><option value="af">Afghanistan (+93)</option>
+<option value="al">Albania (+355)</option>
+<option value="dz">Algeria (+213)</option>
+<option value="as">American Samoa (+1)</option>
+<option value="ad">Andorra (+376)</option>
+<option value="ao">Angola (+244)</option>
+<option value="ai">Anguilla (+1)</option>
+<option value="ag">Antigua and Barbuda (+1)</option>
+<option value="ar">Argentina (+54)</option>
+<option value="am">Armenia (+374)</option>
+<option value="aw">Aruba (+297)</option>
+<option value="au">Australia/Cocos/Christmas Island (+61)</option>
+<option value="at">Austria (+43)</option>
+<option value="az">Azerbaijan (+994)</option>
+<option value="bs">Bahamas (+1)</option>
+<option value="bh">Bahrain (+973)</option>
+<option value="bd">Bangladesh (+880)</option>
+<option value="bb">Barbados (+1)</option>
+<option value="by">Belarus (+375)</option>
+<option value="be">Belgium (+32)</option>
+<option value="bz">Belize (+501)</option>
+<option value="bj">Benin (+229)</option>
+<option value="bm">Bermuda (+1)</option>
+<option value="bo">Bolivia (+591)</option>
+<option value="ba">Bosnia and Herzegovina (+387)</option>
+<option value="bw">Botswana (+267)</option>
+<option value="br">Brazil (+55)</option>
+<option value="bn">Brunei (+673)</option>
+<option value="bg">Bulgaria (+359)</option>
+<option value="bf">Burkina Faso (+226)</option>
+<option value="bi">Burundi (+257)</option>
+<option value="kh">Cambodia (+855)</option>
+<option value="cm">Cameroon (+237)</option>
+<option value="ca">Canada (+1)</option>
+<option value="cv">Cape Verde (+238)</option>
+<option value="ky">Cayman Islands (+1)</option>
+<option value="cf">Central Africa (+236)</option>
+<option value="td">Chad (+235)</option>
+<option value="cl">Chile (+56)</option>
+<option value="cn">China (+86)</option>
+<option value="co">Colombia (+57)</option>
+<option value="km">Comoros (+269)</option>
+<option value="cg">Congo (+242)</option>
+<option value="cd">Congo, Dem Rep (+243)</option>
+<option value="cr">Costa Rica (+506)</option>
+<option value="hr">Croatia (+385)</option>
+<option value="cy">Cyprus (+357)</option>
+<option value="cz">Czech Republic (+420)</option>
+<option value="dk">Denmark (+45)</option>
+<option value="dj">Djibouti (+253)</option>
+<option value="dm">Dominica (+1)</option>
+<option value="do">Dominican Republic (+1)</option>
+<option value="eg">Egypt (+20)</option>
+<option value="sv">El Salvador (+503)</option>
+<option value="gq">Equatorial Guinea (+240)</option>
+<option value="ee">Estonia (+372)</option>
+<option value="et">Ethiopia (+251)</option>
+<option value="fo">Faroe Islands (+298)</option>
+<option value="fj">Fiji (+679)</option>
+<option value="fi">Finland/Aland Islands (+358)</option>
+<option value="fr">France (+33)</option>
+<option value="gf">French Guiana (+594)</option>
+<option value="pf">French Polynesia (+689)</option>
+<option value="ga">Gabon (+241)</option>
+<option value="gm">Gambia (+220)</option>
+<option value="ge">Georgia (+995)</option>
+<option value="de">Germany (+49)</option>
+<option value="gh">Ghana (+233)</option>
+<option value="gi">Gibraltar (+350)</option>
+<option value="gr">Greece (+30)</option>
+<option value="gl">Greenland (+299)</option>
+<option value="gd">Grenada (+1)</option>
+<option value="gp">Guadeloupe (+590)</option>
+<option value="gu">Guam (+1)</option>
+<option value="gt">Guatemala (+502)</option>
+<option value="gn">Guinea (+224)</option>
+<option value="gy">Guyana (+592)</option>
+<option value="ht">Haiti (+509)</option>
+<option value="hn">Honduras (+504)</option>
+<option value="hk">Hong Kong (+852)</option>
+<option value="hu">Hungary (+36)</option>
+<option value="is">Iceland (+354)</option>
+<option value="in">India (+91)</option>
+<option value="id">Indonesia (+62)</option>
+<option value="iq">Iraq (+964)</option>
+<option value="ie">Ireland (+353)</option>
+<option value="il">Israel (+972)</option>
+<option value="it">Italy (+39)</option>
+<option value="jm">Jamaica (+1)</option>
+<option value="jp">Japan (+81)</option>
+<option value="jo">Jordan (+962)</option>
+<option value="ke">Kenya (+254)</option>
+<option value="kr">Korea, Republic of (+82)</option>
+<option value="xk">Kosovo (+383)</option>
+<option value="kw">Kuwait (+965)</option>
+<option value="kg">Kyrgyzstan (+996)</option>
+<option value="la">Laos (+856)</option>
+<option value="lv">Latvia (+371)</option>
+<option value="lb">Lebanon (+961)</option>
+<option value="ls">Lesotho (+266)</option>
+<option value="lr">Liberia (+231)</option>
+<option value="ly">Libya (+218)</option>
+<option value="li">Liechtenstein (+423)</option>
+<option value="lt">Lithuania (+370)</option>
+<option value="lu">Luxembourg (+352)</option>
+<option value="mo">Macao (+853)</option>
+<option value="mk">Macedonia (+389)</option>
+<option value="mg">Madagascar (+261)</option>
+<option value="mw">Malawi (+265)</option>
+<option value="my">Malaysia (+60)</option>
+<option value="mv">Maldives (+960)</option>
+<option value="ml">Mali (+223)</option>
+<option value="mt">Malta (+356)</option>
+<option value="mq">Martinique (+596)</option>
+<option value="mr">Mauritania (+222)</option>
+<option value="mu">Mauritius (+230)</option>
+<option value="mx">Mexico (+52)</option>
+<option value="mc">Monaco (+377)</option>
+<option value="mn">Mongolia (+976)</option>
+<option value="me">Montenegro (+382)</option>
+<option value="ms">Montserrat (+1)</option>
+<option value="ma">Morocco/Western Sahara (+212)</option>
+<option value="mz">Mozambique (+258)</option>
+<option value="na">Namibia (+264)</option>
+<option value="np">Nepal (+977)</option>
+<option value="nl">Netherlands (+31)</option>
+<option value="nz">New Zealand (+64)</option>
+<option value="ni">Nicaragua (+505)</option>
+<option value="ne">Niger (+227)</option>
+<option value="ng">Nigeria (+234)</option>
+<option value="no">Norway (+47)</option>
+<option value="om">Oman (+968)</option>
+<option value="pk">Pakistan (+92)</option>
+<option value="ps">Palestinian Territory (+970)</option>
+<option value="pa">Panama (+507)</option>
+<option value="py">Paraguay (+595)</option>
+<option value="pe">Peru (+51)</option>
+<option value="ph">Philippines (+63)</option>
+<option value="pl">Poland (+48)</option>
+<option value="pt">Portugal (+351)</option>
+<option value="pr">Puerto Rico (+1)</option>
+<option value="qa">Qatar (+974)</option>
+<option value="re">Reunion/Mayotte (+262)</option>
+<option value="ro">Romania (+40)</option>
+<option value="ru">Russia/Kazakhstan (+7)</option>
+<option value="rw">Rwanda (+250)</option>
+<option value="ws">Samoa (+685)</option>
+<option value="sm">San Marino (+378)</option>
+<option value="sa">Saudi Arabia (+966)</option>
+<option value="sn">Senegal (+221)</option>
+<option value="rs">Serbia (+381)</option>
+<option value="sc">Seychelles (+248)</option>
+<option value="sl">Sierra Leone (+232)</option>
+<option value="sg">Singapore (+65)</option>
+<option value="sk">Slovakia (+421)</option>
+<option value="si">Slovenia (+386)</option>
+<option value="za">South Africa (+27)</option>
+<option value="es">Spain (+34)</option>
+<option value="lk">Sri Lanka (+94)</option>
+<option value="kn">St Kitts and Nevis (+1)</option>
+<option value="lc">St Lucia (+1)</option>
+<option value="vc">St Vincent Grenadines (+1)</option>
+<option value="sd">Sudan (+249)</option>
+<option value="sr">Suriname (+597)</option>
+<option value="sz">Swaziland (+268)</option>
+<option value="se">Sweden (+46)</option>
+<option value="ch">Switzerland (+41)</option>
+<option value="tw">Taiwan (+886)</option>
+<option value="tj">Tajikistan (+992)</option>
+<option value="tz">Tanzania (+255)</option>
+<option value="th">Thailand (+66)</option>
+<option value="tg">Togo (+228)</option>
+<option value="to">Tonga (+676)</option>
+<option value="tt">Trinidad and Tobago (+1)</option>
+<option value="tn">Tunisia (+216)</option>
+<option value="tr">Turkey (+90)</option>
+<option value="tc">Turks and Caicos Islands (+1)</option>
+<option value="ug">Uganda (+256)</option>
+<option value="ua">Ukraine (+380)</option>
+<option value="ae">United Arab Emirates (+971)</option>
+<option value="gb">United Kingdom (+44)</option>
+<option selected="selected" value="us">United States (+1)</option>
+<option value="uy">Uruguay (+598)</option>
+<option value="uz">Uzbekistan (+998)</option>
+<option value="ve">Venezuela (+58)</option>
+<option value="vn">Vietnam (+84)</option>
+<option value="vg">Virgin Islands, British (+1)</option>
+<option value="vi">Virgin Islands, U.S. (+1)</option>
+<option value="ye">Yemen (+967)</option>
+<option value="zm">Zambia (+260)</option>
+<option value="zw">Zimbabwe (+263)</option></select>
+                  </div>
+                  <label for="phone-number">Phone number:</label>
+                  <input name="phone_number" id="phone-number" type="text" class="prepend full-width" data-js-hook="sms-notification-field">
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+
+                <input type="hidden" name="captcha_error" id="captcha_error" value="false" />
+                <input type="submit" value="Subscribe via Text Message" class="flat-button full-width g-recaptcha" id="subscribe-btn-sms" data-disabled-text="Subscribing..." data-sitekey=6LcH-b0UAAAAACVQtMb14LBhflMA9y0Nmu7l_W6d data-callback="submitNewSmsSubscriber" data-error-callback="smsSubscriberCaptchaError">
+              <div class="terms_and_privacy_information bottom small">Message and data rates may apply. By subscribing you agree to our <a target="_blank" rel="noopener" href="https://www.zoom.us/privacy">Privacy Policy</a> and the Atlassian <a target="_blank" rel="noopener" href="https://www.atlassian.com/legal/cloud-terms-of-service">Cloud Terms of Service</a>. This site is protected by reCAPTCHA and the Google <a target="_blank" rel="noopener" href="https://policies.google.com/privacy">Privacy Policy</a> and <a target="_blank" rel="noopener" data-js-hook="captcha-terms-of-service-link" href="https://policies.google.com/terms">Terms of Service</a> apply.</div>
+</form>          </div>
+
+          <div class="updates-dropdown-section slack" id="updates-dropdown-slack" style="display:none" role="tabpanel" aria-labelledby="updates-dropdown-slack-btn">
+            <div class="directions">
+              Get incident updates and maintenance status messages in Slack.
+            </div>
+            <a value="Subscribe via Slack" class="flat-button full-width" id="subscribe-btn-slack" data-disabled-text="Subscribing..." data-revert-on-success="true" style="margin-top:.75rem" href="https://subscriptions.statuspage.io/slack_authentication/kickoff?page_code=14qjgk812kgk">Subscribe via Slack</a>
+            <div class="terms_and_privacy_information bottom small">By subscribing you acknowledge our <a target="_blank" rel="noopener" href="https://www.zoom.us/privacy">Privacy Policy</a>. In addition, you agree to the Atlassian <a target="_blank" rel="noopener" href="https://www.atlassian.com/legal/cloud-terms-of-service">Cloud Terms of Service</a> and acknowledge Atlassian's <a target="_blank" rel="noopener" href="https://www.atlassian.com/legal/privacy-policy">Privacy Policy</a>.</div>
+          </div>
+
+          <div class="updates-dropdown-section webhook" id="updates-dropdown-webhook" style="display:none" role="tabpanel" aria-labelledby="updates-dropdown-webhook-btn">
+            <div class="directions">
+              Get webhook notifications whenever Zoom <strong>creates</strong> an incident, <strong>updates</strong> an incident, <strong>resolves</strong> an incident or <strong>changes</strong> a component status.
+            </div>
+            <form id="subscribe-form-webhook" action="/subscriptions/webhook.json" accept-charset="UTF-8" data-remote="true" method="post"><input name="utf8" type="hidden" value="&#x2713;" />
+              <div class="control-group">
+                <div class="controls">
+                  <label for="endpoint-webhooks">Webhook URL:</label>
+                  <input type="text" name="endpoint" id="endpoint-webhooks" data-js-hook="endpoint" class="full-width" aria-describedby="url-help-block" />
+                  <p class="help-block" id="url-help-block">The URL we should send the webhooks to</p>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <div class="controls">
+                  <label for="email-webhooks">Email address:</label>
+                  <input type="text" name="email" id="email-webhooks" data-js-hook="email" class="full-width" aria-describedby="email-help-block" />
+                  <p class="help-block" id="email-help-block">We'll send you email if your endpoint fails</p>
+                </div>
+              </div>
+
+                <input type="hidden" name="captcha_error" id="captcha_error" value="false" />
+                <input type="submit" value=Subscribe To Notifications class="flat-button full-width g-recaptcha" id="subscribe-btn-webhook" data-disabled-text="Subscribing..." data-sitekey=6LcQ-b0UAAAAAJjfdwO_-ozGC-CzWDj4Pm1kJ2Ah data-callback="submitNewWebhookSubscriber" data-error-callback="webhookSubscriberCaptchaError">
+                <div class="terms_and_privacy_information bottom small"><div class="privacy_policy_information small">By subscribing you agree to our <a target="_blank" rel="noopener" href="https://www.zoom.us/privacy">Privacy Policy</a>.</div> This site is protected by reCAPTCHA and the Google <a target="_blank" rel="noopener" href="https://policies.google.com/privacy">Privacy Policy</a> and <a target="_blank" rel="noopener" data-js-hook="captcha-terms-of-service-link" href="https://policies.google.com/terms">Terms of Service</a> apply.</div>
+
+</form>          </div>
+
+
+          <div class="updates-dropdown-section support" id="updates-dropdown-support" style="display:none" role="tabpanel" aria-labelledby="updates-dropdown-support-btn">
+            Visit our <a target="_blank" href="http://support.zoom.us">support site</a>.
+          </div>
+
+          <div class="updates-dropdown-section atom" id="updates-dropdown-atom" role="tabpanel" aria-labelledby="updates-dropdown-atom-btn">
+            Get the <a href="https://status.zoom.us/history.atom" target="_blank">Atom Feed</a> or <a href="https://status.zoom.us/history.rss" target="_blank">RSS Feed</a>.
+          </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+    <div class="container">
+        <div class="page-status status-none">
+          <span class="status font-large">
+            All Systems Operational
+          </span>
+          <span class="last-updated-stamp  font-small"></span>
+        </div>
+
+
+        <div class="text-section">
+          <h4 class="font-largest">
+            <a id="about-this-site" href="#about-this-site" class="no-link">About This Site</a>
+          </h4>
+          <p class="color-secondary font-regular">
+            For more information, please visit <a target="_blank" href="https://support.zoom.us">https://support.zoom.us</a>
+          </p>
+        </div>
+
+        <div class="components-section font-regular">
+    <div class="components-container one-column">
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="1ndlrnp6r9js"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Zoom Website" tabindex="0"></span>
+       <span>
+         Zoom Website
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="cn1j8pttz0wy"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Dashboard & Reporting
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="9skbqhkvk721"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Download Center
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="8gftm750nwzm"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Web Portal
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="503cqbhcpvzx"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Web Client
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="6r3mvdqx37b6"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Rooms
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="b49qkwc1nk36"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Conference Room Connector" tabindex="0"></span>
+       <span>
+         Conference Room Connector
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="wgnljdgkx9dw"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Connector for Cisco
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="12cw0typ4wln"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Connector for Polycom
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="dhtlfcvrh3qh"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Zoom Developer Platform" tabindex="0"></span>
+       <span>
+         Zoom Developer Platform
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="jds2k69nx1t9"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Web SDK
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="nyfqtg3bpllm"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      REST API
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="rmphw6f34qk9"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Marketplace
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="g9n3mgf1jxf1"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Webhooks
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color">
+            
+<div data-component-id="3mgjlwf5953y"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Events
+   </span>
+
+    <span class="tooltip-base tool" title="Access to Events at zoomevents.com">?</span>
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+          </div>
+          <div class="component-container border-color">
+            
+<div data-component-id="y9q5bf5pd4tm"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Subscription
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+          </div>
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="6np407v7v25g"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Zoom Meetings" tabindex="0"></span>
+       <span>
+         Zoom Meetings
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="3z7b6jks10hm"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Meetings
+   </span>
+
+    <span class="tooltip-base tool" title="Access to meetings">?</span>
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="rryv3x03gshj"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      In-Meeting Chat/Polling
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="1v74zmrq81fr"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Archiving
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="8vtcg8np4n8c"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Live Transcription
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="ytpvvb8n0s31"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Closed Captioning
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="4h0vkyt0jjnz"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Web Client
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="rhmrtnvc7xrt"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Live Streaming
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="ntdt65v1f9rv"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Meeting Dial-in/Telephony
+   </span>
+
+    <span class="tooltip-base tool" title="Access to Telephony Services">?</span>
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="3ml2fn8g0psv"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Conference Room Connector
+   </span>
+
+    <span class="tooltip-base tool" title="Access for H.323/SIP endpoints">?</span>
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="gkx8x46kw77h"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Recording
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="63g8yydcf9ql"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Zoom Video Webinars" tabindex="0"></span>
+       <span>
+         Zoom Video Webinars
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="q4msk5dl4bhm"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Video Webinars
+   </span>
+
+    <span class="tooltip-base tool" title="Access to video webinars">?</span>
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="z0dwsry023tl"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Polling
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="gwtd6dbkck60"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle NORTH AMERICAS - Zoom Phone" tabindex="0"></span>
+       <span>
+         NORTH AMERICAS - Zoom Phone
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="jh6w5p8b9yv9"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Phone
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="yh2t02zm6fhq"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Calling (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="5vvw5njz8qg5"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      SMS/MMS (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="0s4rj3lf1rpx"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Devices (Softphones/Deskphones)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="1hghqg91w5zf"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      BYOC - Premises
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="0h08kcybkm9y"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Provider Exchange
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="y5ryrz3d2f5n"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Emergency Calling
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="7t0r1gywtg50"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Recording Service
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="8sq44v6xhj9v"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle EMEA - Zoom Phone" tabindex="0"></span>
+       <span>
+         EMEA - Zoom Phone
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="773zkp1jzkgl"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Phone
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="hx06zxqdrsxl"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Calling (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="h0gvwgdwf9g7"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Devices (Softphones/Deskphones)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="bwk9z9qhr5h9"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      BYOC - Premises
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="zfqx1zdr3rb0"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Provider Exchange
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="f35h17kcvjh1"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Emergency Calling
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="b13080xppfjh"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Recording Service
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="k4ymzkwr5c5f"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle APAC - Zoom Phone" tabindex="0"></span>
+       <span>
+         APAC - Zoom Phone
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="glcgf4v63241"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Phone
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="jsk0584rpghr"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Calling (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="5pp3n3wss7fx"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Devices (Softphones/Deskphones)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="d08zc7kt37zh"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      BYOC - Premises
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="hgkgc90rt4h5"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Provider Exchange
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="35bgp17vl3qg"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Emergency Calling
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="w51dfcm60r2y"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Recording Service
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="vsddw4d4jssy"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle LATIN AMERICA - Zoom Phone" tabindex="0"></span>
+       <span>
+         LATIN AMERICA - Zoom Phone
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="l4vp694cdst7"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Phone
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="y8ktp5pnbwt3"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Calling (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="thw9tcm7zcgp"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Devices (Softphones/Deskphones)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="mq49mrxj948m"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      BYOC - Premises
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="tc0mg9s781lm"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Provider Exchange
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="4gj4kcqvjg6w"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Emergency Calling
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="jymc5csz9t56"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Recording Service
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="r6hzm1tntmq3"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle JAPAN - Zoom Phone" tabindex="0"></span>
+       <span>
+         JAPAN - Zoom Phone
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="yrt9l9s4twjl"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Phone
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="cwwgf6dmdjhx"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Calling (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="740fcv3m204s"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Devices (Softphones/Deskphones)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="4ck3xs1x90hg"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      BYOC - Premises
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="wnj6zbp7n7ks"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Provider Exchange
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="wbs6brg2h053"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Emergency Calling
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="7bvs3ygf6qll"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Recording Service
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="dzyc0515xm7f"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle HONG KONG/CHINA - Zoom Phone" tabindex="0"></span>
+       <span>
+         HONG KONG/CHINA - Zoom Phone
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="rv3g5jwy5cdn"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Phone
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="ck8c8cm0yhrd"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Calling (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="xj90t3306jjy"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Devices (Softphones/Deskphones)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="3njstnd3qb41"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      BYOC - Premises
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="jt41cynkppyn"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Provider Exchange
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="s6r5xf9z7pnl"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Emergency Calling
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="37vcx4bnsnhd"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Recording Service
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="k615kpnl7cb8"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle AUSTRALIA - Zoom Phone" tabindex="0"></span>
+       <span>
+         AUSTRALIA - Zoom Phone
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="cwqgbrdl34rr"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Phone
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="xf8s6w88yqg6"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Calling (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="9wzhw9wmjkt3"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Devices (Softphones/Deskphones)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="ntzqw8qm1006"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      BYOC - Premises
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="c4q3qqhkvvts"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Provider Exchange
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="5z7tcbqcp3fw"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Emergency Calling
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="4rnsypt12kh2"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Recording Service
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="fs7vxs27n4pn"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Global - Zoom Phone" tabindex="0"></span>
+       <span>
+         Global - Zoom Phone
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="c0vx53f3d6v5"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Web Portal (Admin/Users/Provisioning/Dashboard & Reporting)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="jpbprc44q8dm"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Third Party Contact Center Integration (Five9/Twilio/Talkdesk/inContact/Genesys)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="c5zk1r6jjm22"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Integration (API/Webhook)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="x63vf0zt5bxw"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Cisco Rooms registered to Zoom Phone
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="zw4xrrx3nhyl"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Polycom Rooms registered to Zoom Phone
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="6zvc1tw9rpfm"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Zoom Chat" tabindex="0"></span>
+       <span>
+         Zoom Chat
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="t2jk6yrqbp4j"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Chat
+   </span>
+
+    <span class="tooltip-base tool" title="Access to Group Chats">?</span>
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="qfc0730q37d7"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Chat Messaging: Peer To Peer Messaging, History, Channels, Push Notifications
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="xj3whqd893h4"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      User Profiles and Presence
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="5nb7nq17c6g5"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      File Transfers: File, Video, Pictures, Voice
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="9jpq3dfcwzc3"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Archive Message: Archiving IM message with Third-parties and Email Notifications
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="kt5ypvt1l71m"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Search
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="xxngg08dxtpq"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Zoom Room" tabindex="0"></span>
+       <span>
+         Zoom Room
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="xtgr15yv6hbn"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Room
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="5848skqwjh49"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Rooms Digital Signage
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="9mlg71db7jlp"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Zoom IQ for Sales" tabindex="0"></span>
+       <span>
+         Zoom IQ for Sales
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="g3x1x7ffg5b0"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom IQ
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="9fjtsz4n4syv"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Deals
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="65lm23m3qzcc"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Email Notifications
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="t7f6gfs4yh8l"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Conversation Analytics
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="qdrc9p21l7tf"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Recordings
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="pdcbftj9pg7j"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle NORTH AMERICAS - Zoom Contact Center" tabindex="0"></span>
+       <span>
+         NORTH AMERICAS - Zoom Contact Center
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="vttvjkwmdfps"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Contact Center
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="y4lbkc6s281b"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Calling (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="71jcq62p3sy6"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Video Calling (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="rkgptw5lc3pw"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      SMS/MMS (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="cvfl2br01fsf"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Chat (Inbound/Outbound)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="r6dchcqc8zx6"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Recording Service
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="1bmg0stx4mk0"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Global - Zoom Contact Center" tabindex="0"></span>
+       <span>
+         Global - Zoom Contact Center
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="c506lbzb5km9"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Web Portal (Admin/Users/Provisioning/Dashboard & Reporting)
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color is-group ">
+  
+<div data-component-id="gvz9h6tj2fg7"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="component-group-opener">
+
+   <span class="name">
+       <span class="fa group-parent-indicator color-secondary font-small fa-plus-square-o" role="button" aria-expanded="false" aria-label="Toggle Zoom Support" tabindex="0"></span>
+       <span>
+         Zoom Support
+       </span>
+   </span>
+
+
+  <span
+    class="component-status tool"
+    title="Groups take on the status of their most degraded child component or service. Click to see the status of the individual children."
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+
+  <!-- children components -->
+  <div class="child-components-container ">
+      
+<div data-component-id="yvbblg5f0rdt"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Knowledge Base
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="dnpn46x85j1v"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Chatbot
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="9mhsm7sbmhnr"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Ticketing
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+      
+<div data-component-id="mz7dtbfwbphz"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Phone Support
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+  </div>
+</div>
+
+          <div class="component-container border-color">
+            
+<div data-component-id="qmwgsb4jbrst"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Workplace Reservation
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+          </div>
+          <div class="component-container border-color">
+            
+<div data-component-id="yz9b9rdschq9"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Live Streaming
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+          </div>
+          <div class="component-container border-color">
+            
+<div data-component-id="gtf6dl08hrk1"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Whiteboard
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+          </div>
+          <div class="component-container border-color">
+            
+<div data-component-id="6zdpxdsqsg56"
+     class="component-inner-container status-green "
+     data-component-status="operational"
+     data-js-hook="">
+
+   <span class="name">
+      Zoom Community
+   </span>
+
+
+  <span
+    class="component-status "
+    title=""
+  >
+
+    Operational
+
+  </span>
+
+  <span class="tool icon-indicator fa fa-check" title="Operational"></span>
+
+</div>
+
+          </div>
+    </div>
+    <div class="component-statuses-legend font-small">
+  <div class="legend-item status-green">
+    <span class="icon-indicator fa fa-check"></span>
+    Operational
+  </div>
+  <div class="legend-item status-yellow">
+    <span class="icon-indicator fa fa-minus-square"></span>
+    Degraded Performance
+  </div>
+  <div class="legend-item status-orange">
+    <span class="icon-indicator fa fa-exclamation-triangle"></span>
+    Partial Outage
+  </div>
+  <div class="breaker"></div>
+  <div class="legend-item status-red">
+    <span class="icon-indicator fa fa-times"></span>
+    Major Outage
+  </div>
+  <div class="legend-item status-blue">
+    <span class="icon-indicator fa fa-wrench"></span>
+    Maintenance
+  </div>
+</div>
+
+  </div>
+
+
+
+        <div class="scheduled-maintenances-container">
+          <div class="font-largest">Scheduled Maintenance</div>
+            <div class="scheduled-maintenance">
+              <div class="incident-title font-large border-color">
+                <a href="https://status.zoom.us/incidents/3qn4sgpgpbzq" class="color-primary" title="Announcing Poly Trio updates for devices provisioned by trio.zoom.us">
+                 <span class="whitespace-pre-wrap">Announcing Poly Trio updates for devices provisioned by trio.zoom.us</span>
+                </a>
+                <small class="pull-right" data-unix-time="1661662800">
+                  Aug <var data-var='date'>27</var>, <var data-var='time'>22:00</var>-<var data-var='time'>23:00</var> PDT
+                </small>
+              </div>
+              <div class="updates-container font-regular">
+                  <div class="update">
+
+                    <span class="whitespace-pre-wrap">We will be posting the Poly Trio 7.2.3 update for Trio 8500 and 8800 devices and Poly Trio 7.3.1 update for Trio C60 devices being used as Zoom Rooms Controllers and configured to use trio.zoom.us provisioning server (as described at <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/360000894723-Using-a-Polycom-Trio-as-a-Zoom-Room-Controller">https://support.zoom.us/hc/en-us/articles/360000894723-Using-a-Polycom-Trio-as-a-Zoom-Room-Controller</a>).<br /><br />Trios being used as Zoom Rooms Controllers will automatically poll the trio.zoom.us provisioning server once per day at a random time between the hours of 12:00am - 06:00am in their configured timezone.  Once they contact the provisioning server, they will refresh their provisioning information and be instructed to download the update, install and reboot.  After rebooting, the Trio will be updated to its new software; the Poly Trio 7.2.3 software for Poly Trio 8500 and 8800 contains the Zoom Rooms Android Controller 5.11.0 application, and the Poly Trio 7.3.1 software for Poly Trio C60 contains the Zoom Rooms Android Controller 5.10.3 application.  The Zoom Rooms Android Controller will retain its configuration and automatically pair to its configured Zoom Room.</span>
+
+                    <br>
+                    <small>
+                        <var data-var="posted-on">Posted on</var>
+
+                      Aug <var data-var='date'>18</var>, <var data-var='time'>11:54</var> PDT
+                    </small>
+                  </div>
+              </div>
+            </div>
+            <div class="scheduled-maintenance">
+              <div class="incident-title font-large border-color">
+                <a href="https://status.zoom.us/incidents/y6tnsjy93d6f" class="color-primary" title="Announcing IP Address Changes (No Operational Impact)">
+                 <span class="whitespace-pre-wrap">Announcing IP Address Changes (No Operational Impact)</span>
+                </a>
+                <small class="pull-right" data-unix-time="1662101940">
+                  Sep <var data-var='date'> 1</var>, <var data-var='time'>23:59</var> - Sep <var data-var='date'> 2</var>, <var data-var='time'>00:00</var> PDT
+                </small>
+              </div>
+              <div class="updates-container font-regular">
+                  <div class="update">
+
+                    <span class="whitespace-pre-wrap">The following, new and updated IP subnet ranges will be deployed to Zoom resources starting no earlier than 30 days from the posting of this notice. We recommend that network administrators, with Zoom specific firewall or network rules, update their systems as soon as possible in preparation. A complete and updated list of network firewall IP ranges can be found on the Zoom Support site at: <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/201362683">https://support.zoom.us/hc/en-us/articles/201362683</a><br /><br />New IP address ranges:<br />18.254.23.128/25<br />18.254.61.0/25<br /><br />Additionally, ​​Zoom will be adding additional data centers as a part of the global Zoom routing network. These sites are already in our previously announced IP address ranges and will be enabled at launch for customers. For network administrators with Zoom specific proxy rules, please update your PAC files with the following sites to utilize these data centers.<br /><br />New data centers:<br />Germany - lej.zoom.us<br />Zurich, Switzerland - zrh.zoom.us<br />Frankfurt, Germany - fra.zoom.us<br />Amsterdam, Netherlands - ams.zoom.us<br /><br />One range updated in the July 2022 was mistakenly listed as 193.122.32.0/27 in the txt files, but has been corrected to 193.122.32.0/21. The July status posting included the corrected value and all files have been updated to the correct range of 193.122.32.0/21.<br /><br />A complete list of network firewall IP ranges for Zoom can be found on the Zoom Support site at: <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/201362683">https://support.zoom.us/hc/en-us/articles/201362683</a></span>
+
+                    <br>
+                    <small>
+                        <var data-var="posted-on">Posted on</var>
+
+                      Aug <var data-var='date'> 1</var>, <var data-var='time'>12:54</var> PDT
+                    </small>
+                  </div>
+              </div>
+            </div>
+            <div class="scheduled-maintenance">
+              <div class="incident-title font-large border-color">
+                <a href="https://status.zoom.us/incidents/27s8yndy7p98" class="color-primary" title="San Jose Zoom Contact Center Maintenance">
+                 <span class="whitespace-pre-wrap">San Jose Zoom Contact Center Maintenance</span>
+                </a>
+                <small class="pull-right" data-unix-time="1662789600">
+                  Sep <var data-var='date'> 9</var>, <var data-var='time'>23:00</var> - Sep <var data-var='date'>10</var>, <var data-var='time'>23:00</var> PDT
+                </small>
+              </div>
+              <div class="updates-container font-regular">
+                  <div class="update">
+
+                    <span class="whitespace-pre-wrap">We will be providing an update to Zoom Contact Center in the San Jose data center.<br /><br />Zoom Contact Center users registered to the San Jose data center will be automatically registered in an alternative datacenter when the maintenance window starts. During the maintenance window, a brief disconnection may be experienced and notifications may be missed. If you get disconnected, the system will attempt to reconnect you automatically.<br /><br />If you are a BYOC (Bring Your Own Carrier) customer, please ensure that your Session Border Controller (SBC) is configured with alternate routing to Zoom’s Denver data center in addition to the San Jose data center. During the maintenance window, connectivity to Zoom’s San Jose data center will be blocked which will force calls from the Session Border Controller (SBC) to failover to Zoom’s Denver data center. Traffic will continue to be routed through the Zoom San Jose data center once the maintenance is completed.</span>
+
+                    <br>
+                    <small>
+                        <var data-var="posted-on">Posted on</var>
+
+                      Aug <var data-var='date'>22</var>, <var data-var='time'>13:23</var> PDT
+                    </small>
+                  </div>
+              </div>
+            </div>
+            <div class="scheduled-maintenance">
+              <div class="incident-title font-large border-color">
+                <a href="https://status.zoom.us/incidents/3s2v1lvhzpv0" class="color-primary" title="Denver Zoom Phone Maintenance">
+                 <span class="whitespace-pre-wrap">Denver Zoom Phone Maintenance</span>
+                </a>
+                <small class="pull-right" data-unix-time="1663999200">
+                  Sep <var data-var='date'>23</var>, <var data-var='time'>23:00</var> - Sep <var data-var='date'>24</var>, <var data-var='time'>23:00</var> PDT
+                </small>
+              </div>
+              <div class="updates-container font-regular">
+                  <div class="update">
+
+                    <span class="whitespace-pre-wrap">We will be providing an update to Zoom Phone in the Denver data center.<br /><br />Zoom Phone users registered to the Denver data center will be automatically registered in an alternative datacenter when the maintenance window starts. During the maintenance window, a brief disconnection may be experienced and notifications may be missed. If you get disconnected, the system will attempt to reconnect you automatically.<br /><br />If you are a BYOC (Bring Your Own Carrier) customer, please ensure that your Session Border Controller (SBC) is configured with alternate routing to Zoom’s San Jose data center in addition to the Denver data center. During the maintenance window, connectivity to Zoom’s Denver data center will be blocked which will force calls from the Session Border Controller (SBC) to failover to Zoom’s San Jose data center. Traffic will continue to be routed through the Zoom Denver data center once the maintenance is completed.<br /><br />For customers that use hardware phones, the following devices support the alternative datacenter process as described above:<br />	•	Poly: CCX400, CCX500, CCX600, CCX700, Trio8500, Trio8800, Trioc60, VVX101, VVX150, VVX201, VVX250, VVX300, VVX301, VVX310, VVX311, VVX350, VVX400, VVX401, VVX410, VVX411, VVX450, VVX500, VVX501, VVX600, VVX601, Soundpoint335, SoundPoint650, SoundStation6000<br />	•	Yealink: T21P, T23G, T27G, T29G, T40G, T42G, T46G, T48G, T31G, T31P, T33G, T42S, T46S, T48S, T43U, T46U, T48U, T53, T53W, T54W, T57W, CP960, T56A, T58A, T58W, VP59, W60P, W70B, W80M, W90M, CP920, CP925, CP965<br />	•	AudioCodes: 445HD, 450HD, C450HD, RX50</span>
+
+                    <br>
+                    <small>
+                        <var data-var="posted-on">Posted on</var>
+
+                      Aug <var data-var='date'>22</var>, <var data-var='time'>13:25</var> PDT
+                    </small>
+                  </div>
+              </div>
+            </div>
+            <div class="scheduled-maintenance">
+              <div class="incident-title font-large border-color">
+                <a href="https://status.zoom.us/incidents/p270c1td12qm" class="color-primary" title="New York Zoom Phone Maintenance">
+                 <span class="whitespace-pre-wrap">New York Zoom Phone Maintenance</span>
+                </a>
+                <small class="pull-right" data-unix-time="1664604000">
+                  Sep <var data-var='date'>30</var>, <var data-var='time'>23:00</var> - Oct <var data-var='date'> 1</var>, <var data-var='time'>23:00</var> PDT
+                </small>
+              </div>
+              <div class="updates-container font-regular">
+                  <div class="update">
+
+                    <span class="whitespace-pre-wrap">We will be providing an update to Zoom Phone in New York data center.<br /><br />Zoom Phone users registered to the New York data center will be automatically registered in an alternative datacenter when the maintenance window starts. During the maintenance window, a brief disconnection may be experienced and notifications may be missed. If you get disconnected, the system will attempt to reconnect you automatically.<br /><br />If you are a BYOC (Bring Your Own Carrier) customer, please ensure that your Session Border Controller (SBC) is configured with alternate routing to Zoom’s Denver data center in addition to the New York data center. During the maintenance window, connectivity to Zoom’s New York data center will be blocked which will force calls from the Session Border Controller (SBC) to failover to Zoom’s Denver data center. Traffic will continue to be routed through the Zoom New York data center once the maintenance is completed.<br /><br />For customers that use hardware phones, the following devices support the alternative datacenter process as described above:<br />	•	Poly: CCX400, CCX500, CCX600, CCX700, Trio8500, Trio8800, Trioc60, VVX101, VVX150, VVX201, VVX250, VVX300, VVX301, VVX310, VVX311, VVX350, VVX400, VVX401, VVX410, VVX411, VVX450, VVX500, VVX501, VVX600, VVX601, Soundpoint335, SoundPoint650, SoundStation6000<br />	•	Yealink: T21P, T23G, T27G, T29G, T40G, T42G, T46G, T48G, T31G, T31P, T33G, T42S, T46S, T48S, T43U, T46U, T48U, T53, T53W, T54W, T57W, CP960, T56A, T58A, T58W, VP59, W60P, W70B, W80M, W90M, CP920, CP925, CP965<br />	•	AudioCodes: 445HD, 450HD, C450HD, RX50</span>
+
+                    <br>
+                    <small>
+                        <var data-var="posted-on">Posted on</var>
+
+                      Aug <var data-var='date'>22</var>, <var data-var='time'>13:21</var> PDT
+                    </small>
+                  </div>
+              </div>
+            </div>
+            <div class="scheduled-maintenance">
+              <div class="incident-title font-large border-color">
+                <a href="https://status.zoom.us/incidents/zlth2xbb2jfd" class="color-primary" title="Scheduled Zoom Software Quarterly Lifecycle update (11/5/22)">
+                 <span class="whitespace-pre-wrap">Scheduled Zoom Software Quarterly Lifecycle update (11/5/22)</span>
+                </a>
+                <small class="pull-right" data-unix-time="1667631600">
+                  Nov <var data-var='date'> 5</var>, <var data-var='time'>00:00</var>-<var data-var='time'>01:00</var> PDT
+                </small>
+              </div>
+              <div class="updates-container font-regular">
+                  <div class="update">
+
+                    <span class="whitespace-pre-wrap">In order to prepare for a new quarterly minimum version schedule, Zoom will be enforcing a new minimum version of all our Zoom clients and plugins this November 5th. This affects the following products: <br /> - Zoom client for meetings (Windows, macOS, Linux, iOS, Android, Blackberry, and Intune)<br /> - Zoom Rooms (including Zoom Room Controllers) <br /> - Zoom Phone Appliances<br /> - Outlook Plug-in<br /> - Browser Scheduler Extensions<br /> - VDI Client and Plugin<br /> - Virtual Room Connector<br /> - Meetings Connector<br /> - Recording Connector<br /> - Meeting SDK<br /> - Video SDK<br /><br />Please ensure your devices are updated to the latest version. <br /><br />For more information, such as specific versions we are enforcing, please see the Zoom Software Quarterly Lifecycle Policy support article: <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/360059429231">https://support.zoom.us/hc/en-us/articles/360059429231</a></span>
+
+                    <br>
+                    <small>
+                        <var data-var="posted-on">Posted on</var>
+
+                      Jul <var data-var='date'>13</var>, <var data-var='time'>14:03</var> PDT
+                    </small>
+                  </div>
+              </div>
+            </div>
+        </div>
+
+
+
+      <div class="incidents-list format-expanded">
+        <a class="font-largest no-link" id="past-incidents" href="#past-incidents">Past Incidents</a>
+          
+  <div class="status-day font-regular no-incidents">
+    <div class="date border-color font-large">Aug <var data-var="date">23</var>, <var data-var="year">2022</var></div>
+        <p class="color-secondary">No incidents reported today.</p>
+  </div>
+
+          
+  <div class="status-day font-regular ">
+    <div class="date border-color font-large">Aug <var data-var="date">22</var>, <var data-var="year">2022</var></div>
+          <div class="incident-container">
+  <div class="incident-title impact-minor font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/lfmfkv7m5t7k">Intermittent issue with agent is unable to answer calls in ZCC</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular resolved">
+        <strong>Resolved</strong> -
+      	<span class="whitespace-pre-wrap">This incident has been resolved.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>22</var>, <var data-var='time'>10:06</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular monitoring">
+        <strong>Monitoring</strong> -
+      	<span class="whitespace-pre-wrap">We have resolved the intermittent issue causing agent to be unable to answer calls in ZCC (Zoom Contact Center). We will continue to monitor and provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>22</var>, <var data-var='time'>09:49</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular investigating">
+        <strong>Investigating</strong> -
+      	<span class="whitespace-pre-wrap">We have detected the intermittent issue causing agent to be unable to answer calls in ZCC (Zoom Contact Center). We are currently investigating and will provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>22</var>, <var data-var='time'>09:22</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+          <div class="incident-container">
+  <div class="incident-title impact-maintenance font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/9l26vs9w98nq">Mac, Windows, Android, iOS, &amp; Linux Client Update: 8/22/2022 (No Operational Impact)</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular completed">
+        <strong>Completed</strong> -
+      	<span class="whitespace-pre-wrap">The scheduled maintenance has been completed.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>22</var>, <var data-var='time'>05:00</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular in progress">
+        <strong>In progress</strong> -
+      	<span class="whitespace-pre-wrap">Scheduled maintenance is currently in progress. We will provide updates as necessary.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>22</var>, <var data-var='time'>00:00</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular scheduled">
+        <strong>Scheduled</strong> -
+      	<span class="whitespace-pre-wrap">We will be providing a new version of our Mac, Windows, and Linux clients. They will be available for download at <a target="_blank" href="https://zoom.us/download">https://zoom.us/download</a>. We will also be performing a staggered release for iOS and Android on applicable app stores. This update will include support for multi-language captioning in Webinars, in-meeting Whiteboard shapes enhancements, and more granular Zoom App pre-approvals for admins in the client. <br /><br />Mac - <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/201361963">https://support.zoom.us/hc/en-us/articles/201361963</a><br />Windows - <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/201361953">https://support.zoom.us/hc/en-us/articles/201361953</a><br />Android - <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/201361973">https://support.zoom.us/hc/en-us/articles/201361973</a><br />iOS - <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/201361943">https://support.zoom.us/hc/en-us/articles/201361943</a><br />Linux - <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/205759689">https://support.zoom.us/hc/en-us/articles/205759689</a><br /><br />There is no operational impact. All services will be available during this scheduled update.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>18</var>, <var data-var='time'>11:45</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+          <div class="incident-container">
+  <div class="incident-title impact-minor font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/d776wdks4tgd">Zoom Whiteboard - Service Impacted</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular resolved">
+        <strong>Resolved</strong> -
+      	<span class="whitespace-pre-wrap">This incident has been resolved.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>22</var>, <var data-var='time'>02:28</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular monitoring">
+        <strong>Monitoring</strong> -
+      	<span class="whitespace-pre-wrap">We have resolved the issue with Zoom's Whiteboard service. We will continue to monitor and provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>22</var>, <var data-var='time'>02:12</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We have resolved the issue with Zoom's Whiteboard service, however few customers might see issues with thumbnail and no major features of whiteboards are impacted. We are currently investigating and will provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>21</var>, <var data-var='time'>23:12</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular identified">
+        <strong>Identified</strong> -
+      	<span class="whitespace-pre-wrap">We are currently investigating reports where the Zoom's Whiteboard service is being impacted. Our engineers are currently investigating the impact and root cause. Zoom will provide updates as soon as there is more information to share.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>21</var>, <var data-var='time'>22:23</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+          <div class="incident-container">
+  <div class="incident-title impact-minor font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/9d10w9bp4kvq">A subset of Singapore customers are experiencing CLI issues with one of the carrier.</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular resolved">
+        <strong>Resolved</strong> -
+      	<span class="whitespace-pre-wrap">Our carrier has resolved the issue causing a subset of Singapore customers are experiencing CLI (calling line identification) and the team confirmed services were restored.This incident has been resolved.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>22</var>, <var data-var='time'>02:19</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular monitoring">
+        <strong>Monitoring</strong> -
+      	<span class="whitespace-pre-wrap">Our carrier has resolved the issue causing a subset of Singapore customers are experiencing CLI (calling line identification) and the team confirmed services were restored. We will continue to monitor and will provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>22</var>, <var data-var='time'>01:09</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We are continuing to work with our carrier to resolve this issue. We will post updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>21</var>, <var data-var='time'>23:14</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We are continuing to work with our carrier to resolve this issue. We will post updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>21</var>, <var data-var='time'>20:45</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular identified">
+        <strong>Identified</strong> -
+      	<span class="whitespace-pre-wrap">We have identified the issue causing a subset of Singapore customers are experiencing CLI (calling line identification) issues with one of the carrier. We are currently investigating and will provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>21</var>, <var data-var='time'>19:41</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+  </div>
+
+          
+  <div class="status-day font-regular ">
+    <div class="date border-color font-large">Aug <var data-var="date">21</var>, <var data-var="year">2022</var></div>
+          <div class="incident-container">
+  <div class="incident-title impact-none font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/kr9ctxqndysp">Customers were unable to access Zoom Events web portal.</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular resolved">
+        <strong>Resolved</strong> -
+      	<span class="whitespace-pre-wrap">The issue was resolved by the engineers and the team confirmed services were restored.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>21</var>, <var data-var='time'>21:00</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+          <div class="incident-container">
+  <div class="incident-title impact-maintenance font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/pyymbkymzt68">Zoom Contact Center Update: 8/21/2022 (No Operational Impact)</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular completed">
+        <strong>Completed</strong> -
+      	<span class="whitespace-pre-wrap">The scheduled maintenance has been completed.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>21</var>, <var data-var='time'>02:01</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular in progress">
+        <strong>In progress</strong> -
+      	<span class="whitespace-pre-wrap">Scheduled maintenance is currently in progress. We will provide updates as necessary.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>20</var>, <var data-var='time'>17:01</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular scheduled">
+        <strong>Scheduled</strong> -
+      	<span class="whitespace-pre-wrap">We will be providing an update to Zoom Contact Center. Please refer to <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/4426808975117">https://support.zoom.us/hc/en-us/articles/4426808975117</a> for more details. This update includes third-party chat bot integration.<br /><br />There is no operational impact. All services will be available during this scheduled update.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>18</var>, <var data-var='time'>10:44</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+          <div class="incident-container">
+  <div class="incident-title impact-maintenance font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/1zh0vb8v2lj2">Zoom Phone Update: 8/21/2022 (No Operational Impact)</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular completed">
+        <strong>Completed</strong> -
+      	<span class="whitespace-pre-wrap">The scheduled maintenance has been completed.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>21</var>, <var data-var='time'>02:01</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular in progress">
+        <strong>In progress</strong> -
+      	<span class="whitespace-pre-wrap">Scheduled maintenance is currently in progress. We will provide updates as necessary.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>20</var>, <var data-var='time'>17:01</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular scheduled">
+        <strong>Scheduled</strong> -
+      	<span class="whitespace-pre-wrap">We will be providing an update to Zoom Phone. Please refer to <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/360022782511">https://support.zoom.us/hc/en-us/articles/360022782511</a> for more details. This update includes the ability to restrict calling and SMS usage at certain hours.<br /><br />There is no operational impact. All services will be available during this scheduled update.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>18</var>, <var data-var='time'>10:43</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+  </div>
+
+          
+  <div class="status-day font-regular ">
+    <div class="date border-color font-large">Aug <var data-var="date">20</var>, <var data-var="year">2022</var></div>
+          <div class="incident-container">
+  <div class="incident-title impact-maintenance font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/mkjfnrfx9zgg">Web Backend Update: 8/20/2022 (No Operational Impact)</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular completed">
+        <strong>Completed</strong> -
+      	<span class="whitespace-pre-wrap">The scheduled maintenance has been completed.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>20</var>, <var data-var='time'>23:00</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular in progress">
+        <strong>In progress</strong> -
+      	<span class="whitespace-pre-wrap">Scheduled maintenance is currently in progress. We will provide updates as necessary.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>20</var>, <var data-var='time'>17:01</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular scheduled">
+        <strong>Scheduled</strong> -
+      	<span class="whitespace-pre-wrap">We will be performing routine maintenance on our Web Backend. Please refer to <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/204758419">https://support.zoom.us/hc/en-us/articles/204758419</a> for more details. This update includes support for bandwidth limit management.<br /><br />There is no operational impact. All services will be available during this scheduled update.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>18</var>, <var data-var='time'>10:43</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+  </div>
+
+          
+  <div class="status-day font-regular no-incidents">
+    <div class="date border-color font-large">Aug <var data-var="date">19</var>, <var data-var="year">2022</var></div>
+        <p class="color-secondary">No incidents reported.</p>
+  </div>
+
+          
+  <div class="status-day font-regular no-incidents">
+    <div class="date border-color font-large">Aug <var data-var="date">18</var>, <var data-var="year">2022</var></div>
+        <p class="color-secondary">No incidents reported.</p>
+  </div>
+
+          
+  <div class="status-day font-regular ">
+    <div class="date border-color font-large">Aug <var data-var="date">17</var>, <var data-var="year">2022</var></div>
+          <div class="incident-container">
+  <div class="incident-title impact-minor font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/3j5w365jcgq1">A subset of zoom phone users in Brazil are unable to complete calls.</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular resolved">
+        <strong>Resolved</strong> -
+      	<span class="whitespace-pre-wrap">This incident has been resolved.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>17</var>, <var data-var='time'>09:13</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular monitoring">
+        <strong>Monitoring</strong> -
+      	<span class="whitespace-pre-wrap">We have resolved the issue causing a subset of zoom phone users to be unable to make calls from our Brazil SIP zone.  We will continue to monitor and provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>17</var>, <var data-var='time'>08:44</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular identified">
+        <strong>Identified</strong> -
+      	<span class="whitespace-pre-wrap">We have identified the issue causing a subset of zoom phone users to be unable to make calls from our Brazil SIP zone.  We will continue to provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>17</var>, <var data-var='time'>08:34</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular investigating">
+        <strong>Investigating</strong> -
+      	<span class="whitespace-pre-wrap">We are currently investigating reports of errors making calls from our Brazil SIP zone.  Our engineers are currently investigating, we will post updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>17</var>, <var data-var='time'>08:07</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+  </div>
+
+          
+  <div class="status-day font-regular ">
+    <div class="date border-color font-large">Aug <var data-var="date">16</var>, <var data-var="year">2022</var></div>
+          <div class="incident-container">
+  <div class="incident-title impact-minor font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/w721s6g7h13s">A subset of users are unable to access Zoom Web Portal and Client.</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular resolved">
+        <strong>Resolved</strong> -
+      	<span class="whitespace-pre-wrap">This incident has been resolved.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>16</var>, <var data-var='time'>06:41</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular monitoring">
+        <strong>Monitoring</strong> -
+      	<span class="whitespace-pre-wrap">we have resolved the issue causing a subset of users being unable to access Zoom Web Portal and Client. We will continue to monitor and provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>16</var>, <var data-var='time'>00:05</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular identified">
+        <strong>Identified</strong> -
+      	<span class="whitespace-pre-wrap">We have identified reports of a subset of users being unable to access Zoom Web Portal and Client. We are currently investigating and will provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>15</var>, <var data-var='time'>22:49</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+  </div>
+
+          
+  <div class="status-day font-regular">
+    <div class="date border-color font-large">Aug <var data-var="date">15</var>, <var data-var="year">2022</var></div>
+  </div>
+
+          
+  <div class="status-day font-regular no-incidents">
+    <div class="date border-color font-large">Aug <var data-var="date">14</var>, <var data-var="year">2022</var></div>
+        <p class="color-secondary">No incidents reported.</p>
+  </div>
+
+          
+  <div class="status-day font-regular ">
+    <div class="date border-color font-large">Aug <var data-var="date">13</var>, <var data-var="year">2022</var></div>
+          <div class="incident-container">
+  <div class="incident-title impact-maintenance font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/p59nxnvd93zr">Web Backend Update: 8/13/2022 (No Operational Impact)</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular completed">
+        <strong>Completed</strong> -
+      	<span class="whitespace-pre-wrap">The scheduled maintenance has been completed.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>13</var>, <var data-var='time'>23:00</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular in progress">
+        <strong>In progress</strong> -
+      	<span class="whitespace-pre-wrap">Scheduled maintenance is currently in progress. We will provide updates as necessary.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>13</var>, <var data-var='time'>17:00</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular scheduled">
+        <strong>Scheduled</strong> -
+      	<span class="whitespace-pre-wrap">We will be performing routine maintenance on our Web Backend. Please refer to <a target="_blank" href="https://support.zoom.us/hc/en-us/articles/204758419">https://support.zoom.us/hc/en-us/articles/204758419</a> for more details. This update includes minor bug fixes.<br /><br />There is no operational impact. All services will be available during this scheduled update.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>12</var>, <var data-var='time'>09:37</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+          <div class="incident-container">
+  <div class="incident-title impact-maintenance font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/nbgtsjkrpjh1">Scheduled Maintenance for Zoom Backend Service</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular completed">
+        <strong>Completed</strong> -
+      	<span class="whitespace-pre-wrap">The scheduled maintenance has been completed.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>13</var>, <var data-var='time'>03:00</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular in progress">
+        <strong>In progress</strong> -
+      	<span class="whitespace-pre-wrap">Scheduled maintenance is currently in progress. We will provide updates as necessary.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>12</var>, <var data-var='time'>23:00</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular scheduled">
+        <strong>Scheduled</strong> -
+      	<span class="whitespace-pre-wrap">On August 12, 2022, Zoom will be conducting backend maintenance that may impact Zoom Meetings and Webinars on the platform.<br /><br />While we don’t anticipate any downtime, users may experience service interruption for Zoom Meetings and Webinars during this time. <br /><br />For any issues persisting outside this window, please contact Zoom Support: ​​<a target="_blank" href="https://support.zoom.us/hc/en-us/articles/201362003">https://support.zoom.us/hc/en-us/articles/201362003</a></span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>10</var>, <var data-var='time'>19:40</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+  </div>
+
+          
+  <div class="status-day font-regular ">
+    <div class="date border-color font-large">Aug <var data-var="date">12</var>, <var data-var="year">2022</var></div>
+          <div class="incident-container">
+  <div class="incident-title impact-maintenance font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/q83mn6ztg5k3">Amsterdam Zoom Phone Maintenance: 8/12/2022</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular completed">
+        <strong>Completed</strong> -
+      	<span class="whitespace-pre-wrap">The scheduled maintenance has been completed.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>12</var>, <var data-var='time'>15:00</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular in progress">
+        <strong>In progress</strong> -
+      	<span class="whitespace-pre-wrap">Scheduled maintenance is currently in progress. We will provide updates as necessary.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'>12</var>, <var data-var='time'>10:00</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular scheduled">
+        <strong>Scheduled</strong> -
+      	<span class="whitespace-pre-wrap">We will be providing an update to Zoom Phone in Amsterdam data center.<br /><br />Zoom Phone users registered to the Amsterdam data center will be automatically registered in an alternative datacenter when the maintenance window starts. During the maintenance window, a brief disconnection may be experienced and notifications may be missed. If you get disconnected, the system will attempt to reconnect you automatically. If you are a BYOC (Bring Your Own Carrier) customer, please ensure that your Session Border Controller (SBC) is configured with alternate routing to Zoom’s Frankfurt data center in addition to the Amsterdam data center. During the maintenance window, connectivity to Zoom’s Amsterdam data center will be blocked which will force calls from the Session Border Controller (SBC) to failover to Zoom’s Frankfurt data center. Traffic will continue to be routed through the Zoom Amsterdam data center once the maintenance is completed.<br /><br />For customers that use hardware phones, the following devices support the alternative datacenter process as described above:<br /><br />Poly: CCX400, CCX500, CCX600, CCX700, Trio8500, Trio8800, TrioC60, VVX101, VVX150, VVX201, VVX250, VVX300, VVX301, VVX310, VVX311, VVX350, VVX400, VVX401, VVX410, VVX411, VVX450, VVX500, VVX501, VVX600, VVX601, SoundPoint335, SoundPoint650, SoundStation6000<br /><br />Yealink: T21P, T23G, T27G, T29G, T40G, T42G, T46G, T48G, T31G, T31P, T33G, T42S, T46S, T48S, T43U, T46U, T48U, T53, T53W, T54W, T57W, CP960, T56A, T58A, T58W, VP59, W60P, W70B, W80M, W90M, CP920, CP925, CP965<br /><br />AudioCodes: 445HD, 450HD, C450HD, RX50</span>
+
+        <br>
+
+        <small>
+            Jul <var data-var='date'>22</var>, <var data-var='time'>18:09</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+  </div>
+
+          
+  <div class="status-day font-regular no-incidents">
+    <div class="date border-color font-large">Aug <var data-var="date">11</var>, <var data-var="year">2022</var></div>
+        <p class="color-secondary">No incidents reported.</p>
+  </div>
+
+          
+  <div class="status-day font-regular no-incidents">
+    <div class="date border-color font-large">Aug <var data-var="date">10</var>, <var data-var="year">2022</var></div>
+        <p class="color-secondary">No incidents reported.</p>
+  </div>
+
+          
+  <div class="status-day font-regular ">
+    <div class="date border-color font-large">Aug <var data-var="date"> 9</var>, <var data-var="year">2022</var></div>
+          <div class="incident-container">
+  <div class="incident-title impact-minor font-large">
+    <a class="whitespace-pre-wrap" href="/incidents/86dzgm6jcrll">Issues generating a zoom meeting event using the Google Suite</a>
+  </div>
+
+  <div class="updates-container">
+    <!-- postmortem -->
+
+    <!-- incident updates -->
+      <div class="update font-regular resolved">
+        <strong>Resolved</strong> -
+      	<span class="whitespace-pre-wrap">This incident has been resolved.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 9</var>, <var data-var='time'>11:29</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We are continuing to monitor this issue and we will provide updates every day or as we have updates.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 8</var>, <var data-var='time'>15:41</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We are continuing to monitor this issue and we will provide updates every day or as we have updates.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 7</var>, <var data-var='time'>09:53</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We are continuing to monitor this issue and we will provide updates every day or as we have updates.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 6</var>, <var data-var='time'>10:18</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We are continuing to monitor this issue and we will provide updates every day or as we have updates.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 5</var>, <var data-var='time'>11:37</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We are continuing to monitor this issue and we will provide updates every day or as we have updates.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 4</var>, <var data-var='time'>07:39</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">Our provider has remediated the service. Our customers may experience the display delays under Web Meetings page when generating or editing a zoom meeting via Google Suite Add-on. We will continue to monitor the issue and provide updates every day or as we have updates.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 3</var>, <var data-var='time'>06:40</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">Our provider has remediated the service. Our customers may experience the display delays under Web Meetings page when generating or editing a zoom meeting via Google Suite Add-on. We will continue to monitor the issue and provide updates every day or as we have updates.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 2</var>, <var data-var='time'>16:02</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We are continuing to work with our provider to resolve this issue.  We will post updates every four hours or as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 2</var>, <var data-var='time'>14:55</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We are continuing to work with our provider to resolve this issue. We will post updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 2</var>, <var data-var='time'>14:12</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular update">
+        <strong>Update</strong> -
+      	<span class="whitespace-pre-wrap">We are continuing to work with our provider to resolve this issue. We will post updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 2</var>, <var data-var='time'>13:27</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular monitoring">
+        <strong>Monitoring</strong> -
+      	<span class="whitespace-pre-wrap">Our provider has restarted the service and the issue is intermittent. We will continue to monitor the issue and provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 2</var>, <var data-var='time'>12:57</var> PDT
+        </small>
+      </div>
+      <div class="update font-regular identified">
+        <strong>Identified</strong> -
+      	<span class="whitespace-pre-wrap">We have received reports of users being unable to generate a zoom meeting event via Google Suite. The issue is caused by the service provider. We will continue to provide updates as we have them.</span>
+
+        <br>
+
+        <small>
+            Aug <var data-var='date'> 2</var>, <var data-var='time'>12:41</var> PDT
+        </small>
+      </div>
+  </div>
+
+</div>
+
+  </div>
+
+      </div>
+
+
+      <div class="page-footer border-color font-small">
+          <a href="/history" class="history-footer-link"><span style="font-family:arial">&larr;</span> Incident History</a>
+
+        <span class="color-secondary powered-by"><a class="color-secondary" target="_blank" rel="noopener noreferrer nofollow" href="https://www.atlassian.com/software/statuspage?utm_campaign=status.zoom.us&amp;utm_content=SP-notifications&amp;utm_medium=powered-by&amp;utm_source=inapp">Powered by Atlassian Statuspage</a></span>
+      </div>
+    </div>
+
+    
+
+  </div>
+
+
+
+
+
+
+
+    <script src="https://dka575ofm4ao0.cloudfront.net/assets/status_manifest-17828477b2beff6fbc771737842e0eb2941321d787585277de332b4a6c1b4efa.js"></script>
+    <div id="cpt-notification-container"></div>
+    
+
+
+
+
+    <!-- all of the content_for stuff -->
+      <script src="https://dka575ofm4ao0.cloudfront.net/assets/register_subscription_form-879ad6742751a5926359f0430c1692c94f00c87d533ed504ee28db2c0de01100.js"></script>
+
+  <script type="text/javascript">
+      $(function() {
+          SP.currentPage.registerSubscriptionForm('email');
+
+          SP.currentPage.registerSubscriptionForm('sms');
+
+          SP.currentPage.registerSubscriptionForm('webhook');
+      });
+
+
+
+
+
+  </script>
+  <script src="https://dka575ofm4ao0.cloudfront.net/assets/status_common-c1b99d73ee7ab0fea796bd170723c1daac1381095a7dd7501a38ce6f333d86b3.js"></script>
+    <script>
+      SP.pollForChanges('/api/v2/status.json');
+    </script>
+
+  <script>
+    $(function() {
+      $('.tool').tooltipster({
+        animationDuration: 100,
+        contentAsHTML: true,
+        delay: 100,
+        theme: 'tooltipster-borderless',
+        functionInit: function (instance, helper) {
+          var $origin = $(helper.origin),
+              dataOptions = $origin.attr('data-tooltip-config');
+          if (dataOptions){
+            dataOptions = JSON.parse(dataOptions);
+            $.each(dataOptions, function(name, option){
+                instance.option(name, option);
+            });
+          }
+        }
+      });
+      // clicks on first tab in subscribe popout since we won't know which is first
+      // upon construction in the ruby code
+      $('.updates-dropdown-nav > a').eq(0).click();
+
+      // twitter follow button needs some margin
+      $('.twitter-follow-button').css('margin-right', '6px');
+    });
+
+    $(function() {
+      // open/close component groups
+      HRB.utils.djshook('component-group-opener').on('click', function() {
+        var groupParentIndicator = $(this).find('.group-parent-indicator');
+        groupParentIndicator.toggleClass('fa-plus-square-o').toggleClass('fa-minus-square-o').end().parent().toggleClass('open');
+        toggleGroup(groupParentIndicator)
+      });
+    });
+
+    $(function() {
+      HRB.utils.djshook('component-group-opener').on('keydown', function(event) {
+        if (event.key !== "Enter" && event.key !== " ") {
+          return;
+        }
+        event.preventDefault()
+        var groupParentIndicator = $(this).find('.group-parent-indicator');
+        groupParentIndicator.toggleClass('fa-plus-square-o').toggleClass('fa-minus-square-o').end().parent().toggleClass('open');
+        toggleGroup(groupParentIndicator)
+      });
+    });
+
+    function toggleGroup(groupParentIndicator) {
+      var isOpen = groupParentIndicator.attr('aria-expanded')
+      if (isOpen == 'false') {
+          groupParentIndicator.attr('aria-expanded', 'true');
+        } else {
+          groupParentIndicator.attr('aria-expanded', 'false');
+        }
+    }
+
+    $(function() {
+      $(document).on('ajax:complete', '.modal.in', function(e) {
+        // Close the active modal.
+        $('.modal.in').modal('hide');
+      });
+    });
+
+  </script>
+
+
+      <script>
+  /** INITIALIZATION **/
+  var recaptchaIds = {}
+
+  // Unfortunately there's no unique selectors on the parent divs that recaptcha adds. The first unique selector
+  // is the iframe rendered 2 levels deep. So this waits until the iframes are added to the page, then finds
+  // the parent div and sets the z index so that it'll render above our modals & dropdowns from the start.
+  function setZIndex(captchaCount, startTime) {
+    // bail after 10s just in case so we don't do this forever if something whaky happens
+    if (new Date() - startTime > 10000) {
+      return;
+    }
+
+    var iframes = document.querySelectorAll('iframe[title="recaptcha challenge"]');
+    if (iframes.length != captchaCount) {
+      setTimeout(function() {
+        setZIndex(captchaCount, startTime);
+      }, 500);
+    }
+
+    for (var i = 0; i < iframes.length; i++) {
+      // incident subscribe modal is 1050, so this has to be above that
+      iframes[i].parentElement.parentElement.style.zIndex = "1100";
+    }
+  }
+
+  function addIncidentCaptcha() {
+    var incidentCaptcha = document.createElement('div');
+    incidentCaptcha.setAttribute('id', 'subscribe-incident-recaptcha');
+    incidentCaptcha.setAttribute('class', 'g-recaptcha');
+    incidentCaptcha.setAttribute('data-sitekey', '6LcZ-b0UAAAAAENi956aWzynTT2ZJ80dGU3F80Op');
+    incidentCaptcha.setAttribute('data-callback', 'submitIncidentSubscriberSuccess');
+    incidentCaptcha.setAttribute('data-error-callback', 'submitIncidentSubscriberError');
+    incidentCaptcha.setAttribute('data-size', 'invisible');
+    document.body.appendChild(incidentCaptcha);
+    var incidentCode = document.createElement('input');
+    incidentCode.setAttribute('type', 'hidden');
+    incidentCode.setAttribute('id', 'submit_incident_code');
+    document.body.appendChild(incidentCode);
+  }
+
+  var onloadCallback = function() {
+    // if there is an incident, then add incident captcha element
+    if (document.getElementsByClassName('modal-open-incident-subscribe').length > 0) {
+      addIncidentCaptcha();
+    }
+
+    var captchas = document.getElementsByClassName("g-recaptcha");
+
+    for(var i = 0; i < captchas.length; i++) {
+      var elId = captchas[i].id;
+      recaptchaIds[elId] = grecaptcha.enterprise.render(elId);
+    }
+
+    setZIndex(captchas.length, new Date());
+  }
+
+
+  /** SUBSCRIBE DROPDOWN */
+
+  // callbacks for captcha success
+  function submitNewSubscriber(type, error) {
+    if (error) document.querySelector('#subscribe-form-' + type + ' #captcha_error').value = 'true';
+
+    document.getElementById('subscribe-form-' + type).dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+    grecaptcha.enterprise.reset(recaptchaIds['subscribe-btn-' + type]);
+  }
+  function submitNewEmailSubscriber(token) {
+    submitNewSubscriber('email');
+  }
+  function submitNewSmsSubscriber(token) {
+    submitNewSubscriber('sms');
+  }
+  function submitNewWebhookSubscriber(token) {
+    submitNewSubscriber('webhook');
+  }
+  function submitIncidentSubscriber(token, error) {
+    var incidentCode = document.getElementById('submit_incident_code').value;
+    var incidentForm = document.getElementById('subscribe-form-' + incidentCode);
+
+    incidentForm.querySelector('input[name="captcha_error"]').value = error;
+    incidentForm.querySelector('input[name="g-recaptcha-response"]').value = token;
+    incidentForm.dispatchEvent(new Event('submit', {bubbles: true, cancelable: true}));
+    grecaptcha.enterprise.reset(recaptchaIds['subscribe-incident-recaptcha']);
+  }
+  function submitIncidentSubscriberSuccess(token) {
+    submitIncidentSubscriber(token, 'false');
+  }
+
+  // callbacks if we get captcha network errors
+  function emailSubscriberCaptchaError(token) {
+    submitNewSubscriber('email', true);
+  }
+  function smsSubscriberCaptchaError(token) {
+    submitNewSubscriber('sms', true);
+  }
+  function webhookSubscriberCaptchaError(token) {
+    submitNewSubscriber('webhook', true);
+  }
+  function submitIncidentSubscriberError(token) {
+    submitIncidentSubscriber(token, 'true');
+  }
+
+  // tracking clicks
+  ['email', 'sms', 'webhook'].forEach(function(type) {
+    var el = document.getElementById('subscribe-btn-' + type);
+    el && el.addEventListener("click", function() {
+      $.ajax({
+        type: "POST",
+        url: "/subscriptions/track_attempt",
+        data: {
+          type: type
+        }
+      })
+    })
+  })
+
+  // form submission success callbacks
+  $('#subscribe-form-email').on('ajax:success', function(e, data, status, xhr){
+    if (data.type === 'success') {
+      SP.currentPage.updatesDropdown.hide();
+      document.getElementById('email').value = '';
+    }
+  });
+  $('#subscribe-form-sms').on('ajax:success', function(e, data, status, xhr){
+    if (data.type === 'success') {
+      SP.currentPage.updatesDropdown.hide();
+      document.getElementById('phone-number').value = '';
+    }
+  });
+  $('#subscribe-form-webhook').on('ajax:success', function(e, data, status, xhr){
+    if (data.type === 'success') {
+      SP.currentPage.updatesDropdown.hide();
+      document.getElementById('endpoint-webhooks').value = '';
+      document.getElementById('email-webhooks').value = '';
+    }
+  });
+
+  $('a.subscribe').on('click', function() {
+    document.body.style.overflow = "hidden";
+    document.body.style.height = "100vh";
+  });
+
+  $('div.modal-open-incident-subscribe').on('hidden', function(){
+    document.body.style.overflow = "";
+    document.body.style.height = "";
+  });
+
+  function submitCaptchaIncidentSubscribe(event) {
+    var incidentCode = event.target.id.split('-')[2];
+    event.preventDefault();
+
+    $.ajax({
+      type: "POST",
+      url: "/subscriptions/track_attempt",
+      data: {
+        type: 'incident'
+      }
+    })
+
+    document.getElementById('submit_incident_code').value = incidentCode;
+    grecaptcha.enterprise.execute(recaptchaIds['subscribe-incident-recaptcha']);
+  }
+</script>
+
+<script src='https://www.google.com/recaptcha/enterprise.js?onload=onloadCallback&render=explicit' async defer></script>
+
+
+    
+  <script src="https://dka575ofm4ao0.cloudfront.net/packs/common-cba1ac313c3df995e6f6.chunk.js"></script>
+  <script src="https://dka575ofm4ao0.cloudfront.net/packs/globals-fdac871125af016e7db7.chunk.js"></script>
+
+    <script src="https://dka575ofm4ao0.cloudfront.net/packs/runtime-7f5105047ab241b20fb4.js"></script>
+    
+    
+
+
+    <script>
+  window.addEventListener('load', function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const messageToken = urlParams.get('slack_message_token');
+    const channelName = escape(urlParams.get('channel_name'));
+
+    if(!!messageToken) {
+      switch(messageToken) {
+        case 'slack_auth_error':
+          HRB.utils.notify('The Slack authorization attempt was unsuccessful. Try again.', {cssClass:'error'});
+          break;
+        case 'subscribers_disabled_error':
+          HRB.utils.notify('Slack subscriptions are not enabled on this page.', {cssClass:'error'});
+          break;
+        case 'direct_message_channel_error':
+          HRB.utils.notify('Subscriptions aren’t supported in direct messages. Try subscribing again and choose a channel instead.', {cssClass:'error'});
+          break
+        case 'duplicate_error':
+          HRB.utils.notify("You're already subscribed to get Slack notifications in that channel.", {cssClass:'error'});
+          break;
+        case 'duplicate_private_channel_error':
+          HRB.utils.notify(`You're already subscribed to get Slack notifications in #${channelName}. Invite the @Statuspage app to that channel to start getting status updates.`, {cssClass: 'error'});
+          break;
+        case 'default_success':
+          HRB.utils.notify("You're now subscribed to get Statuspage updates in Slack!", {cssClass:'success'});
+          break;
+        case 'private_channel_success':
+          HRB.utils.notify(`IMPORTANT: Invite the @Statuspage app to your Slack channel #${channelName} to start getting status updates.`, {cssClass:'success'});
+          break;
+      }
+    }
+  });
+</script>
+
+    
+<!-- FOR FLASH NOTICES -->
+
+<!-- FOR ERROR -->
+
+
+    <script>
+  $(function() {
+    var $link = $('<span class="color-secondary powered-by"><a class="color-secondary" target="_blank" rel="noopener noreferrer nofollow" href="https://www.atlassian.com/software/statuspage?utm_campaign=status.zoom.us&amp;utm_content=SP-notifications&amp;utm_medium=powered-by&amp;utm_source=inapp">Powered by Atlassian Statuspage</a></span>');
+
+  	var setPoweredByStyles = function() {
+  		if (!$('.powered-by').length) {
+  			$link.appendTo($('.page-footer'))
+  		}
+  		$('.powered-by').attr('style', 'display: inline !important; visibility:visible !important; opacity: 1 !important; position:static !important; text-indent:0px !important; transform:scale(1) !important');
+  	}
+
+  	setInterval(setPoweredByStyles, 1000);
+  });
+</script>
+
+
+
+
+
+  </body>
+</html>

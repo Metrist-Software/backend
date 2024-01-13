@@ -1,0 +1,42 @@
+{
+  "color": {
+    "palette": {
+      "green-bright": "#6cdaa3ff",
+      "green-shade": "#3ba88dff",
+      "blue-bright": "#33d3ffff",
+      "blue-shade": "#009fd6ff",
+      "gray-bright": "#9baebcff",
+      "gray-shade": "#4d6374ff",
+      "red-bright": "#fd6344ff",
+      "red-shade": "#af3921ff",
+      "dark-bright": "#343434ff",
+      "dark-shade": "#070707ff",
+      "yellow-bright": "#fce365ff",
+      "yellow-shade": "#ebc610ff"
+    },
+    "alert": {
+      "healthy": "#94ca42ff",
+      "degraded": "#ebc610ff",
+      "issues": "#ff9900ff",
+      "down": "#fc4848ff"
+    },
+    "text": {
+      "secondary": "#b3b3b3ff",
+      "default": "#343434ff"
+    },
+    "structure": {
+      "border": "#ddddddff",
+      "white": "#ffffffff",
+      "space-indicator": "#eeeeeeff"
+    }
+  },
+  "gradient": {
+    "gradient": {
+      "gradient-green": "linear-gradient(153.2020365463346deg, rgb(108, 218, 163) 0%, rgb(59, 168, 141) 100%)",
+      "gradient-dark": "linear-gradient(150.24132278708038deg, rgb(52, 52, 52) 0%, rgb(7, 7, 7) 100%)"
+    }
+  },
+  "effect": {
+    "color-chip": "0px 4px 16px 0px rgba(0, 0, 0, 0.1)"
+  }
+}

@@ -1,0 +1,187 @@
+<div>
+
+    <%= if not @current_user.is_read_only do %>
+    <h2 class="mb-8 text-3xl">
+      <%= str("pages.invites.title") %>
+    </h2>
+    <% end %>
+
+    <div class="grid grid-cols-1 lg:gap-12">
+    <%= if not @current_user.is_read_only do %>
+      <section>
+        <p class="mb-4">
+          <%= str("pages.invites.description") %>
+        </p>
+
+        <form phx-submit="invite-send" phx-change="invite-change">
+          <div class="mb-3">
+            <label for="email" class="form-label">
+              <%= str("forms.inviteUser.email") %>
+            </label>
+
+            <input
+              id="email-input"
+              name="email-input"
+              type="email"
+              class="text-input"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            class={button_class()}
+          >
+            <%= str("actions.sendInvitation") %>
+          </button>
+        </form>
+
+        <hr class="lg:hidden my-8" />
+      </section>
+      <% end %>
+
+        <section>
+          <h2 class="mb-4 text-2xl">
+            <%= str("pages.invites.pendingTitle") %>
+          </h2>
+
+          <p class="mb-4">
+            <%= str("pages.invites.pendingDescription") %>
+          </p>
+
+          <%= unless Enum.empty?(@pending_invite_users) do %>
+          <form phx-submit="pending-invites-delete" phx-change="pending-invites-change">
+            <div class="flex px-4 py-3 items-center border border-transparent">
+            <%= if not @current_user.is_read_only do %>
+              <input
+                id="invites-select-all"
+                name="invites-all"
+                type="checkbox"
+                class="mr-3"
+                checked={length(@selected_invites) == length(@pending_invite_users)}
+              />
+              <label for="invites-select-all">
+                <%= if length(@selected_invites) == length(@pending_invite_users) do %>
+                  <%= str("actions.selectNone") %>
+                <% else %>
+                  <%= str("actions.selectAll") %>
+                <% end %>
+              </label>
+            <% end %>
+            </div>
+
+            <%= for user <- @pending_invite_users do %>
+            <div
+              class={"flex flex-col md:flex-row px-4 py-3 items-start md:items-center box #{if Enum.member?(@selected_users, user.id), do: "bg-highlight"}"}
+            >
+            <div class="flex flex-row w-full">
+              <%= if not @current_user.is_read_only do %>
+                <input
+                  name={user.id}
+                  type="checkbox"
+                  class="mr-3"
+                  checked={Enum.member?(@selected_invites, user.id)}
+                />
+              <% end %>
+              <div class="w-full items-center break-words pr-5"><%= user.email %></div>
+            </div>
+              <div class="text-muted">
+                <p>Invited by: <%= user.inviter_email %></p>
+                <p>Invited at: <%= format_with_tz(user.invited_at, @current_user.timezone) %></p>
+              </div>
+            </div>
+            <% end %>
+
+          <%= if not @current_user.is_read_only do %>
+            <button
+              type="submit"
+              data-confirm="Are you sure you want to delete the selected user invites?"
+              class={"#{button_class("danger", Enum.empty?(@selected_invites))} mt-4"}
+            >
+              <%= str("actions.removeSelected") %>
+            </button>
+          <% end %>
+          </form>
+          <% else %>
+            <div class="text-xl font-bold">You have no current pending invites.</div>
+          <% end %>
+
+        </section>
+
+        <section>
+          <h2 class="mb-4 text-2xl">
+            Active Users
+          </h2>
+          <p class="mb-4">
+            Users who are authorized to access your account<br /><br />
+          </p>
+
+          <%= unless Enum.empty?(@active_users) do %>
+          <form phx-submit="active-users-delete" phx-change="active-users-change">
+          <%= if not @current_user.is_read_only do %>
+            <div class="flex px-4 py-3 items-center border border-transparent">
+              <input
+                id="users-select-all"
+                name="users-all"
+                type="checkbox"
+                class="mr-3"
+                checked={select_all_active_for_users?(@selected_users, @active_users, @current_user, @account)}
+              />
+              <label for="users-select-all">
+                <%= if select_all_active_for_users?(@selected_users, @active_users, @current_user, @account) do %>
+                  <%= str("actions.selectNone") %>
+                <% else %>
+                  <%= str("actions.selectAll") %>
+                <% end %>
+              </label>
+            </div>
+          <% end %>
+
+            <%= for user <- @active_users do %>
+            <label
+              class={"flex flex-col md:flex-row px-4 py-3 items-start md:items-center box #{if Enum.member?(@selected_users, user.id), do: "bg-highlight"}"}
+            >
+              <div class="flex flex-row w-full">
+                <%= cond do %>
+                  <% user.id == @current_user.id -> %>
+                    <span class="text-muted mr-2">(Me)</span>
+                  <% user.id == @account.original_user_id ->  %>
+                    <span class="text-muted mr-2">(Owner)</span>
+                  <% not @current_user.is_read_only -> %>
+                      <input
+                        name={user.id}
+                        class="mr-3"
+                        type="checkbox"
+                        checked={Enum.member?(@selected_users, user.id)}
+                      />
+                  <% true -> %>
+                    <!-- nothing -->
+                <% end %>
+                <span class="w-full break-words pr-5">
+                <%= user.email %>
+                </span>
+              </div>
+
+              <%= if user.inviter_email do %>
+                <div class="text-muted">
+                  <p>Invited by: <%= user.inviter_email %></p>
+                  <p>Accepted on: <%= format_with_tz(user.invite_accepted_at, @current_user.timezone) %></p>
+                </div>
+              <% end %>
+            </label>
+            <%  end %>
+
+            <%= if not @current_user.is_read_only do %>
+              <button
+                type="submit"
+                data-confirm="Are you sure you want to delete the selected users?"
+                class={"#{button_class("danger", Enum.empty?(@selected_users))} mt-4"}
+              >
+                <%= str("actions.removeSelected") %>
+              </button>
+            <% end %>
+          </form>
+          <% end %>
+        </section>
+    </div>
+  </div>

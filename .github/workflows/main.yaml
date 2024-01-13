@@ -1,0 +1,115 @@
+on:
+  push:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-20.04
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: asdf setup
+      uses: asdf-vm/actions/setup@v1
+
+    - name: Restore asdf cache
+      id: asdf-cache
+      uses: actions/cache@v3
+      with:
+        path: ~/.asdf/
+        key: ${{ runner.os }}-asdf-${{ hashFiles('**/.tool-versions') }}
+
+    - name: asdf install
+      if: steps.asdf-cache.outputs.cache-hit != 'true'
+      uses: asdf-vm/actions/install@v1
+
+    - name: Restore dependencies cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('**/.tool-versions') }}
+        restore-keys: ${{ runner.os }}-mix-
+
+    - name: Restore build cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          _build
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}-cfg-${{ hashFiles('**/config/*.exs') }}-${{ hashFiles('**/.tool-versions') }}
+        restore-keys: ${{ runner.os }}-mix-
+
+    - name: Install dependencies
+      run: |
+        mix local.hex --force
+        mix local.rebar --force
+        mix deps.get
+
+    # Bit of hack for Domo to be able to consistently compile its TypeEnsurer modules
+    - run: mix clean
+
+    - name: Run tests
+      run: |
+        epmd -daemon
+        mix test
+
+    # If the following is too slow, we can ditch it. Should only be slow once after an Erlang/Elixir version upgrade.
+    - name: Retrieve Dialyzer PLT cache
+      uses: actions/cache@v3
+      id: plt-cache
+      with:
+        path: priv/plts
+        key: ${{ runner.os }}-plts-${{ hashFiles('**/mix.lock') }}-${{ hashFiles('**/.tool-versions') }}
+    - name: Create Dialyzer PLTs
+      if: steps.plt-cache.outputs.cache-hit != 'true'
+      run: |
+        mkdir -p priv/plts
+        mix dialyzer --plt
+    - name: Run Dialyzer
+      run: MIX_ENV=test mix dialyzer --no-check
+
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0'
+        bundler-cache: true
+    - run: gem install fpm
+
+    - name: package
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+      run: |
+        make release
+        version=$(cat _build/prod/rel/backend/releases/start_erl.data |awk '{print $2}')
+        tag=$(git rev-parse --short HEAD)
+        fpm --verbose -t deb \
+          -s dir \
+          -n metrist-backend \
+          -v $version-ubuntu-20.04-$tag \
+          --provides metrist-backend \
+          _build/prod/rel/backend=/opt \
+          _build/prod/rel/backend/metrist-backend.service=/etc/systemd/system/metrist-backend.service
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::147803588724:role/github-action
+        aws-region: us-west-2
+
+    - name: deploy
+      if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+      run: |
+        case "${GITHUB_REF:-}" in
+          refs/heads/main)
+              qualifier=""
+              ;;
+          *)
+              qualifier="-preview"
+              ;;
+        esac
+        tag_file=metrist-backend-latest$qualifier.txt
+        deb_file=$(find -type f -name '*.deb' -exec basename {} \;)
+        echo $deb_file >/tmp/$tag_file
+        aws s3 cp --region=us-west-2 $deb_file s3://canary-private/linux-packages/ubuntu/20.04/$deb_file
+        aws s3 cp --region=us-west-2 /tmp/$tag_file s3://canary-private/version-stamps/$tag_file

@@ -1,0 +1,91 @@
+<div class="font-lato">
+  <section class="mb-8">
+    <div class="p-3 bg-gray-100 drop-shadow prose prose-banner max-w-none text-black flex items-center mb-5">
+      <div class="flex-grow">
+        Configure your own monitors, get alerts on Slack, set up notifications, and more with a free account!
+      </div>
+      <a href="https://metrist.io/schedule-demo/" class="btn btn-green btn-outline whitespace-nowrap">
+        Schedule a Demo
+      </a>
+    </div>
+
+    <header class="flex flex-col md:flex-row gap-x-3">
+      <h2 class="mb-5 md:mb-0 text-3xl md:mr-auto">
+        Metrist Demo
+      </h2>
+
+      <div class="contents space-y-2 md:space-y-0 [&_button]:md:w-max [&_button]:w-full">
+        <.dropdown id="display-filter-dropdown" menu_items_wrapper_class="w-full">
+          <:trigger_element>
+            <div class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm dark:text-gray-300 dark:bg-gray-900 dark:hover:bg-gray-800 dark:focus:bg-gray-800 hover:bg-gray-50 focus:outline-none">
+              <%= render_select_by_status_label(@search["status"]) %>
+              <Heroicons.chevron_down solid class="w-5 h-5 ml-2 -mr-1 dark:text-gray-100 inline" />
+            </div>
+          </:trigger_element>
+          <%= for {label, id} <- [{"All", "all"},  {"Issues", "issues"}] do %>
+            <.dropdown_menu_item
+              link_type="live_redirect"
+              label={label}
+              to={Routes.demo_monitors_path(@socket, @live_action, Map.put(@search, "status", id))}
+            />
+          <% end %>
+        </.dropdown>
+
+        <.live_component
+          module={BackendWeb.Components.ListGroupSelect}
+          id="monitor-select"
+          list_group_data={@filter_list_group_data}
+          include_search
+          initial={@initial_list_group_filter}
+          button_class="btn btn-outline w-full"
+        />
+
+        <.dropdown label="More" id="more-options-dropdown" menu_items_wrapper_class="w-full md:w-max">
+          <.dropdown_menu_item
+            link_type="live_redirect"
+            label="View issues"
+            to={Routes.monitor_issues_path(@socket, :demo_list_issues)}
+          />
+        </.dropdown>
+      </div>
+    </header>
+
+    <%= if Enum.empty?(MonitorsLive.grouped_monitors_list(@grouped_monitors)) do %>
+      <div class="alert alert-info my-3">
+        <%= MonitorsLive.no_results_message(@search["status"]) %>
+      </div>
+    <% end %>
+
+
+    <%= for {group, name, monitors, image} <- MonitorsLive.grouped_monitors_list(@grouped_monitors) do %>
+      <%= if !Enum.empty?(@grouped_monitors[group]) do %>
+      <div class="grid my-8" style="grid-template-columns: max-content 1fr">
+        <div class={"mr-7"}>
+          <img src={"/images/providers/#{image}"} class="w-14 h-14 max-w-none dark:hidden" alt={"#{name} logo"} />
+          <img src={"/images/providers/dark-#{image}"} class="w-14 h-14 max-w-none hidden dark:block" alt={"#{name} dark logo"} />
+        </div>
+
+        <h3 class="text-2xl mt-3 mb-5 font-bold flex gap-x-2" id={header_id(name)}>
+          <%= name %>
+        </h3>
+
+        <div class="col-span-2 md:col-span-1 md:col-start-2">
+          <ul class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <%= for monitor <- Enum.map(monitors, &(@all_monitors[&1])) |> Enum.sort_by(&(&1.name)) do %>
+              <li>
+                  <BackendWeb.Components.MonitorCard.render
+                    monitor={monitor}
+                    group={group}
+                    all_monitors={@all_monitors}
+                    status_page_names={@status_page_names}
+                    link_target={BackendWeb.DemoMonitorDetailLive}
+                  />
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      <% end %>
+    <% end %>
+  </section>
+</div>

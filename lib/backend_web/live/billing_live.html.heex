@@ -1,0 +1,111 @@
+<div class="font-roboto">
+  <header class="mb-8">
+    <h2 class="text-3xl">
+      Billing
+    </h2>
+  </header>
+
+  <form
+    id="plan"
+    phx-submit="submit"
+    phx-change="change"
+    phx-hook="StripeInitSetup"
+    data-callback-url={BackendWeb.Endpoint.url() <> Routes.live_path(@socket, BackendWeb.BillingCompleteLive)}
+    data-public-key={Application.get_env(:stripity_stripe, :public_key)}
+  >
+    <label for="free" class="flex gap-5 mb-5">
+      <input type="radio" name="plan" id="free" value="free" checked={@selected_plan == "free"}>
+      <div class="-mt-1">
+        <span class="font-bold">Free</span> ($0 per year)
+        <div class="block text-sm text-muted">
+          3 monitors, 1 day history
+          <% # TODO: Pull in number of monitors %>
+          <% # Using <span class="underline text-danger-500">12 of 3 monitors</span>, 1 day history %>
+        </div>
+      </div>
+    </label>
+
+    <label for="team" class="flex gap-5 mb-5">
+      <input type="radio" name="plan" id="team" value="team" checked={@selected_plan == "team"}>
+      <div class="-mt-1">
+        <span class="font-bold">Team</span> $99 per month (Billed yearly <span class="line-through">$1188</span> $1089, <span class="font-bold">one month free</span>)
+        <div class="block text-sm text-muted">
+          8 monitors, 7 day history
+        </div>
+      </div>
+    </label>
+
+    <%= if @selected_plan == "team" do %>
+    <div class="ml-8 mb-5 gap-x-5 flex  flex-col sm:flex-row">
+      <span>Billing period:</span>
+
+      <label for="billing-monthly">
+        <input type="radio" name="billing_period" id="billing-monthly" value="monthly" checked={@billing_period == "monthly"}> Monthly
+      </label>
+      <label for="billing-yearly">
+        <input type="radio" name="billing_period" id="billing-yearly" value="yearly" checked={@billing_period == "yearly"}> Yearly
+      </label>
+    </div>
+    <% end %>
+
+    <label for="business" class="flex gap-5 mb-5">
+      <input type="radio" name="plan" id="business" value="business" checked={@selected_plan == "business"}>
+      <div class="-mt-1">
+        <span class="font-bold">Business</span> $499 per month (Billed yearly <span class="line-through">$5988</span> $5489, <span class="font-bold">one month free</span>)
+        <div class="block text-sm text-muted">
+          20 monitors, 90 day history
+        </div>
+      </div>
+    </label>
+
+    <%= if @selected_plan == "business" do %>
+    <div class="ml-8 mb-5 gap-x-5 flex  flex-col sm:flex-row">
+      <span>Billing period:</span>
+
+      <label for="billing-monthly">
+        <input type="radio" name="billing_period" id="billing-monthly" value="monthly" checked={@billing_period == "monthly"}> Monthly
+      </label>
+      <label for="billing-yearly">
+        <input type="radio" name="billing_period" id="billing-yearly" value="yearly" checked={@billing_period == "yearly"}> Yearly
+      </label>
+    </div>
+    <% end %>
+
+    <label for="enterprise" class="flex gap-5 mt-5">
+      <input type="radio" name="plan" id="enterprise" value="enterprise" checked={@selected_plan == "enterprise"}>
+      <div class="-mt-1">
+        <span class="font-bold">Enterprise</span>
+        <div class="block text-sm text-muted">
+          Unlimited monitors, extended history
+        </div>
+      </div>
+    </label>
+
+    <%= if @selected_plan in @stripe_plans do %>
+      <%= if @loading_payment_element do %>
+        <div class="flex items-center mb-2">
+          <.spinner size="sm" class="mr-1"/> Loading
+        </div>
+      <% end %>
+      <div id="payment-element" phx-update="ignore">
+        <!-- Stripe Elements will create form elements here -->
+      </div>
+    <% end %>
+
+    <div class="mt-5">
+      <%= if @submit_loading do %>
+        <button type="submit" class="btn btn-green btn-disabled" disabled>
+          <.spinner size="sm" />
+        </button>
+      <% else %>
+        <button
+          type="submit"
+          class={"btn btn-green #{if membership_is_same_tier?(@current_membership, @selected_plan), do: "btn-disabled"}"}
+          disabled={membership_is_same_tier?(@current_membership, @selected_plan)}
+        >
+          Submit
+        </button>
+      <% end %>
+    </div>
+  </form>
+</div>

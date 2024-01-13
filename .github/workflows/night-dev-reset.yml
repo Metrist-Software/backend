@@ -1,0 +1,31 @@
+name: Develop nightly reset
+
+on:
+  schedule:
+    - cron: '0 5 * * *' # every day at 5am UTC
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::147803588724:role/github-action
+          aws-region: us-west-2
+      - name: Fetch Secret into Env
+        run: .github/secret-to-env.sh
+      - uses: actions/checkout@v3
+        with:
+          ref: develop #checkout develop
+          fetch-depth: 0
+          token: ${{ env.RESET_PAT }} #PAT needed as per https://github.com/ad-m/github-push-action/issues/32 & https://stackoverflow.com/questions/57921401/push-to-origin-from-github-action
+      - name: Reset develop to main nightly
+        run: |
+          git config --global user.email "nobody@metrist.io"
+          git config --global user.name "Github Action Bot"
+          git reset --hard origin/main && git commit --allow-empty -m "== Hard reset to main ==" && git push --force

@@ -1,0 +1,37 @@
+<html>
+  <style>
+    body {
+      height: 9000px;
+    }
+    
+    #metrist-realtime-data {
+      height: 500px;
+      overflow-y: auto;
+    }
+  </style>
+
+<body>
+
+  <div id="metrist-realtime-data"></div>
+  <script src="realtimedata.js"></script>
+  <script type="application/javascript">
+    let endpoint;
+    switch (window.origin) {
+      case "https://metrist.io":
+        endpoint = "wss://app.metrist.io/socket/public-realtime-data";
+        break;
+      case "https://staging-metrist.kinsta.cloud":
+        endpoint = "wss://app-dev1.metrist.io/socket/public-realtime-data";
+        break;
+      case "http://0.0.0.0:9000":
+        endpoint = "wss://localhost:4443/socket/public-realtime-data";
+        break;
+      default:
+        throw new Error("Origin not allowed")
+    }
+
+    pollForTelemetry({ endpoint })
+  </script>
+</body>
+
+</html>

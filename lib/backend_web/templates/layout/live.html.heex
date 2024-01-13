@@ -1,0 +1,52 @@
+<header>
+  <.live_component
+    module={BackendWeb.Components.Navigation}
+    id="navigation"
+    current_user={@current_user}
+    path={@__path__}
+  />
+  <div>
+  <%= for notice <- assigns[:banner_notices] || [] do %>
+    <.live_component module={BackendWeb.Components.Banner} id={notice.id} notice={notice} user={@current_user} />
+  <% end %>
+  </div>
+</header>
+
+<.container class="p-5 font-lato" max_width={if Map.has_key?(assigns, :full_width), do: "full", else: "lg"}>
+  <.live_component
+    module={BackendWeb.Components.Breadcrumb}
+    id="breadcrumb"
+    path={@__path__}
+    items={assigns[:breadcrumb_items] || nil}
+    hidden={assigns[:hide_breadcrumb] || false}
+  />
+
+  <.alert
+    color="info"
+    class="mb-5"
+    label={live_flash(@flash, :info)}
+    phx-click="lv:clear-flash"
+    phx-value-key="info"
+  />
+  <.alert
+    color="danger"
+    class="mb-5"
+    label={live_flash(@flash, :error)}
+    phx-click="lv:clear-flash"
+    phx-value-key="error"
+  />
+
+  <%= if @static_changed? do %>
+    <.alert
+      color="info"
+      class="mb-5"
+      label="Your page is out-of-date, please refresh to get the latest version."
+      phx-click="lv:clear-flash"
+      phx-value-key="info"
+    />
+  <% end %>
+
+  <%= @inner_content %>
+</.container>
+
+<footer />

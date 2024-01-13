@@ -1,0 +1,202 @@
+<div class="font-lato mt-3">
+    <header class="flex flex-col md:flex-row mb-8">
+      <div class="flex items-center mb-3 lg:mb-0">
+        <%= live_component BackendWeb.Components.SafeImage,
+          src: monitor_image_url(@monitor.logical_name),
+          class: "w-20 mr-5 rounded hidden md:block"
+        %>
+
+        <div class="flex-row w-full">
+          <h2 class="mb-2 text-3xl">
+            Dependency Configuration
+          </h2>
+          <div class="font-medium">
+            <%= render_slot(@monitor_status) %>
+          </div>
+          <div class="mt-5 text-sm">
+            <%= if @snapshot.check_details != [], do: "Dependency monitored from", else: "" %>
+
+            <span class="md:space-x-1">
+              <%= if @current_user.is_read_only do %>
+                <%= for instance <- @active_instances do %>
+                  <span class="pill whitespace-nowrap block md:inline mt-2 text-center w-full md:w-max"><%= instance %></span>
+                <% end %>
+              <% else %>
+                <%= for instance <- @active_instances do %>
+                  <span class="pill whitespace-nowrap block md:inline mt-2 text-center w-full md:w-max">
+                    <%= instance %>
+                    <%= if length(@active_instances) > 1 do %>
+                      <a phx-click="remove-instance" phx-value-instance={instance} phx-target={@myself} class="pl-2" href="#">x</a>
+                    <% end %>
+                  </span>
+                <% end %>
+                <%= if show_add_region_button(@instances, @active_instances) do %>
+                  <.dropdown>
+                    <:trigger_element>
+                      <div class="pill pill-outline mr-2 whitespace-nowrap">
+                        Add Region
+                      </div>
+                    </:trigger_element>
+                    <%= for instance <- get_available_instances(@instances, @active_instances) do %>
+                      <.dropdown_menu_item
+                        link_type="button"
+                        phx-click="add-instance"
+                        phx-value-instance={"#{instance.instance_name}"}
+                        phx-target={@myself}
+                        label={instance.instance_name}
+                      />
+                    <% end %>
+                  </.dropdown>
+                <% end %>
+              <% end %>
+              <a
+                href="https://docs.metrist.io/guides/orchestrator-installation.html"
+                title="Orchestrator Install Documentation"
+                target="_blank"
+                class="ml-2 text-green-shade dark:text-green-bright"
+                :if={!@has_private_instances and @snapshot.check_details != []}
+              >
+                <span class="underline text-sm">Add your own</span>
+
+                <Heroicons.arrow_top_right_on_square solid class="h-3 w-3 inline" />
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ml-auto font-roboto text-sm w-full md:w-auto">
+        <div class="flex flex-col-reverse md:flex-row gap-2">
+          <button type="button" class="btn btn-green btn-outline w-full" phx-click="cancel-configuration" phx-target={@myself}>
+            Cancel
+          </button>
+          <%= if not @current_user.is_read_only do %>
+            <button type="button" class={"btn btn-green w-full #{if !can_save(@errors, @check_errors, @analyzer_config, @current_user.account_id), do: "btn-disabled"}"} phx-click="save-configuration" phx-target={@myself} disabled={!can_save(@errors, @check_errors, @analyzer_config, @current_user.account_id)}>
+              Save&nbsp;Configuration
+            </button>
+          <% end %>
+        </div>
+      </div>
+    </header>
+
+    <%= if !can_save(@errors, @check_errors, @analyzer_config, @current_user.account_id) do %>
+      <.alert color="danger" label="Please fix all errors before saving." />
+    <% end %>
+
+    <form phx-submit="next" phx-change="handle-form-change" phx-target={@myself}>
+      <h3 class="text-xl font-bold mb-3">Global Thresholds</h3>
+      <div class="block box overflow-hidden px-3 py-3">
+        <div class="flex lg:flex-row flex-col">
+          <div class="flex-1 lg:mr-10"> <!-- Left Col for wide -->
+              <div class="flex flex-row">
+                <div><%= svg_image("icon-degraded", "monitors")%></div>
+                <div class="flex flex-col flex-1 ml-3">
+                  <div class="text-lg font-bold mb-4">Degraded Alerts</div>
+                  <.threshold_input
+                    threshold_label="Percent above average latency"
+                    threshold_input_id="default_degraded_threshold"
+                    value={if @analyzer_config.default_degraded_threshold != "", do: trunc(@analyzer_config.default_degraded_threshold * 100), else: nil}
+                    errors={@errors}
+                    tooltip="The percent above the average that Metrist has to see multiple consecutive times to mark something as degraded."
+                    is_read_only={@current_user.is_read_only}
+                  />
+                  <.threshold_input
+                    threshold_label="Consecutive slowdowns before degraded"
+                    threshold_input_id="default_degraded_down_count"
+                    value={@analyzer_config.default_degraded_down_count}
+                    errors={@errors}
+                    tooltip="The number of consecutive timings above the degraded threshold over the 7 day average we must see before we consider a check degraded"
+                    is_read_only={@current_user.is_read_only}
+                  />
+                  <.threshold_input
+                    threshold_label="Consecutive successes before degraded recovery"
+                    threshold_input_id="default_degraded_up_count"
+                    value={@analyzer_config.default_degraded_up_count}
+                    errors={@errors}
+                    tooltip="The number of consecutive timings above the degraded threshold over the 7 day average we must see before we consider a check degraded"
+                    is_read_only={@current_user.is_read_only}
+                  />
+                  <.threshold_input
+                    threshold_label="Degraded Timeout (ms)"
+                    threshold_input_id="default_degraded_timeout"
+                    value={@analyzer_config.default_degraded_timeout}
+                    errors={@errors}
+                    tooltip="The amount of time in ms that must pass without completion before we consider a check degraded. This must be less than or equal to the Down Timeout (ms). The maximum value is 900000 ms or 15 minutes"
+                    is_read_only={@current_user.is_read_only}
+                  />
+                </div>
+              </div>
+          </div>
+          <div class="flex-1 lg:ml-10">  <!-- Right Col for wide -->
+            <div class="flex flex-row">
+              <div><%= svg_image("icon-down", "monitors")%></div>
+              <div class="flex flex-col flex-1 ml-3">
+                <div class="text-lg font-bold mb-4">Down Alerts</div>
+                <.threshold_input
+                  threshold_label="Consecutive errors before down"
+                  threshold_input_id="default_error_down_count"
+                  value={@analyzer_config.default_error_down_count}
+                  errors={@errors}
+                  tooltip="The number of consecutive errors we must see before we consider a check down"
+                  is_read_only={@current_user.is_read_only}
+                />
+                <.threshold_input
+                  threshold_label="Consecutive successes before up"
+                  threshold_input_id="default_error_up_count"
+                  value={@analyzer_config.default_error_up_count}
+                  errors={@errors}
+                  tooltip="The number of consecutive succesful attempts we note that a check is up following a down status"
+                  is_read_only={@current_user.is_read_only}
+                />
+                <.threshold_input
+                  threshold_label="Down Timeout (ms)"
+                  threshold_input_id="default_error_timeout"
+                  value={@analyzer_config.default_error_timeout}
+                  errors={@errors}
+                  tooltip="The amount of time in ms that must pass without completion before we consider a check to be in an error state. This must be greater than or equal to the Degraded Timeout (ms). The maximum value is 900000 ms or 15 minutes"
+                  is_read_only={@current_user.is_read_only}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <h3 class="mb-3 text-xl font-bold mt-10">Available Metrist Checks</h3>
+    <div class="font-small">
+      You must have at least one check enabled.
+    </div>
+
+    <%= if @snapshot.check_details != [] do %>
+      <ul class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <%= for check <- @checks do %>
+          <.live_component
+            module={BackendWeb.Components.Monitor.MonitorConfigureCheck}
+            id={check.logical_name}
+            check_name={check.name}
+            current_user={@current_user}
+            monitor={@monitor}
+            check_logical_name={check.logical_name}
+            snapshot={@snapshot}
+            analyzer_config={@analyzer_config}
+            instances={@instances} />
+        <% end %>
+      </ul>
+
+    <% else %>
+      <.alert color="warning">
+        <a href="https://docs.metrist.io/guides/orchestrator-installation.html" class="link">Download and configure Metrist</a> to see checks
+      </.alert>
+    <% end %>
+
+    <%= if @subscription_component_states != [] do %>
+      <h3 class="mb-3 text-xl font-bold mt-10">Available Status Page Components</h3>
+      <BackendWeb.Components.StatusPage.StatusPageComponentSubscription.render
+        phx_target={@myself}
+        id={"#{@monitor.logical_name}-status-page-subscriptions"}
+        subscription_component_states={@subscription_component_states}
+        component_enabled_state={@component_enabled_state}
+      />
+    <% end %>
+</div>

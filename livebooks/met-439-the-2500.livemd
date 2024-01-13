@@ -1,0 +1,525 @@
+<!-- livebook:{"persist_outputs":true} -->
+
+# Lots and lots of accounts
+
+## Setup
+
+First, let's make sure we are connected to the running backend node. If this does not work, ensure that
+you have `make run` active, this starts backend with clustering enabled.
+
+```elixir
+{:ok, host} = :net.gethostname()
+node = :"first@#{host}"
+:pong = Node.ping(node)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+:pong
+```
+
+Accounts have a couple of attributes: a creating user, a name, and a bunch of selected instances
+and monitors. We want to randomly pre-select some settings so that accounts are mostly different.
+
+```elixir
+monitors = Backend.Projections.Dbpa.VisibleMonitor.default_visible_monitor_logical_names()
+instances = [List.to_string(host)]
+{monitors, instances}
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+{["azuredevops", "awsecs", "awsiam", "awslambda", "awsrds", "azuread", "azureaks", "cognito", "ec2",
+  "circleci", "github", "datadog", "pagerduty", "sentry", "cloudflare", "slack", "stripe",
+  "zendesk", "zoom", "hubspot", "jira", "npm"], ["system76-pc"]}
+```
+
+```elixir
+monitors_length = Enum.count(monitors)
+
+random_monitors = fn ->
+  amount = :rand.uniform(monitors_length)
+  Enum.take_random(monitors, amount)
+end
+
+# Do some runs so we can check all is well
+for _ <- 1..10, do: random_monitors.()
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[
+  ["sentry", "circleci", "hubspot", "jira"],
+  ["cloudflare", "hubspot", "cognito", "awsrds", "awslambda", "slack", "zoom", "npm", "zendesk",
+   "awsiam", "pagerduty", "azuread", "stripe"],
+  ["azureaks", "awsecs", "azuread", "awslambda", "datadog"],
+  ["cloudflare", "github", "stripe", "cognito", "zoom", "awsecs", "circleci", "pagerduty", "slack",
+   "sentry", "awsrds", "awsiam", "npm"],
+  ["awslambda", "slack", "awsecs", "cognito", "zendesk"],
+  ["jira", "zoom", "awsiam", "awslambda", "azuredevops", "slack", "ec2", "cloudflare", "awsrds"],
+  ["datadog", "github", "zoom", "awsiam"],
+  ["awsiam"],
+  ["awsrds", "azuread", "sentry", "jira", "cognito", "npm", "zoom", "cloudflare", "circleci",
+   "slack", "hubspot", "stripe", "awslambda", "awsiam", "azuredevops"],
+  ["zendesk", "azureaks", "azuread", "awsiam", "datadog", "sentry"]
+]
+```
+
+Now we need to assemble the commands to create an account, a default user, and some randomly selected monitors.
+
+Note that the output will appear on the console where `make run` is running.
+
+```elixir
+create_account_cmds = fn ->
+  id = Domain.Id.new()
+  mons = random_monitors.()
+
+  [
+    %Domain.Account.Commands.Create{
+      id: id,
+      name: "Account #{id}",
+      creating_user_id: "ADMIN",
+      selected_instances: instances,
+      selected_monitors: []
+    }
+    | Enum.map(mons, fn mon ->
+        %Domain.Account.Commands.AddMonitor{
+          id: id,
+          logical_name: mon,
+          name: String.upcase(mon),
+          default_degraded_threshold: 42.0,
+          instances: instances,
+          check_configs: []
+        }
+      end)
+  ]
+end
+
+# Test run
+test_five = for(_ <- 1..5, do: create_account_cmds.()) |> List.flatten()
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+[
+  %Domain.Account.Commands.Create{
+    creating_user_id: "ADMIN",
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    name: "Account 11xQOdvtdt0E68Q45CyvVX5",
+    selected_instances: ["system76-pc"],
+    selected_monitors: []
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "awsiam",
+    name: "AWSIAM"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "awslambda",
+    name: "AWSLAMBDA"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "ec2",
+    name: "EC2"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "npm",
+    name: "NPM"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "github",
+    name: "GITHUB"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "azuredevops",
+    name: "AZUREDEVOPS"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "awsrds",
+    name: "AWSRDS"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "hubspot",
+    name: "HUBSPOT"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "sentry",
+    name: "SENTRY"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "zoom",
+    name: "ZOOM"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "zendesk",
+    name: "ZENDESK"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "cloudflare",
+    name: "CLOUDFLARE"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtdt0E68Q45CyvVX5",
+    instances: ["system76-pc"],
+    logical_name: "azuread",
+    name: "AZUREAD"
+  },
+  %Domain.Account.Commands.Create{
+    creating_user_id: "ADMIN",
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    name: "Account 11xQOdvteMAE4DHK0mvrBG2",
+    selected_instances: ["system76-pc"],
+    selected_monitors: []
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "azuredevops",
+    name: "AZUREDEVOPS"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "cognito",
+    name: "COGNITO"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "azuread",
+    name: "AZUREAD"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "cloudflare",
+    name: "CLOUDFLARE"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "awslambda",
+    name: "AWSLAMBDA"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "ec2",
+    name: "EC2"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "awsrds",
+    name: "AWSRDS"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "pagerduty",
+    name: "PAGERDUTY"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "datadog",
+    name: "DATADOG"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "circleci",
+    name: "CIRCLECI"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "awsecs",
+    name: "AWSECS"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "zoom",
+    name: "ZOOM"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "jira",
+    name: "JIRA"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvteMAE4DHK0mvrBG2",
+    instances: ["system76-pc"],
+    logical_name: "zendesk",
+    name: "ZENDESK"
+  },
+  %Domain.Account.Commands.Create{
+    creating_user_id: "ADMIN",
+    id: "11xQOdvtetXOBT7qZGP2mwd",
+    name: "Account 11xQOdvtetXOBT7qZGP2mwd",
+    selected_instances: ["system76-pc"],
+    selected_monitors: []
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtetXOBT7qZGP2mwd",
+    instances: ["system76-pc"],
+    logical_name: "awsrds",
+    name: "AWSRDS"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtetXOBT7qZGP2mwd",
+    instances: ["system76-pc"],
+    logical_name: "zoom",
+    name: "ZOOM"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtetXOBT7qZGP2mwd",
+    instances: ["system76-pc"],
+    logical_name: "jira",
+    name: "JIRA"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtetXOBT7qZGP2mwd",
+    instances: ["system76-pc"],
+    logical_name: "pagerduty",
+    name: "PAGERDUTY"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtetXOBT7qZGP2mwd",
+    instances: ["system76-pc"],
+    logical_name: "ec2",
+    name: "EC2"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtetXOBT7qZGP2mwd",
+    instances: ["system76-pc"],
+    logical_name: "sentry",
+    name: "SENTRY"
+  },
+  %Domain.Account.Commands.Create{
+    creating_user_id: "ADMIN",
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    name: "Account 11xQOdvtfOi96OLOfUSkUMT",
+    selected_instances: ["system76-pc"],
+    selected_monitors: []
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    instances: ["system76-pc"],
+    logical_name: "github",
+    name: "GITHUB"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    instances: ["system76-pc"],
+    logical_name: "datadog",
+    name: "DATADOG"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    instances: ["system76-pc"],
+    logical_name: "azuredevops",
+    name: "AZUREDEVOPS"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    instances: ["system76-pc"],
+    logical_name: "jira",
+    name: "JIRA"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    instances: ["system76-pc"],
+    logical_name: "azuread",
+    name: "AZUREAD"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    instances: ["system76-pc"],
+    logical_name: "zoom",
+    name: "ZOOM"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    instances: ["system76-pc"],
+    logical_name: "stripe",
+    name: "STRIPE"
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    instances: ["system76-pc"],
+    logical_name: "sentry",
+    ...
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    instances: [...],
+    ...
+  },
+  %Domain.Account.Commands.AddMonitor{
+    check_configs: [],
+    default_degraded_threshold: 42.0,
+    id: "11xQOdvtfOi96OLOfUSkUMT",
+    ...
+  },
+  %Domain.Account.Commands.AddMonitor{check_configs: [], default_degraded_threshold: 42.0, ...},
+  %Domain.Account.Commands.AddMonitor{check_configs: [], ...},
+  %Domain.Account.Commands.AddMonitor{...},
+  ...
+]
+```
+
+```elixir
+dispatch_all = fn cmds ->
+  Enum.each(cmds, fn cmd ->
+    Backend.App.dispatch_with_actor(Backend.Auth.Actor.db_setup(), cmd)
+  end)
+end
+
+dispatch_all.(test_five)
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+:ok
+```
+
+Best save your work before running the next cell.
+
+```elixir
+for i <- 1..1200 do
+  IO.puts("Creating account #{i}...")
+  cmds = create_account_cmds.()
+  dispatch_all.(cmds)
+end
+```
+
+<!-- livebook:{"output":true} -->
+
+```
+Creating account 1...
+Creating account 2...
+Creating account 3...
+Creating account 4...
+Creating account 5...
+Creating account 6...
+Creating account 7...
+Creating account 8...
+Creating account 9...
+Creating account 10...
+Creating account 11...
+```

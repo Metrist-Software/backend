@@ -1,0 +1,11 @@
+[Unit]
+Description=Metrist.io Backend service
+
+[Service]
+ExecStart=/opt/backend/bin/backend start
+EnvironmentFile=-/var/run/sup/metrist-backend.expanded.env
+User=root
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

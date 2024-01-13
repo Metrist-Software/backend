@@ -1,0 +1,218 @@
+<div>
+  <header
+    class="sticky top-0 py-3 flex flex-wrap bg-white dark:bg-gray-800 z-10"
+  >
+    <div class="flex items-start mb-5 lg:mb-0">
+      <img src={image_url(@monitor)} class="w-20 mr-5 rounded" />
+
+      <div>
+        <h2 class="mb-1 text-3xl">
+          <%= t("pages.report.title") %>
+        </h2>
+        <p class="text-xl text-muted"><%= @monitor.name %></p>
+      </div>
+    </div>
+
+    <div class="lg:ml-auto">
+      <div class="flex space-x-2">
+        <form class="w-1/3" id="instance-form"
+              phx-hook="ProgressBarOnChange"
+              phx-change="select-instance">
+          <label for="new-instance" class="text-sm text-muted">
+            <%= t("forms.reportFilter.instance") %>
+          </label>
+
+          <select name="new-instance" >
+            <%=  options_for_select(instance_names(@snapshot), @current_instance_name) %>
+          </select>
+        </form>
+
+        <form class="w-1/3" phx-change="select-timespan">
+          <label for="new-timespan" class="text-sm text-muted">
+            <%= t("forms.reportFilter.timespan") %>
+          </label>
+
+          <select name="new-timespan">
+            <%= tso = t("timespanOptions") |> Enum.map(fn to -> {to["text"], to["value"]} end)
+                options_for_select(tso, @current_timespan)
+            %>
+          </select>
+        </form>
+
+        <form class="w-1/3" phx-change="select-aggregate">
+          <label for="new-aggregate" class="text-sm text-muted">
+            <%= t("forms.reportFilter.aggregate") %>
+          </label>
+
+          <select name="new-aggregate">
+            <%= ao = t("aggregateOptions") |> Enum.map(fn o -> {o["text"], o["value"]} end)
+                options_for_select(ao, @current_aggregate)
+            %>
+          </select>
+        </form>
+      </div>
+
+      <p class="text-muted lg:text-right">
+        <%= Date.utc_today() %>
+        —
+        <%= Date.utc_today() %> (today)
+      </p>
+    </div>
+  </header>
+
+  <%= if(!has_private_checks(@monitor)) do %>
+  <div
+    x-data
+    x-show="!$store.preferences.hideMonitoringCta"
+    class="alert alert-info inline-block"
+  >
+    <.link navigate={Routes.live_path(@socket, BackendWeb.DocsLive, "general")}>
+      Click here to learn more about adding <%= Backend.Projections.Account.get_account_name(@account) %> specific metrics to this report
+    </.link>
+
+    <span @click="$store.preferences.update('hideMonitoringCta', true)" class="cursor-pointer ml-3">
+      <%= svg_image("icon-close-circle", class: "fill-current inline h-4 w-4")%>
+    </span>
+  </div>
+  <% end %>
+
+  <hr class="mb-8" />
+
+  <!-- average latency display -->
+
+  <h3 class="my-3 text-xl">
+    <%= t("pages.report.averageLatencyTitle") %>
+
+    <span class="px-2 py-1 ml-1 box text-muted text-sm">
+      <%= @current_instance_name %>
+    </span>
+  </h3>
+
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 print:grid-cols-3 gap-2 mb-10"
+  >
+    <%= for {v, i} <- Enum.with_index(@average_latencies) do %>
+      <BackendWeb.Components.BigNumberCard.render
+        variant={:info}
+        title={v.title}
+        number={if(is_private_check(@monitor, v), do: v.formatted_value, else: v.formatted_baseline)}
+        suffix={if(is_private_check(@monitor, v), do: v.value_suffix, else: v.baseline_suffix)}
+        baseline={if(is_private_check(@monitor, v), do: v.formatted_baseline, else: nil)}
+        baseline_suffix={v.baseline_suffix}
+        hide_baseline={is_private_check(@monitor, v) && v.formatted_baseline == 0.0}
+        :let={%{formatted_baseline: baseline, suffix: suffix}}
+      >
+        <div>
+          <%= if(is_private_check(@monitor, v)) do %>
+            <% # Private check => baseline is shared data %>
+            <strong><%= baseline %> <%= suffix %></strong> Baseline
+          <% else %>
+            <% # Not private => baseline is account's and will be empty %>
+            <strong><%= baseline %> <%= suffix %></strong> <%= Backend.Projections.Account.get_account_name(@account) %>
+
+            <% # Show private monitoring cta on first card %>
+            <%= if(i == 0 && !has_private_checks(@monitor)) do %>
+              <span
+                x-show="!$store.preferences.hideMonitoringCta"
+                x-data="{ tooltip: 'Click here to find out more about private monitoring <span @click=&quot;$store.preferences.update(\'hideMonitoringCta\', true)&quot; class=&quot;cursor-pointer&quot;>&#215;</span>'}"
+                x-tooltip.html.interactive="tooltip"
+              >
+                <.link navigate={Routes.live_path(@socket, BackendWeb.DocsLive, "general")}>
+                  <%= svg_image("icon-info", class: "fill-current inline h-3 w-3 -mt-2")%>
+                </.link>
+              </span>
+            <% end %>
+          <% end %>
+        </div>
+      </BackendWeb.Components.BigNumberCard.render>
+    <% end %>
+  </div>
+
+  <!-- success rate display -->
+
+  <h3 class="my-3 text-xl">
+    <%= t("pages.report.successRateTitle") %>
+
+    <span class="px-2 py-1 ml-1 box text-muted text-sm">
+      <%= @current_instance_name %>
+    </span>
+  </h3>
+
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 print:grid-cols-3 gap-2 mb-10"
+  >
+    <%= for v <- @success_rates do %>
+      <BackendWeb.Components.BigNumberCard.render
+        variant={:info}
+        title={v.title}
+        number={if(is_private_check(@monitor, v), do: v.value, else: v.baseline)}
+        baseline={if(is_private_check(@monitor, v), do: v.baseline, else: 0)}
+        min={0}
+        max={100}
+        suffix="%"
+        baseline_suffix="%"
+        baseline_name={if(is_private_check(@monitor, v), do: "Baseline", else: Backend.Projections.Account.get_account_name(@account))} />
+    <% end %>
+  </div>
+
+  <print-page-break />
+
+  <!-- graphs -->
+  <div class="grid grid-cols-1 gap-5">
+    <%= for {check, i} <- get_telemetry_data(@checks_to_display, @checks, @baseline_checks) |> Enum.with_index do %>
+    <div>
+      <header class="flex items-center justify-between">
+        <h3 class="mb-3 text-xl">
+          <%= check.name %>
+
+          <span class="px-2 py-1 ml-1 box text-muted text-sm">
+            <%= @current_instance_name %>
+          </span>
+
+          <span class="px-2 py-1 ml-1 box text-muted text-sm">
+            <%= t("aggregateShortOptions")
+                |> Enum.find(&(&1["value"] == @current_aggregate))
+                |> Map.get("text")
+            %>
+          </span>
+        </h3>
+        <ul class="flex space-x-3 text-sm">
+          <li>
+            <span class="inline-block rounded-full bg-primary-400 w-3 h-3"></span>
+            <%= Backend.Projections.Account.get_account_name(@account) %>
+            <% # Show private monitoring info on first card %>
+            <%= if(i == 0 && !has_private_checks(@monitor)) do %>
+              <span
+                x-show="!$store.preferences.hideMonitoringCta"
+                x-data="{ tooltip: 'Click here to find out more about private monitoring <span @click=&quot;$store.preferences.update(\'hideMonitoringCta\', true)&quot; class=&quot;cursor-pointer&quot;>&#215;</span>'}"
+                x-tooltip.html.interactive="tooltip"
+              >
+                <.link navigate={Routes.live_path(@socket, BackendWeb.DocsLive, "general")}>
+                  <%= svg_image("icon-info", class: "fill-current inline h-3 w-3 -mt-2")%>
+                </.link>
+              </span>
+            <% end %>
+          </li>
+
+          <li>
+            <span class="inline-block rounded-full bg-secondary-500 w-3 h-3"></span>
+            <%= t("pages.report.legendBaseline") %>
+          </li>
+        </ul>
+      </header>
+
+      <div
+        id={"chart-#{check.check_id}"}
+        class="chart"
+        style="height: 300px;"
+        phx-hook="Chart"
+        data-chart-account-name={Backend.Projections.Account.get_account_name(@account)}
+        data-chart-data-account-check={Jason.encode!(get_telemetry_for_graph(check.check_telemetry))}
+        data-chart-data-baseline-check={Jason.encode!(get_telemetry_for_graph(check.baseline_telemetry))}
+        data-annotations-x={Jason.encode!(error_annotations(check, @current_timespan, @errors_map, @baseline_errors_map))}
+      />
+    </div>
+    <% end %>
+
+  </div>
+</div>
